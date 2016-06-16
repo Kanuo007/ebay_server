@@ -1,2 +1,6 @@
-# ignore .idea folder
+# ignore .idea folder and other setting folders
 .idea/
+/target/
+/.settings/
+.classpath
+.project
