@@ -1,4 +1,4 @@
-package betterebayCore;
+package core;
 
 import java.security.Principal;
 
