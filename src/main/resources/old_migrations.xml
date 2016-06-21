@@ -22,4 +22,31 @@
             </column>
         </createTable>
     </changeSet>
+    
+    <changeSet id="2" author="danni">
+        <createTable tableName="address">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address" type="varchar(100)"/>
+            <column name="city" type="varchar(50)"/>
+            <column name="country" type="varchar(50)"/>
+            <column name="zipcode" type="int"/>
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="danni">
+            <addForeignKeyConstraint baseColumn = "user_id"
+                baseTableName = "address"
+                constraintName = "user_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "user"/>
+    </changeSet>
+
 </databaseChangeLog>
