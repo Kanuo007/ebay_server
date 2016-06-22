@@ -32,20 +32,21 @@
             <column name="city" type="varchar(50)"/>
             <column name="country" type="varchar(50)"/>
             <column name="zipcode" type="int"/>
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
+            <column name="user_id" type="bitint"/>
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
 
     <changeSet id="3" author="danni">
-            <addForeignKeyConstraint baseColumn = "user_id"
-                baseTableName = "address"
-                constraintName = "user_id_key"
-                deferrable = "false"
-                initiallyDeferred = "false"
-                onDelete = "CASCADE"
-                onUpdate = "CASCADE"
-                referencedColumnNames = "id"
-                referencedTableName = "user"/>
-    </changeSet>
+        <addForeignKeyConstraint baseColumn = "user_id"
+        baseTableName = "address"
+        constraintName = "user_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "user"/>
+</changeSet>
 </databaseChangeLog>
