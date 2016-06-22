@@ -16,7 +16,7 @@ database:
   password: sa
 
   # the Postgre URL
-  url: jdbc:postgresql://host:port/database
+  url: jdbc:postgresql:./target/database
 
 # use the simple server factory if you only want to run on a single port
 #server:

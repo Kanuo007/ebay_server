@@ -1,6 +1,9 @@
 # ignore .idea folder and other setting folders
 .idea/
 /target/
+<<<<<<< Updated upstream
 /.settings/
 .classpath
 .project
+=======
+>>>>>>> Stashed changes
