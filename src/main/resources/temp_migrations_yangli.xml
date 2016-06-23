@@ -4,25 +4,25 @@
 
 	<changeSet id=“5” author=“yangli”>
       	    <createTable tableName=“BidHistory”>
-	        <column name=“bid" type="bigint" autoIncrement="true">
+	        <column name=“bidID” type="bigint" autoIncrement="true">
                     <constraints primaryKey="true" nullable="false"/>
             	</column>
-		<column name=“iid” type="bigint" autoIncrement=“false”>
+		<column name=“itemID” type="bigint" autoIncrement=“false”>
                     <constraints nullable="false"/>
             	</column>
-		<column name=“uid” type="bigint" autoIncrement=“false”>
+		<column name=“userID” type="bigint" autoIncrement=“false”>
                     <constraints nullable="false"/>
             	</column>
             </createTable>
 	</changeSet>
 
 	<changeSet id=“6” author=“yangli”>
-      	    <createTable tableName=“Transaction”>
-		<column name=“pid" type="bigint" autoIncrement="true">
+      	    <createTable tableName=“CreditCard”>
+		<column name=“creditCardID” type="bigint">
                     <constraints primaryKey="true" nullable="false"/>
             	</column>
-		<column name=“uid” type="bigint" autoIncrement=“false”>
-                    <constraints nullable="false"/>
+		<column name=“userID” type="bigint" autoIncrement=“false”>
+                    <constraints nullable=“true”/>
             	</column>
 		<column name=“creditCardType” type="varchar(255)">
                     <constraints nullable="false"/>
