@@ -8,10 +8,10 @@
 
 <changeSet id = "1" author="wen">
 	<createTable tableName="item">
-		<column name = "itemID" type = "bigint">
+		<column name = "ID" type = "bigint">
 			<constraints primaryKey = "true" nullable = "false"/>
 		</column>
-		<column name = "sellID" type = "bigint">
+		<column name = "sellerID" type = "bigint">
                         <nullable = "false"/>
                 </column>
 		<column name = "catagory" type = "char(255)">
@@ -25,10 +25,8 @@
                 <column name = "size" type = "int">
                 </column>
 		<column name = "stockAmount" type = "int">
-			<nullable = "false"/>
+                        <nullable = "false"/>
                 </column>
-		
-
 		<column name = "basePrice" type = "char(255)">
                         <constraints primaryKey = "true" nullable = "false"/>
                 </column>
@@ -37,8 +35,13 @@
                 </column>
 		<column name = "soldPrice" type = "char(255)">
                         <constraints primaryKey = "true" nullable = "false"/>
+                </column>	
+		<column name = "deliverFee" type = "double">
+                        <nullable = "false"/>
                 </column>
-		<column name = "deliveryFee" type = "char(255)">
+		<column name = "description" type = "char(255)">
+                </column>
+		<column name = "feedback" type = "char(255)">
                         <constraints primaryKey = "true" nullable = "false"/>
                 </column>		
 
