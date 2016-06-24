@@ -110,6 +110,7 @@
         referencedColumnNames = "id"
         referencedTableName = "payment"/>
 </changeSet>
+
     <changeSet id= "9" author="danni">
         <addForeignKeyConstraint baseColumn = "user_id"
         baseTableName = "transaction"
