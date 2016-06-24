@@ -28,7 +28,7 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="address" type="varchar(100)"/>
+            <column name="street" type="varchar(100)"/>
             <column name="city" type="varchar(50)"/>
             <column name="country" type="varchar(50)"/>
             <column name="zipcode" type="int"/>
@@ -120,6 +120,90 @@
         onUpdate = "CASCADE"
         referencedColumnNames = "id"
         referencedTableName = "user"/>
+</changeSet>
+
+<changeSet id = "10" author="wen">
+    <createTable tableName="item">
+        <column name = "ID" type = "bigint">
+            <constraints primaryKey = "true" nullable = "false"/>
+        </column>
+        <column name = "sellerID" type = "bigint">
+            <nullable = "false"/>
+        </column>
+        <column name = "catagory" type = "char(255)">
+            <nullable = "false"/>
+        </column>
+        <column name = "itemName" type = "char(255)">
+            <nullable = "false"/>
+        </column>
+        <column name = "color" type = "char(255)">
+        </column>
+        <column name = "size" type = "int">
+        </column>
+        <column name = "stockAmount" type = "int">
+            <nullable = "false"/>
+        </column>
+        <column name = "basePrice" type = "char(255)">
+            <constraints primaryKey = "true" nullable = "false"/>
+        </column>
+        <column name = "curPrice" type = "char(255)">
+            <constraints primaryKey = "true" nullable = "false"/>
+        </column>
+        <column name = "soldPrice" type = "char(255)">
+            <constraints primaryKey = "true" nullable = "false"/>
+        </column>
+        <column name = "deliverFee" type = "double">
+            <nullable = "false"/>
+        </column>
+        <column name = "description" type = "char(255)">
+        </column>
+        <column name = "feedback" type = "char(255)">
+            <constraints primaryKey = "true" nullable = "false"/>
+        </column>
+        </createTable>
+    </changeSet>
+
+<changeSet id=“11” author=“yangli”>
+    <createTable tableName=“BidHistory”>
+        <column name=“bidID” type="bigint" autoIncrement="true">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name=“itemID” type="bigint" autoIncrement=“false”>
+            <constraints nullable="false"/>
+        </column>
+        <column name=“userID” type="bigint" autoIncrement=“false”>
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
+
+<changeSet id=“12” author=“yangli”>
+    <createTable tableName=“CreditCard”>
+        <column name=“creditCardID” type="bigint">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+        <column name=“userID” type="bigint" autoIncrement=“false”>
+            <constraints nullable=“true”/>
+        </column>
+        <column name=“creditCardType” type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name=“cardNumber” type=“bigint”>
+            <constraints nullable="false"/>
+        </column>
+        <column name=“cardHolder” type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+        <column name=“cvv” type=“int”>
+            <constraints nullable="false"/>
+        </column>
+        <column name=“expirationDate” type="defaultValueDate">
+            <constraints nullable="false"/>
+        </column>
+        <column name=“billingAddress” type="varchar(255)">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
 </changeSet>
 
 
