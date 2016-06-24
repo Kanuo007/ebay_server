@@ -22,4 +22,105 @@
             </column>
         </createTable>
     </changeSet>
+    
+    <changeSet id="2" author="danni">
+        <createTable tableName="address">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address" type="varchar(100)"/>
+            <column name="city" type="varchar(50)"/>
+            <column name="country" type="varchar(50)"/>
+            <column name="zipcode" type="int"/>
+            <column name="user_id" type="bitint"/>
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
+
+    <changeSet id="3" author="danni">
+        <addForeignKeyConstraint baseColumn = "user_id"
+        baseTableName = "address"
+        constraintName = "user_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "user"/>
+</changeSet>
+
+    <changeSet id="4" author="danni">
+        <createTable tableName="transaction">
+            <column name="id" type="bitint" authoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_id" type="bitint"/>
+            <column name="shipping_address_id" type="bitint"/>
+                <constraints nullable="false"/>
+            <column name="billing_address_id" type="bitint"/>
+            <column name="payment_id" type="bitint"/>
+                <constraints nullable="false"/>
+            <column name="user_id" type="bitint"/>
+                <constraints nullable="false"/>
+        </column>
+    </createTable>
+</changeSet>
+    <changeSet id = "5" author="danni">
+        <addForeignKeyConstraint baseColumn = "item_id"
+        baseTableName = "transaction"
+        constraintName = "item_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "item"/>
+</changeSet>
+    <changeSet id = "6" author="danni">
+        <addForeignKeyConstraint baseColumn = "shipping_address_id"
+        baseTableName = "transaction"
+        constraintName = "shipping_address_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "address"/>
+</changeSet>
+    <changeSet id = "7" author="danni">
+        <addForeignKeyConstraint baseColumn = "billing_address_id"
+        baseTableName = "transaction"
+        constraintName = "billing_address_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "address"/>
+</changeSet>
+    <changeSet id = "8" author="danni">
+        <addForeignKeyConstraint baseColumn = "payment_id"
+        baseTableName = "transaction"
+        constraintName = "payment_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "payment"/>
+</changeSet>
+    <changeSet id= "9" author="danni">
+        <addForeignKeyConstraint baseColumn = "user_id"
+        baseTableName = "transaction"
+        constraintName = "user_id_key"
+        deferrable = "false"
+        initiallyDeferred = "false"
+        onDelete = "CASCADE"
+        onUpdate = "CASCADE"
+        referencedColumnNames = "id"
+        referencedTableName = "user"/>
+</changeSet>
+
+
 </databaseChangeLog>

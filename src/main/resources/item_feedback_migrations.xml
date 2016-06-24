@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+<changeSet id = "1" author="wen">
+	<createTable tableName="item">
+		<column name = "ID" type = "bigint" autoIncrement="true">
+			<constraints primaryKey = "true" nullable = "false"/>
+		</column>
+		<column name = "sellerID" type = "bigint">
+                        <constraints nullable = "false"
+			 foreignKeyname="user" references="user(id)"/>
+                </column>
+		<column name = "catagory" type = "char(255)">
+                        <constraints nullable = "false"/>
+                </column>		
+		<column name = "itemName" type = "char(255)">
+                        <constraints nullable = "false"/>
+                </column>
+		<column name = "color" type = "char(255)">       
+                </column>
+                <column name = "size" type = "int">
+                </column>
+		<column name = "stockAmount" type = "int">
+                        <constraints nullable = "false"/>
+                </column>
+		<column name = "basePrice" type = "char(255)">
+                        <constraints primaryKey = "true" nullable = "false"/>
+                </column>
+		<column name = "curPrice" type = "char(255)">
+                        <constraints primaryKey = "true" nullable = "false"/>
+                </column>	
+		<column name = "deliverFee" type = "double">
+                        <constraints nullable = "false"/>
+                </column>
+		<column name = "description" type = "char(255)">
+                </column>
+	</createTable>
+</changeSet>		
+
+<changeSet id = "2" author="wen">
+        <createTable tableName="feedback">
+                <column name = "ID" type = "bigint" autoIncrement="true">
+                        <constraints primaryKey = "true" nullable = "false"/>
+                </column>
+		<column name = "itemID" type = "bigint">
+		<constraints nullable = "false" foreignKeyname="Item" references="item(itemID)"/>
+		</column>
+		<column name = "buyerID" type = "bigint">
+		<constraints nullable = "false" foreignKeyname="user" references="user(id)"/>                	 </column>
+		<column name = "date" type = "Date">
+		<constraints nullable = "false"/>		                
+		</column>
+		<column name = "point" type = "int">
+                <constraints nullable = "false"/>
+		</column>
+		<column name = "review" type = "char(255)">
+                </column>
+	</createTable>
+</changeSet>
+
+</databaseChangeLog>
