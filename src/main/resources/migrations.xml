@@ -66,6 +66,7 @@
         </column>
     </createTable>
 </changeSet>
+
     <changeSet id = "5" author="danni">
         <addForeignKeyConstraint baseColumn = "item_id"
         baseTableName = "transaction"
@@ -110,7 +111,6 @@
         referencedColumnNames = "id"
         referencedTableName = "payment"/>
 </changeSet>
-
     <changeSet id= "9" author="danni">
         <addForeignKeyConstraint baseColumn = "user_id"
         baseTableName = "transaction"
@@ -206,6 +206,4 @@
         </column>
     </createTable>
 </changeSet>
-
-
 </databaseChangeLog>
