@@ -177,6 +177,12 @@
             <column name="bidder_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="bid_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bid_price" type="numeric">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
