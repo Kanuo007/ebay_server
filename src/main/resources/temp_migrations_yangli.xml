@@ -1,0 +1,54 @@
+
+<databaseChangeLog
+        //create table for BidHistory and Transaction
+
+	<changeSet id=“5” author=“yangli”>
+      	    <createTable tableName=“BidHistory”>
+	        <column name=“id” type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+            	</column>
+		<column name=“itemID” type="bigint" autoIncrement=“false”>
+                    <constraints reference=“item(id)” nullable="false"/>
+            	</column>
+		<column name=“userID” type="bigint" autoIncrement=“false”>
+                    <constraints reference=“user(id)”nullable="false"/>
+            	</column>
+		<column name=“bidTime” type="defaultValueDate">
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“bidPrice” type=“bigint”>
+                    <constraints nullable="false"/>
+            	</column>
+            </createTable>
+	</changeSet>
+
+	<changeSet id=“6” author=“yangli”>
+      	    <createTable tableName=“CreditCard”>
+		<column name=“creditCardID” type="bigint">
+                    <constraints primaryKey="true" nullable="false"/>
+            	</column>
+		<column name=“userID” type="bigint" autoIncrement=“false”>
+                    <constraints reference=“user(id)” nullable=“true”/>
+            	</column>
+		<column name=“creditCardType” type="varchar(255)">
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“cardNumber” type=“bigint”>
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“cardHolder” type="varchar(255)">
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“cvv” type=“int”>
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“expirationDate” type="defaultValueDate">
+                    <constraints nullable="false"/>
+            	</column>
+		<column name=“billingAddress” type="varchar(255)">
+                    <constraints nullable="false"/>
+            	</column>
+            </createTable>
+	</changeSet>
+
+</databaseChangeLog>
