@@ -6,8 +6,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
 
+import api.Welcome;
 import core.User;
 
 // Author: Danni Li, created on June 28
@@ -24,14 +26,15 @@ public class Login {
   }
 
   @GET
-  @Path("/user")
+  @Timed
+  @Path("/")
   @Produces(MediaType.TEXT_PLAIN)
-  public String receiveUser(@QueryParam("user") Optional<User> user) {
+  public Welcome receiveUser(@QueryParam("user") Optional<User> user) {
     if (user.isPresent()) {
       User registeredUser = user.get();
-      return "Welcome, " + registeredUser.getName();
+      return new Welcome("Welcome, " + registeredUser.getName());
     } else {
-      return "User doesn't exist";
+      return new Welcome("Welcome Guest");
     }
   }
 }
