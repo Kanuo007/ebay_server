@@ -3,13 +3,14 @@ package db;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
-import core.User;
 import java.util.Optional;
+
+import core.User;
 import io.dropwizard.hibernate.AbstractDAO;
 
-public class PersonDao extends AbstractDAO<User> {
+public class UserDao extends AbstractDAO<User> {
 
-    public PersonDao(SessionFactory factory){
+    public UserDao(SessionFactory factory){
         super(factory);
     }
 
