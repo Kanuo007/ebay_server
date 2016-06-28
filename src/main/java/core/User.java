@@ -1,19 +1,52 @@
 package core;
 
-import java.security.Principal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.security.Principal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
+@NamedQueries({
+        @NamedQuery(
+                name = "core.user.findAll",
+                query = "SELECT u FROM User u"
+        )
+})
 public class User implements Principal {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE,
+          generator = "user_id_seq_name")
+  @SequenceGenerator(name = "user_id_seq_name",
+          sequenceName = "user_id_seq",
+          allocationSize = 1)
+  @JsonProperty
+  private long id;
+
+  @Column(name="name", nullable=false)
+  @JsonProperty
   private String name;
+
+  @Column(name="password", nullable=false)
+  @JsonProperty
   private String password;
+
+  @Column(name="email", nullable=false)
+  @JsonProperty
   private String email;
 
-  public User(String name, String password, String email) {
-    this.name = name;
-    this.password = password;
-    this.email = email;
-  }
+  public long getId() {return id;}
 
-  @Override
+  public void setId(long id) {this.id = id;}
+
   public String getName() {
     return this.name;
   }
@@ -83,7 +116,5 @@ public class User implements Principal {
     }
     return true;
   }
-
-
 
 }

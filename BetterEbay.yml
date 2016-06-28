@@ -6,7 +6,7 @@ defaultName: ${DW_DEFAULT_NAME:-Guest}
 # Database settings.
 database:
 
-  # the name of your Postgre driver
+  # the content of your Postgre driver
   driverClass: org.postgresql.Driver
 
   # the username
@@ -16,7 +16,11 @@ database:
   password: sa
 
   # the Postgre URL
-  url: jdbc:postgresql:./target/database
+  url: jdbc:postgresql://localhost:5432/betterebay
+
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
 # use the simple server factory if you only want to run on a single port
 #server:
@@ -92,9 +96,5 @@ viewRendererConfiguration:
         whitespace_stripping: yes
 
 metrics:
-  reporters:
-    - type: graphite
-      host: localhost
-      port: 2003
-      prefix: example
-      frequency: 10s
+    type: graphite
+    frequency: 10s
