@@ -3,6 +3,7 @@ package core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.security.Principal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM item i")})
+@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i")})
 
 public class Item implements Principal {
   @Id
@@ -23,23 +25,23 @@ public class Item implements Principal {
   @JsonProperty
   private long id;
 
-  @Column(name = "userID", nullable = false)
+  @Column(name = "seller_id", nullable = false)
   @JsonProperty
   private long userID;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "itemName", nullable = false)
   @JsonProperty
   private String name;
 
-  @Column(name="color“)
-	@JsonProperty
-	private String color;
+  @Column(name = "color")
+  @JsonProperty
+  private String color;
 
   @Column(name = "size")
   @JsonProperty
   private int size;
 
-  @Column(name = "stockAmount", nullable = false)
+  @Column(name = "size", nullable = false)
   @JsonProperty
   private int stockAmount;
 
@@ -47,9 +49,9 @@ public class Item implements Principal {
   @JsonProperty
   private double basePrice;
 
-  @Column(name = "deliveryFee")
+  @Column(name = "deliverFee")
   @JsonProperty
-  private int deliveryFee；
+  private int deliveryFee;
 
   @Column(name = "description")
   @JsonProperty
@@ -198,6 +200,7 @@ public class Item implements Principal {
       return false;
     }
     return true;
+  }
 }
 
 
