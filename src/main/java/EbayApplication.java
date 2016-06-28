@@ -9,8 +9,8 @@ import io.dropwizard.setup.Environment;
  */
 public class EbayApplication extends  Application<EbayApplicationConfiguration>{
 
-    public static void main(String[] args){
-
+    public static void main(String[] args) throws Exception{
+        new EbayApplication().run(args);
     }
 
     private final MigrationsBundle<EbayApplicationConfiguration> migrations = new MigrationsBundle<EbayApplicationConfiguration>() {
@@ -26,7 +26,7 @@ public class EbayApplication extends  Application<EbayApplicationConfiguration>{
     }
 
     @Override
-    public void run(EbayApplicationConfiguration configuration, Environment environment){
+    public void run(EbayApplicationConfiguration configuration, Environment environment) {
 
     }
 }

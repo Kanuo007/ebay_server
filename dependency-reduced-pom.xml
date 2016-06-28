@@ -120,7 +120,7 @@
           <transformers>
             <transformer />
             <transformer>
-              <mainClass>betterebayapplication.EbayApplication</mainClass>
+              <mainClass>EbayApplication</mainClass>
             </transformer>
           </transformers>
         </configuration>
