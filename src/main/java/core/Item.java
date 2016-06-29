@@ -1,8 +1,7 @@
 package core;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.security.Principal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +10,23 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM item i")})
+@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM item i"),
+    @NamedQuery(name = "core.user.findUeserByUserID",
+        query = "SELECT u FROM User u where u.userID = :userID"),
+    @NamedQuery(name = "core.user.findUeserByName",
+        query = "SELECT u FROM User u where u.name = :name"),
+    @NamedQuery(name = "core.user.findUeserByCatagory",
+        query = "SELECT u FROM User u where u.catagory = :catagory"),
+    @NamedQuery(name = "core.user.findUeserByColor",
+        query = "SELECT u FROM User u where u.color = :color"),
+    @NamedQuery(name = "core.user.findUeserBySize",
+        query = "SELECT u FROM User u where u.size = :size"),})
 
 public class Item implements Principal {
   @Id
@@ -31,9 +43,13 @@ public class Item implements Principal {
   @JsonProperty
   private String name;
 
-  @Column(name="color“)
-	@JsonProperty
-	private String color;
+  @Column(name = "catagory")
+  @JsonProperty
+  private String catagory;
+
+  @Column(name = "color")
+  @JsonProperty
+  private String color;
 
   @Column(name = "size")
   @JsonProperty
@@ -49,7 +65,7 @@ public class Item implements Principal {
 
   @Column(name = "deliveryFee")
   @JsonProperty
-  private int deliveryFee；
+  private int deliveryFee;
 
   @Column(name = "description")
   @JsonProperty
@@ -198,6 +214,7 @@ public class Item implements Principal {
       return false;
     }
     return true;
+  }
 }
 
 
