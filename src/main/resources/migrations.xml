@@ -86,13 +86,13 @@
             <column name = "id" type = "bigint">
                 <constraints primaryKey = "true" nullable = "false"/>
             </column>
-            <column name = "seller_id" type = "bigint">
+            <column name = "userID" type = "bigint">
                 <constraints nullable = "false"/>
             </column>
             <column name = "catagory" type = "char(255)">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "itemName" type = "char(255)">
+            <column name = "name" type = "char(255)">
                 <constraints nullable = "false"/>
             </column>
             <column name = "color" type = "char(255)"/>
@@ -100,8 +100,6 @@
             <column name = "basePrice" type = "numeric">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "currentPrice" type = "numeric"/>
-            <column name = "soldPrice" type = "numeric"/>
             <column name = "deliverFee" type = "numeric"/>
             <column name = "description" type = "char(255)"/>
         </createTable>
