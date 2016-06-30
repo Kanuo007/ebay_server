@@ -109,6 +109,62 @@ public class Transaction {
     this.date = date;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + (int) (this.billing_address_id ^ (this.billing_address_id >>> 32));
+    result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
+    result = (prime * result) + ((this.feedback == null) ? 0 : this.feedback.hashCode());
+    result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
+    result = (prime * result) + (int) (this.item_id ^ (this.item_id >>> 32));
+    result =
+        (prime * result) + (int) (this.shipping_address_id ^ (this.shipping_address_id >>> 32));
+    result = (prime * result) + (int) (this.user_id ^ (this.user_id >>> 32));
+    return result;
+  }
 
-
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Transaction other = (Transaction) obj;
+    if (this.billing_address_id != other.billing_address_id) {
+      return false;
+    }
+    if (this.date == null) {
+      if (other.date != null) {
+        return false;
+      }
+    } else if (!this.date.equals(other.date)) {
+      return false;
+    }
+    if (this.feedback == null) {
+      if (other.feedback != null) {
+        return false;
+      }
+    } else if (!this.feedback.equals(other.feedback)) {
+      return false;
+    }
+    if (this.id != other.id) {
+      return false;
+    }
+    if (this.item_id != other.item_id) {
+      return false;
+    }
+    if (this.shipping_address_id != other.shipping_address_id) {
+      return false;
+    }
+    if (this.user_id != other.user_id) {
+      return false;
+    }
+    return true;
+  }
 }

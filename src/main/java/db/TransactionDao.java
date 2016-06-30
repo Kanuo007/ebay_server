@@ -1,17 +1,30 @@
 package db;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.hibernate.SessionFactory;
 
-import com.google.common.base.Optional;
+import core.Transaction;
+import io.dropwizard.hibernate.AbstractDAO;
 
-public class TransactionDao extends AbstractDao<Transaction> {
+
+public class TransactionDao extends AbstractDAO<Transaction> {
 
   public TransactionDao(SessionFactory factory) {
     super(factory);
   }
 
-  public Optional<Transaction> findTransactionByID(Long id) {
+  public List<Transaction> findAll() {
+    return list(namedQuery("core.transaction.findAll"));
+  }
 
+  public Optional<Transaction> findTransactionByUserId(Long id) {
+    return Optional.ofNullable(get(id));
+  }
+
+  public Optional<Transaction> findTransactionByItemId(Long id) {
+    return Optional.ofNullable(get(id));
   }
 
 }
