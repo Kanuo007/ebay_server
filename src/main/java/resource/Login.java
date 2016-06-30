@@ -28,7 +28,7 @@ public class Login {
   @GET
   @Timed
   @Path("/")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.APPLICATION_JSON)
   public Welcome receiveUser(@QueryParam("user") Optional<User> user) {
     if (user.isPresent()) {
       User registeredUser = user.get();
