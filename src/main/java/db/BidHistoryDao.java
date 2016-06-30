@@ -21,6 +21,20 @@ public class BidHistoryDao extends AbstractDAO<BidHistory> {
   }
 
   public List<BidHistory> findAllBidHistory() {
-    return list(namedQuery(""));
+    return list(namedQuery("core.bidhistory.findAll"));
+  }
+
+  public List<BidHistory> findByBidderId() {
+    return list(namedQuery("core.bidhistory.findByBidderId"));
+  }
+
+  public List<BidHistory> findByItemId() {
+    return list(namedQuery("core.bidhistory.findByItemId"));
+  }
+
+  public List<BidHistory> findByBidTime() {
+    return list(namedQuery("core.bidhistory.findByBidTime"));
   }
 }
+
+
