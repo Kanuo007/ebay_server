@@ -1,9 +1,10 @@
 package api;
 
+import com.google.common.base.MoreObjects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Welcome {
-
 
     private String content;
 
@@ -23,9 +24,7 @@ public class Welcome {
 
     @Override
     public String toString() {
-        return "Welcome{" +
-                "content='" + content + '\'' +
-                '}';
+        return MoreObjects.toStringHelper(this).add("Welcome", content).toString();
     }
 }
 

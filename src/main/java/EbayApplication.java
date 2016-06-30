@@ -5,7 +5,11 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import resource.FeedbackResource;
 import resource.HomepageResource;
+import resource.LoginResource;
+import resource.RegisterResource;
+import resource.SearchResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -38,5 +42,9 @@ public class EbayApplication extends  Application<EbayApplicationConfiguration>{
     @Override
     public void run(EbayApplicationConfiguration configuration, Environment environment) {
         environment.jersey().register(new HomepageResource());
+        environment.jersey().register(new LoginResource());
+        environment.jersey().register(new SearchResource());
+        environment.jersey().register(new RegisterResource());
+        environment.jersey().register(new FeedbackResource());
     }
 }
