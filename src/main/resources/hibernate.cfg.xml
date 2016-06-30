@@ -13,5 +13,10 @@
 
     <mapping class="core.User"/>
     <mapping class="core.Item"/>
+    <mapping class="core.Address"/>
+    <mapping class="core.BidHistory"/>
+    <mapping class="core.CreditCard"/>
+    <mapping class="core.Feedback"/>
+    <mapping class="core.Transaction"/>
   </session-factory>
 </hibernate-configuration>
