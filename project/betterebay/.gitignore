@@ -1,8 +1,0 @@
-# ignore .idea folder and other setting folders
-.idea/
-/target/
-/.settings/
-.classpath
-.project
-/bin/
-*.iml
