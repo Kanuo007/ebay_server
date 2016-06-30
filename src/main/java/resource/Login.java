@@ -2,8 +2,8 @@ package resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
@@ -27,9 +27,9 @@ public class Login {
 
   @GET
   @Timed
-  @Path("/")
+  @Path("/{username}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Welcome receiveUser(@QueryParam("user") Optional<User> user) {
+  public Welcome receiveUser(@PathParam("user") Optional<User> user) {
     if (user.isPresent()) {
       User registeredUser = user.get();
       return new Welcome("Welcome, " + registeredUser.getName());
