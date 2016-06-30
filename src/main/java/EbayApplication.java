@@ -1,11 +1,11 @@
 import core.User;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import resource.HomepageResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -37,6 +37,6 @@ public class EbayApplication extends  Application<EbayApplicationConfiguration>{
 
     @Override
     public void run(EbayApplicationConfiguration configuration, Environment environment) {
-
+        environment.jersey().register(new HomepageResource());
     }
 }

@@ -25,6 +25,7 @@ public class HomepageResource {
     @GET
     @Timed(name="get-homepage")
     @CacheControl(maxAge = 1, maxAgeUnit = TimeUnit.DAYS)
+    @Produces(MediaType.TEXT_PLAIN)
     public String sayWelcome(){
         return "Welcome";
     }
