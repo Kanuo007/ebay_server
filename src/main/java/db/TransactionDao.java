@@ -27,4 +27,8 @@ public class TransactionDao extends AbstractDAO<Transaction> {
     return Optional.ofNullable(get(id));
   }
 
+  public Transaction createTransaction(Transaction aTransaction) {
+    return persist(aTransaction);
+  }
+
 }
