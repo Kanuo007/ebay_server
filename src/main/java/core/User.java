@@ -29,7 +29,7 @@ import javax.persistence.Table;
             query = "SELECT u FROM User u WHERE u.email = :email"
         ),
         @NamedQuery(
-            name = "core.user.findUeserByEmail",
+            name = "core.user.findUeserByPassword",
             query = "SELECT u FROM User u WHERE u.password = :password"
         ),
 })

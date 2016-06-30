@@ -29,10 +29,9 @@ public class Login {
   @Timed
   @Path("/{username}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Welcome receiveUser(@PathParam("user") Optional<User> user) {
-    if (user.isPresent()) {
-      User registeredUser = user.get();
-      return new Welcome("Welcome, " + registeredUser.getName());
+  public Welcome receiveUser(@PathParam("username") String username) {
+    if (username != null) {
+      return new Welcome("Welcome, " + username);
     } else {
       return new Welcome("Welcome Guest");
     }
