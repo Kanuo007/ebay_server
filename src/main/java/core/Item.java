@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i")})
 
 public class Item implements Principal {
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_id_seq_name")
   @SequenceGenerator(name = "item_id_seq_name", sequenceName = "item_id_seq", allocationSize = 1)
@@ -202,5 +203,3 @@ public class Item implements Principal {
     return true;
   }
 }
-
-
