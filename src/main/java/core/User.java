@@ -19,7 +19,19 @@ import javax.persistence.Table;
         @NamedQuery(
                 name = "core.user.findAll",
                 query = "SELECT u FROM User u"
-        )
+        ),
+        @NamedQuery(
+                name = "core.user.findUeserByName",
+                query = "SELECT u FROM User u WHERE u.name = :name"
+        ),
+        @NamedQuery(
+            name = "core.user.findUeserByEmail",
+            query = "SELECT u FROM User u WHERE u.email = :email"
+        ),
+        @NamedQuery(
+            name = "core.user.findUeserByEmail",
+            query = "SELECT u FROM User u WHERE u.password = :password"
+        ),
 })
 public class User implements Principal {
   @Id
@@ -43,10 +55,11 @@ public class User implements Principal {
   @JsonProperty
   private String email;
 
-  public long getId() {return id;}
+  public long getId() {return this.id;}
 
   public void setId(long id) {this.id = id;}
 
+  @Override
   public String getName() {
     return this.name;
   }
