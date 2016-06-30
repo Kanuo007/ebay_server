@@ -24,26 +24,19 @@ public class ItemDao extends AbstractDAO<Item> {
 
   public Optional<Item> findItemByName(String name) {
     return Optional.ofNullable(
-        (Item) (namedQuery("core.Item.findUserByName").setParameter("name", name).uniqueResult()));
+        (Item) (namedQuery("core.Item.findItemByName").setParameter("name", name).uniqueResult()));
   }
 
-  public List<Item> findItemBySize(int size) {
+  public List<Item> findItemByNameColorSize(String name, String color, int size) {
     List<Item> result = new ArrayList<Item>();
-    result.add(
-        (Item) (namedQuery("core.Item.findUserBySize").setParameter("size", size).uniqueResult()));
-    return result;
-  }
-
-  public List<Item> findItemByColor(String color) {
-    List<Item> result = new ArrayList<Item>();
-    result.add((Item) (namedQuery("core.Item.findUserByColor").setParameter("color", color)
-        .uniqueResult()));
+    result.add((Item) (namedQuery("core.Item.findItemByNameColorSize").setParameter("name", name)
+        .setParameter("color", color).setParameter("size", size)));
     return result;
   }
 
   public List<Item> findItemByCatagory(String catagory) {
     List<Item> result = new ArrayList<Item>();
-    result.add((Item) (namedQuery("core.Item.findUserByCatagory").setParameter("catagory", catagory)
+    result.add((Item) (namedQuery("core.Item.findItemByCatagory").setParameter("catagory", catagory)
         .uniqueResult()));
     return result;
   }

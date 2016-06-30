@@ -17,16 +17,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM item i"),
-    @NamedQuery(name = "core.user.findUeserByUserID",
-        query = "SELECT u FROM User u WHERE u.userID = :userID"),
-    @NamedQuery(name = "core.user.findUeserByName",
-        query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "core.user.findUeserByCatagory",
-        query = "SELECT u FROM User u WHERE u.catagory = :catagory"),
-    @NamedQuery(name = "core.user.findUeserByColor",
-        query = "SELECT u FROM User u WHERE u.color = :color"),
-    @NamedQuery(name = "core.user.findUeserBySize",
-        query = "SELECT u FROM User u WHERE u.size = :size"),})
+    @NamedQuery(name = "core.user.findItemByUserID",
+        query = "SELECT u FROM Item u WHERE u.userID = :userID"),
+    @NamedQuery(name = "core.Item.findItemByName",
+        query = "SELECT u FROM Item u WHERE u.name = :name"),
+    @NamedQuery(name = "core.Item.findItemByCatagory",
+        query = "SELECT u FROM Item u WHERE u.catagory = :catagory"),
+    @NamedQuery(name = "core.Item.findItemByNameColorSize",
+        query = "SELECT u FROM Item u WHERE u.name = :name and u.color = :color and u.size = :size"),})
 
 public class Item implements Principal {
   @Id
