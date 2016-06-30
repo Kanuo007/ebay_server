@@ -22,15 +22,15 @@ import javax.persistence.Table;
         ),
         @NamedQuery(
                 name = "core.user.findUeserByName",
-                query = "SELECT u FROM User u where u.name = :name"
+                query = "SELECT u FROM User u WHERE u.name = :name"
         ),
         @NamedQuery(
             name = "core.user.findUeserByEmail",
-            query = "SELECT u FROM User u where u.email = :email"
+            query = "SELECT u FROM User u WHERE u.email = :email"
         ),
         @NamedQuery(
             name = "core.user.findUeserByEmail",
-            query = "SELECT u FROM User u where u.password = :password"
+            query = "SELECT u FROM User u WHERE u.password = :password"
         ),
 })
 public class User implements Principal {

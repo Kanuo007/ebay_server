@@ -18,15 +18,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM item i"),
     @NamedQuery(name = "core.user.findUeserByUserID",
-        query = "SELECT u FROM User u where u.userID = :userID"),
+        query = "SELECT u FROM User u WHERE u.userID = :userID"),
     @NamedQuery(name = "core.user.findUeserByName",
-        query = "SELECT u FROM User u where u.name = :name"),
+        query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "core.user.findUeserByCatagory",
-        query = "SELECT u FROM User u where u.catagory = :catagory"),
+        query = "SELECT u FROM User u WHERE u.catagory = :catagory"),
     @NamedQuery(name = "core.user.findUeserByColor",
-        query = "SELECT u FROM User u where u.color = :color"),
+        query = "SELECT u FROM User u WHERE u.color = :color"),
     @NamedQuery(name = "core.user.findUeserBySize",
-        query = "SELECT u FROM User u where u.size = :size"),})
+        query = "SELECT u FROM User u WHERE u.size = :size"),})
 
 public class Item implements Principal {
   @Id
