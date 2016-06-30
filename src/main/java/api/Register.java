@@ -1,11 +1,23 @@
 package api;
 
-
+/**
+ * Represents a Register class with its name, email and password
+ *
+ * @author LiYang
+ *
+ */
 public class Register {
   private String name;
   private String email;
   private String password;
 
+  /**
+   * Creates an instance of Register class given name, email and password
+   * 
+   * @param name
+   * @param email
+   * @param password
+   */
   public Register(String name, String email, String password) {
     this.name = name;
     this.email = email;

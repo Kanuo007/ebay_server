@@ -23,4 +23,10 @@ public class CreditCardDao extends AbstractDAO<CreditCard> {
   public List<CreditCard> findAllCreditCard() {
     return list(namedQuery(""));
   }
+
+
+  public List<CreditCard> findByUserId() {
+    return list(namedQuery("core.creditcard.findByUserId"));
+  }
 }
+
