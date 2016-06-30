@@ -1,28 +1,29 @@
 package db;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 
-import java.util.List;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import core.User;
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class UserDao extends AbstractDAO<User> {
 
-    public UserDao(SessionFactory factory){
-        super(factory);
-    }
+  public UserDao(SessionFactory factory) {
+    super(factory);
+  }
 
-    public Optional<User> findUserByID(Long id){
-        return Optional.ofNullable(get(id));
-    }
+  public Optional<User> findUserByID(Long id) {
+    return Optional.fromNullable(get(id));
+  }
 
-    public User createUser(User user){
-        return persist(user);
-    }
+  public User createUser(User user) {
+    return persist(user);
+  }
 
-    public List<User> findAllUser(){
-        return list(namedQuery(""));
-    }
+  public List<User> findAllUser() {
+    return list(namedQuery(""));
+  }
 }

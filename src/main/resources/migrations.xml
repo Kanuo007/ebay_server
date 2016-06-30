@@ -78,8 +78,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name = "feedback" type = "char(255)"/>
-            <column name = "date" type = "timestamp">
-            </column>
+             <column name = "date" type = "timestamp"/>
         </createTable>
     </changeSet>
 
