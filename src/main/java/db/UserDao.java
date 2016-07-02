@@ -42,4 +42,16 @@ public class UserDao extends AbstractDAO<User> {
   public List<User> findAllUser() {
     return namedQuery("").list();
   }
+
+  public boolean UserNamePasswordMatch(String name, String password) {
+    if (Optional.ofNullable(
+        (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
+        .isPresent()) {
+      return false;
+    } else {
+      return (Optional.ofNullable(
+          (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
+          .get().getPassword() == password);
+    }
+  }
 }
