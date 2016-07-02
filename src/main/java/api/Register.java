@@ -10,18 +10,20 @@ public class Register {
   private String name;
   private String email;
   private String password;
+  private String status;
 
   /**
    * Creates an instance of Register class given name, email and password
-   * 
+   *
    * @param name
    * @param email
    * @param password
    */
-  public Register(String name, String email, String password) {
+  public Register(String name, String email, String password, String status) {
     this.name = name;
     this.email = email;
     this.password = password;
+    this.status = status;
   }
 
   /**
@@ -64,6 +66,20 @@ public class Register {
    */
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  /**
+   * @return the status
+   */
+  public String getStatus() {
+    return this.status;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(String status) {
+    this.status = status;
   }
 
 
