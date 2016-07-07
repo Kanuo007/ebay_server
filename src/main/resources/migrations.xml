@@ -87,7 +87,7 @@
             <column name = "id" type = "bigint">
                 <constraints primaryKey = "true" nullable = "false"/>
             </column>
-            <column name = "userID" type = "bigint">
+            <column name = "user_id" type = "bigint">
                 <constraints nullable = "false"/>
             </column>
             <column name = "catagory" type = "char(255)">
@@ -111,16 +111,16 @@
             <column name = "id" type = "bigint">
                 <constraints primaryKey = "true" nullable = "false"/>
             </column>
-            <column name = "useID" type = "bigint">
+            <column name = "buyer_id" type = "bigint">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "contant" type = "char(255)">
+            <column name = "content" type = "char(255)">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "data" type = "Date">
-                <constraints nullable = "false"/>
-            </column>
-            <column name = "time" type = "Time">
+           <column name = "transaction_id" type ="bigint">
+               <constraints nullable = "false"/>
+               </column>
+           <column name = "datetime" type = "timestamp">
                 <constraints nullable = "false"/>
             </column>
           </createTable>
@@ -292,7 +292,12 @@
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
                 referencedTableName = "feedback"/>
-    			
     </changeSet>
-
+    <changeSet id="16" author="danni">
+        <addColumn tableName="item">
+            <column name="status" type="boolean"/>
+            <column name="bid_start_time" type="timestamp"/>
+            <column name="bid_end_time" type="timestamp"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
