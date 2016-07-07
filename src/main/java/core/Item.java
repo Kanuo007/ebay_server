@@ -94,7 +94,7 @@ public class Item {
     return this.size;
   }
 
-  public boolean isStatus() {
+  public boolean getStatus() {
     return this.status;
   }
 
