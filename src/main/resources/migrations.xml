@@ -7,17 +7,17 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <changeSet id="1" author="bao">
-        <createTable tableName="user">
+        <createTable tableName="registered_user">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="user_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" type="varchar(255)">
+            <column name="user_password" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" type="varchar(255)">
+            <column name="user_email" type="varchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
         </createTable>
@@ -56,7 +56,7 @@
                 onDelete = "CASCADE"
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
-                referencedTableName = "user"/>
+                referencedTableName = "registered_user"/>
     </changeSet>
 
     <changeSet id="4" author="danni">
@@ -173,7 +173,7 @@
                 onDelete = "CASCADE"
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
-                referencedTableName = "user"/>
+                referencedTableName = "registered_user"/>
     </changeSet>
 
     <changeSet id="11" author="yangli">
@@ -249,7 +249,7 @@
                 onDelete = "CASCADE"
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
-                referencedTableName = "user"/>
+                referencedTableName = "registered_user"/>
         <addForeignKeyConstraint
                 baseColumnNames = "bidder_id"
                 baseTableName = "bid_history"
@@ -259,7 +259,7 @@
                 onDelete = "CASCADE"
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
-                referencedTableName = "user"/>
+                referencedTableName = "registered_user"/>
         <addForeignKeyConstraint
                 baseColumnNames = "item_id"
                 baseTableName = "bid_history"
@@ -279,7 +279,7 @@
                 onDelete = "CASCADE"
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
-                referencedTableName = "user"/>
+                referencedTableName = "registered_user"/>
     </changeSet>
     <changeSet id="15" author="wen">
     <addForeignKeyConstraint

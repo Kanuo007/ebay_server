@@ -32,14 +32,12 @@ public class RegisterResource {
   @Timed
   @UnitOfWork
   @Consumes(MediaType.APPLICATION_JSON)
-  public Register register(@QueryParam("name") String name, @QueryParam("email") String email,
-      @QueryParam("password") String password) {
+  public Register register(User user) {
     Register r;
-    if (!this.userDao.findUserByName(name).isPresent()) {
+    if (!this.userDao.findUserByName(user.getUser_name()).isPresent()) {
       // If user doesn't exist
-      User user = new User(name, password, email);
       this.userDao.createUser(user);
-      r = new Register(name, email, password, "Success");
+      r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(), "Success");
     } else {
       r = new Register("", "", "", "Failure");
     }

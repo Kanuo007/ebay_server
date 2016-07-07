@@ -1,6 +1,5 @@
 package core;
 
-import java.security.Principal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,39 +13,41 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.dropwizard.jackson.JsonSnakeCase;
+
 @Entity
-@Table(name = "user")
+@Table(name = "registered_user")
 @NamedQueries({@NamedQuery(name = "core.user.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "core.user.findUeserByName",
-        query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "core.user.findUeserByEmail",
-        query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "core.user.findUeserByPassword",
-        query = "SELECT u FROM User u WHERE u.password = :password"),})
-public class User implements Principal {
+    @NamedQuery(name = "core.user.findUserByName",
+        query = "SELECT u FROM User u WHERE u.user_name = :name"),
+    @NamedQuery(name = "core.user.findUserByEmail",
+        query = "SELECT u FROM User u WHERE u.user_email = :email"),
+    @NamedQuery(name = "core.user.findUserByPassword",
+        query = "SELECT u FROM User u WHERE u.user_password = :password"),})
+@JsonSnakeCase
+public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq_name")
-  @SequenceGenerator(name = "user_id_seq_name", sequenceName = "user_id_seq", allocationSize = 1)
-  @JsonProperty
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "user_name", nullable = false)
   @JsonProperty
-  private String name;
+  private String user_name;
 
-  @Column(name = "password", nullable = false)
+  @Column(name = "user_password", nullable = false)
   @JsonProperty
-  private String password;
+  private String user_password;
 
-  @Column(name = "email", nullable = false)
+  @Column(name = "user_email", nullable = false)
   @JsonProperty
-  private String email;
+  private String user_email;
 
 
-  public User(String name, String password, String email) {
-    this.name = name;
-    this.password = password;
-    this.email = email;
+  public User(@JsonProperty("user_name") String user_name, @JsonProperty("user_password") String user_password,
+              @JsonProperty("user_email") String user_email) {
+    this.user_name = user_name;
+    this.user_password = user_password;
+    this.user_email = user_email;
   }
 
   public long getId() {
@@ -57,75 +58,52 @@ public class User implements Principal {
     this.id = id;
   }
 
+  public String getUser_name() {
+    return user_name;
+  }
+
+  public void setUser_name(String user_name) {
+    this.user_name = user_name;
+  }
+
+  public String getUser_password() {
+    return user_password;
+  }
+
+  public void setUser_password(String user_password) {
+    this.user_password = user_password;
+  }
+
+  public String getUser_email() {
+    return user_email;
+  }
+
+  public void setUser_email(String user_email) {
+    this.user_email = user_email;
+  }
+
   @Override
-  public String getName() {
-    return this.name;
-  }
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    User user = (User) o;
 
-  public String getPassword() {
-    return this.password;
-  }
+    if (id != user.id) return false;
+    if (user_name != null ? !user_name.equals(user.user_name) : user.user_name != null)
+      return false;
+    if (user_password != null ? !user_password.equals(user.user_password) : user.user_password != null)
+      return false;
+    return user_email != null ? user_email.equals(user.user_email) : user.user_email == null;
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + ((this.email == null) ? 0 : this.email.hashCode());
-    result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
-    result = (prime * result) + ((this.password == null) ? 0 : this.password.hashCode());
+    int result = (int) (id ^ (id >>> 32));
+    result = 31 * result + (user_name != null ? user_name.hashCode() : 0);
+    result = 31 * result + (user_password != null ? user_password.hashCode() : 0);
+    result = 31 * result + (user_email != null ? user_email.hashCode() : 0);
     return result;
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    User other = (User) obj;
-    if (this.email == null) {
-      if (other.email != null) {
-        return false;
-      }
-    } else if (!this.email.equals(other.email)) {
-      return false;
-    }
-    if (this.name == null) {
-      if (other.name != null) {
-        return false;
-      }
-    } else if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (this.password == null) {
-      if (other.password != null) {
-        return false;
-      }
-    } else if (!this.password.equals(other.password)) {
-      return false;
-    }
-    return true;
-  }
-
 }
