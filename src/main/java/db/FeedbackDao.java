@@ -1,6 +1,5 @@
 package db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +20,12 @@ public class FeedbackDao extends AbstractDAO<Feedback> {
 
   public Optional<Feedback> findFeedbackByTransactionID(Long TransactionID) {
     return Optional.ofNullable((Feedback) (namedQuery("core.user.findFeedbackByTransactionID")
-        .setParameter("TransactionID", TransactionID).uniqueResult()));
+            .setParameter("TransactionID", TransactionID).uniqueResult()));
   }
 
-  public List<Feedback> findFeedbackByUserID(Long userID) {
-    List<Feedback> result = new ArrayList<Feedback>();
-    result.add(
-        (Feedback) (namedQuery("core.Item.findFeedbackByuserIDe").setParameter("userID", userID)));
-    return result;
+  public Optional<Feedback> findFeedbackByBuyerID(Long buyerID) {
+    return Optional.ofNullable(
+            (Feedback) (namedQuery("core.user.findFeedbackByBuyerID").setParameter("buyerID", buyerID)));
   }
 
   public Feedback createFeedback(Feedback feedback) {
@@ -38,6 +35,6 @@ public class FeedbackDao extends AbstractDAO<Feedback> {
 
   @SuppressWarnings("unchecked")
   public List<Feedback> findAllFeedback() {
-    return namedQuery("").list();
+    return namedQuery("core.feedback.findAll").list();
   }
 }
