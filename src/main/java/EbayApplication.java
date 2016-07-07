@@ -1,3 +1,4 @@
+import core.Item;
 import core.User;
 import db.UserDao;
 import io.dropwizard.Application;
@@ -28,7 +29,7 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
         }
       };
   private final HibernateBundle<EbayApplicationConfiguration> hibernateBundle =
-      new HibernateBundle<EbayApplicationConfiguration>(User.class) {
+      new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class) {
         @Override
         public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
           return configuration.getDataSourceFactory();

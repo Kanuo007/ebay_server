@@ -1,9 +1,5 @@
 package core;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.security.Principal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,26 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.crypto.Data;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i")})
 
-public class Item implements Principal {
+public class Item {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_id_seq_name")
-  @SequenceGenerator(name = "item_id_seq_name", sequenceName = "item_id_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty
   private long id;
 
-  @Column(name = "seller_id", nullable = false)
+  @Column(name = "user_id", nullable = false)
   @JsonProperty
   private long userID;
 
-  @Column(name = "itemName", nullable = false)
+  @Column(name = "name", nullable = false)
   @JsonProperty
   private String name;
 
@@ -42,9 +39,17 @@ public class Item implements Principal {
   @JsonProperty
   private int size;
 
-  @Column(name = "size", nullable = false)
+  @Column(name = "status", nullable = false)
   @JsonProperty
-  private int stockAmount;
+  private boolean status;
+
+  @Column(name = "bid_start_time", nullable = false)
+  @JsonProperty
+  private Data bid_start_time;
+
+  @Column(name = "bid_end_time", nullable = false)
+  @JsonProperty
+  private Data bid_end_time;
 
   @Column(name = "basePrice", nullable = false)
   @JsonProperty
@@ -58,6 +63,11 @@ public class Item implements Principal {
   @JsonProperty
   private String description;
 
+  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name) {
+    this.userID = user_id;
+    this.name = item_name;
+  }
+
   public long getId() {
     return this.id;
   }
@@ -66,7 +76,6 @@ public class Item implements Principal {
     return this.userID;
   }
 
-  @Override
   public String getName() {
     return this.name;
   }
@@ -79,8 +88,16 @@ public class Item implements Principal {
     return this.size;
   }
 
-  public int getStockAmount() {
-    return this.stockAmount;
+  public boolean isStatus() {
+    return this.status;
+  }
+
+  public Data getBid_start_time() {
+    return this.bid_start_time;
+  }
+
+  public Data getBid_end_time() {
+    return this.bid_end_time;
   }
 
   public double getBasePrice() {
@@ -115,8 +132,16 @@ public class Item implements Principal {
     this.size = size;
   }
 
-  public void setStockAmount(int stockAmount) {
-    this.stockAmount = stockAmount;
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
+
+  public void setBid_start_time(Data bid_start_time) {
+    this.bid_start_time = bid_start_time;
+  }
+
+  public void setBid_end_time(Data bid_end_time) {
+    this.bid_end_time = bid_end_time;
   }
 
   public void setBasePrice(double basePrice) {
@@ -138,13 +163,16 @@ public class Item implements Principal {
     long temp;
     temp = Double.doubleToLongBits(this.basePrice);
     result = (prime * result) + (int) (temp ^ (temp >>> 32));
+    result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
+    result =
+        (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
     result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
     result = (prime * result) + this.deliveryFee;
     result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
     result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
     result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
     result = (prime * result) + this.size;
-    result = (prime * result) + this.stockAmount;
+    result = (prime * result) + (this.status ? 1231 : 1237);
     result = (prime * result) + (int) (this.userID ^ (this.userID >>> 32));
     return result;
   }
@@ -162,6 +190,20 @@ public class Item implements Principal {
     }
     Item other = (Item) obj;
     if (Double.doubleToLongBits(this.basePrice) != Double.doubleToLongBits(other.basePrice)) {
+      return false;
+    }
+    if (this.bid_end_time == null) {
+      if (other.bid_end_time != null) {
+        return false;
+      }
+    } else if (!this.bid_end_time.equals(other.bid_end_time)) {
+      return false;
+    }
+    if (this.bid_start_time == null) {
+      if (other.bid_start_time != null) {
+        return false;
+      }
+    } else if (!this.bid_start_time.equals(other.bid_start_time)) {
       return false;
     }
     if (this.color == null) {
@@ -194,7 +236,7 @@ public class Item implements Principal {
     if (this.size != other.size) {
       return false;
     }
-    if (this.stockAmount != other.stockAmount) {
+    if (this.status != other.status) {
       return false;
     }
     if (this.userID != other.userID) {
@@ -202,4 +244,5 @@ public class Item implements Principal {
     }
     return true;
   }
+
 }
