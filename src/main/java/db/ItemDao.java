@@ -1,6 +1,5 @@
 package db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,23 +21,17 @@ public class ItemDao extends AbstractDAO<Item> {
     return persist(item);
   }
 
-  public Optional<Item> findItemByName(String name) {
-    return Optional.ofNullable(
-        (Item) (namedQuery("core.Item.findItemByName").setParameter("name", name).uniqueResult()));
+  public List<Item> findItemByName(String name) {
+    return list(namedQuery("core.Item.findItemByName").setParameter("name", name));
   }
 
   public List<Item> findItemByNameColorSize(String name, String color, int size) {
-    List<Item> result = new ArrayList<Item>();
-    result.add((Item) (namedQuery("core.Item.findItemByNameColorSize").setParameter("name", name)
-        .setParameter("color", color).setParameter("size", size)));
-    return result;
+    return list(namedQuery("core.Item.findItemByNameColorSize").setParameter("name", name)
+        .setParameter("color", color).setParameter("size", size));
   }
 
   public List<Item> findItemByCatagory(String catagory) {
-    List<Item> result = new ArrayList<Item>();
-    result.add((Item) (namedQuery("core.Item.findItemByCatagory").setParameter("catagory", catagory)
-        .uniqueResult()));
-    return result;
+    return list(namedQuery("core.Item.findItemByCatagory").setParameter("catagory", catagory));
   }
 
   public List<Item> findAllItem() {
