@@ -14,7 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i")})
+@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
+    @NamedQuery(name = "core.item.findItemByName",
+        query = "SELECT i FROM Item i where name = :name"),
+    @NamedQuery(name = "core.item.findItemByNameColorSize",
+        query = "SELECT i FROM Item i where name = :name and color = :color and size = :size"),
+    @NamedQuery(name = "core.item.findItemByAvailability",
+        query = "SELECT i from Item where status = :status")})
 
 public class Item {
 
@@ -88,7 +94,7 @@ public class Item {
     return this.size;
   }
 
-  public boolean isStatus() {
+  public boolean getStatus() {
     return this.status;
   }
 

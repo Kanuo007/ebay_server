@@ -2,6 +2,7 @@ import core.Feedback;
 import core.Item;
 import core.User;
 import db.FeedbackDao;
+import db.ItemDao;
 import db.UserDao;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -9,6 +10,7 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import resource.AuctionResource;
 import resource.FeedbackResource;
 import resource.HomepageResource;
 import resource.LoginResource;
@@ -47,11 +49,13 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     @Override
     public void run(EbayApplicationConfiguration configuration, Environment environment) {
         UserDao userDao = new UserDao(this.hibernateBundle.getSessionFactory());
+        ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
         FeedbackDao feedbackDao = new FeedbackDao((this.hibernateBundle.getSessionFactory()));
         environment.jersey().register(new HomepageResource());
         environment.jersey().register(new LoginResource());
         // environment.jersey().register(new SearchResource());
         environment.jersey().register(new RegisterResource(userDao));
         environment.jersey().register(new FeedbackResource(feedbackDao));
+        environment.jersey().register(new AuctionResource(itemDao));
     }
 }
