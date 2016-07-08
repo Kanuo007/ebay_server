@@ -1,5 +1,10 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
@@ -8,19 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.annotation.Timed;
-
 import core.BidHistory;
 import core.Item;
 import db.BidHistoryDao;
 import db.ItemDao;
 import io.dropwizard.hibernate.UnitOfWork;
-
-@Path("/bid")
-@Produces(MediaType.APPLICATION_JSON)
 
 /**
  * Represents a BidResource class
@@ -28,6 +25,9 @@ import io.dropwizard.hibernate.UnitOfWork;
  * @author LiYang
  *
  */
+@Path("/bid")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class BidResource {
   private BidHistoryDao bidHistoryDao;
   private ItemDao itemDao;
@@ -38,8 +38,9 @@ public class BidResource {
    *
    * @param bidHistoryDao
    */
-  private BidResource(BidHistoryDao bidHistoryDao) {
+  public BidResource(BidHistoryDao bidHistoryDao, ItemDao itemDao) {
     this.bidHistoryDao = bidHistoryDao;
+    this.itemDao = itemDao;
   }
 
   @POST
@@ -53,14 +54,11 @@ public class BidResource {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
         // if this item is able to bid, find the current price
-        double currentPrice = itemToBid.get().getBasePrice();
-        for (BidHistory each : this.bidHistoryDao.findByItemId()) {
-          if (each.getBidPrice() > currentPrice) {
-            currentPrice = each.getBidPrice();
-          }
-        }
-        if (bidHistory.getBidPrice() > currentPrice) {
+        double currentPrice = itemToBid.get().getBase_price();
+        double highestBidPrice = bidHistoryDao.findByTopPriceById(itemId).get().getBidPrice();
+        if (highestBidPrice > currentPrice) {
           this.bidHistoryDao.createBidHistory(bidHistory);
+          this.itemDao.updateCurrentPrice(highestBidPrice);
           System.out.println("success");
         } else {
           System.out.println("price lower than currentPrice");
@@ -72,7 +70,7 @@ public class BidResource {
     } else {
       System.out.println("item doesn't exist");
     }
-
+    return bidHistory;
   }
 
 

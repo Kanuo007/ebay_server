@@ -1,7 +1,13 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import core.Feedback;
 import db.FeedbackDao;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.params.LongParam;
 
 @Path("/feedback")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,15 +39,25 @@ public class FeedbackResource {
     }
 
     @GET
-    @Path("/by-transaction-id")
-    public Feedback findFeedbackByTransactionID(@QueryParam("transaction_id") Long transaction_id){
-        return this.feedbackDao.findFeedbackByTransactionID(transaction_id).get();
+    @Path("/by_transaction_id")
+    @Timed
+    @UnitOfWork
+    public Feedback findFeedbackByTransactionID(@QueryParam("transaction_id") long transaction_id){
+        Optional<Feedback> feedbackoption = this.feedbackDao.findFeedbackByTransactionID(transaction_id);
+        if(feedbackoption.isPresent()) {
+            return new Feedback(feedbackoption.get().getBuyer_id(), feedbackoption.get().getTransaction_id(),
+                    feedbackoption.get().getContent(), feedbackoption.get().getDatetime());
+        }
+        return new Feedback(0, 0, "", new Date());
     }
 
     @GET
-    @Path("/by-buyer-id")
-    public Feedback findFeedbackByBuyerID(@QueryParam("buyer_id") Long buyer_id){
-        return this.feedbackDao.findFeedbackByBuyerID(buyer_id).get();
+    @Path("/by_buyer_id")
+    @Timed
+    @UnitOfWork
+    public List<Feedback> findFeedbackByBuyerID(@QueryParam("buyer_id") long buyer_id){
+        System.out.print(buyer_id);
+        return this.feedbackDao.findFeedbackByBuyerID(buyer_id);
     }
 
 }

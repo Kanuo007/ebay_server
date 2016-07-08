@@ -1,9 +1,9 @@
 package db;
 
+import org.hibernate.SessionFactory;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.hibernate.SessionFactory;
 
 import core.Feedback;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -18,22 +18,19 @@ public class FeedbackDao extends AbstractDAO<Feedback> {
     return Optional.ofNullable(get(id));
   }
 
-  public Optional<Feedback> findFeedbackByTransactionID(Long TransactionID) {
-    return Optional.ofNullable((Feedback) (namedQuery("core.user.findFeedbackByTransactionID")
-            .setParameter("TransactionID", TransactionID).uniqueResult()));
+  public Optional<Feedback> findFeedbackByTransactionID(long TransactionID) {
+    return Optional.ofNullable((Feedback) (namedQuery("core.feedback.findFeedbackByTransactionID")
+            .setLong("transaction_id", TransactionID).uniqueResult()));
   }
 
-  public Optional<Feedback> findFeedbackByBuyerID(Long buyerID) {
-    return Optional.ofNullable(
-            (Feedback) (namedQuery("core.user.findFeedbackByBuyerID").setParameter("buyerID", buyerID)));
+  public List<Feedback> findFeedbackByBuyerID(long buyerID) {
+    return  list(namedQuery("core.feedback.findFeedbackByBuyerID").setLong("buyer_id", buyerID));
   }
 
   public Feedback createFeedback(Feedback feedback) {
     return persist(feedback);
   }
 
-
-  @SuppressWarnings("unchecked")
   public List<Feedback> findAllFeedback() {
     return namedQuery("core.feedback.findAll").list();
   }

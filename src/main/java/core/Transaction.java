@@ -9,23 +9,29 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
+
+import io.dropwizard.jackson.JsonSnakeCase;
 
 @Entity
 @Table(name = "transaction")
 @NamedQueries({
-    @NamedQuery(name = "core.transaction.findAll", query = "SELECT t FROM transaction t"),
+    @NamedQuery(name = "core.transaction.findAll", query = "SELECT t FROM Transaction t"),
     @NamedQuery(name = "core.transaction.findTransactionByUserId",
         query = "SELECT t FROM Transaction t WHERE t.user_id = :user_id"),
     @NamedQuery(name = "core.transaction.findTransactionByItemId",
-        query = "SELECT t FROM Transaction t WHERE t.itemr_id = :item_id"),})
+        query = "SELECT t FROM Transaction t WHERE t.item_id = :item_id"),})
+@JsonSnakeCase
 public class Transaction {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq_name")
-  @SequenceGenerator(name = "transaction_id_seq_name", sequenceName = "transaction_id_seq",
-      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty
   private long id;
 
@@ -49,9 +55,11 @@ public class Transaction {
   @JsonProperty
   private String feedback;
 
-  @Column(name = "date", nullable = false)
+  @Column(name = "transaction_date", nullable = false)
+  @Temporal(TemporalType.TIMESTAMP)
   @JsonProperty
-  private String date;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  private Date date;
 
   public long getId() {
     return this.id;
@@ -101,11 +109,11 @@ public class Transaction {
     this.feedback = feedback;
   }
 
-  public String getDate() {
+  public Date getDate() {
     return this.date;
   }
 
-  public void setDate(String date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 

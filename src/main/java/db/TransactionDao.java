@@ -1,9 +1,9 @@
 package db;
 
+import org.hibernate.SessionFactory;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.hibernate.SessionFactory;
 
 import core.Transaction;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -24,7 +24,13 @@ public class TransactionDao extends AbstractDAO<Transaction> {
   }
 
   public Optional<Transaction> findTransactionByItemId(Long id) {
-    return Optional.ofNullable(get(id));
+    return Optional.ofNullable((Transaction) namedQuery("core.transaction.findTransactionByItemId")
+            .setParameter("item_id", id).uniqueResult());
+  }
+
+  public Optional<Transaction> findTransactionByBuyerId(Long id) {
+    return Optional.ofNullable((Transaction) namedQuery("core.transaction.findTransactionByBuyerId")
+            .setParameter("user_id", id).uniqueResult());
   }
 
   public Transaction createTransaction(Transaction aTransaction) {

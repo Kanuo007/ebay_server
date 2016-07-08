@@ -1,5 +1,7 @@
 package core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,31 +9,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.dropwizard.jackson.JsonSnakeCase;
 
-@Entity
-@Table(name = "credit_card")
-@NamedQueries({
-
-    @NamedQuery(name = "core.creditcard.findAll", query = "SELECT c FROM CreditCard c"),
-
-    @NamedQuery(name = "core.creditcard.findByUserId",
-        query = "SELECT c FROM CreditCard c WHERE c.userId = :userId")})
 /**
  * Represents a CreditCard class
  * 
  * @author LiYang
  *
  */
+@Entity
+@Table(name = "credit_card")
+@NamedQueries({
+
+        @NamedQuery(name = "core.creditcard.findAll", query = "SELECT c FROM CreditCard c"),
+
+        @NamedQuery(name = "core.creditcard.findByUserId",
+                query = "SELECT c FROM CreditCard c WHERE c.userId = :userId")})
+@JsonSnakeCase
 public class CreditCard {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "credit_card_id_seq_name")
-  @SequenceGenerator(name = "credit_card_id_seq_name", sequenceName = "credit_card_id_seq",
-      allocationSize = 1)
-  @JsonProperty
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(name = "user_id")
@@ -62,14 +61,15 @@ public class CreditCard {
   @JsonProperty
   private String expirationMonth;
 
-  @Column(name = "billingAddress", nullable = false)
+  @Column(name = "billing_address", nullable = false)
   @JsonProperty
   private String billingAddress;
 
 
-  public CreditCard(Long id, Long userId, String creditCardType, Long cardNumber, String cardHolder,
-      int cvv, String expirationYear, String expirationMonth, String billingAddress) {
-    this.id = id;
+  public CreditCard(@JsonProperty("user_id") Long userId, @JsonProperty("credit_card_type") String creditCardType,
+                    @JsonProperty("card_number") Long cardNumber, @JsonProperty("card_holder") String cardHolder,
+                    @JsonProperty("cvv") int cvv, @JsonProperty("expiration_year") String expirationYear,
+                    @JsonProperty("expiration_month") String expirationMonth, @JsonProperty("billing_address") String billingAddress) {
     this.userId = userId;
     this.creditCardType = creditCardType;
     this.cardNumber = cardNumber;
