@@ -50,5 +50,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     // environment.jersey().register(new SearchResource());
     environment.jersey().register(new RegisterResource(userDao));
     environment.jersey().register(new FeedbackResource());
+
   }
 }

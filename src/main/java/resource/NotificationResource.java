@@ -12,10 +12,12 @@ import com.codahale.metrics.annotation.Timed;
 
 import core.Notification;
 import core.Transaction;
+import db.ItemDao;
 import db.NotificationDao;
 
 public class NotificationResource {
   private NotificationDao notificationDao;
+  private ItemDao itemDao;
   private static Logger logger = LoggerFactory.getLogger(NotificationResource.class);
 
   public NotificationResource(NotificationDao notificationDao) {
@@ -31,7 +33,9 @@ public class NotificationResource {
     Notification n;
     String message = "Auction " + transaction.getId() + " has done.";
     n = new Notification(transaction.getUser_id(), transaction.getId(), message);
+    m = new Notification(transaction.getItem_id(), transaction.getId(), message);
     this.notificationDao.createNotification(n);
+    this.notificationDao.createNotification(m);
     return n;
   }
 
