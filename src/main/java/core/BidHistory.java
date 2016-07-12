@@ -1,5 +1,8 @@
 package core;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,10 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.dropwizard.jackson.JsonSnakeCase;
 
 /**
  * Represents a BidHistory class
@@ -24,22 +26,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "bid_history")
 @NamedQueries({
-
     @NamedQuery(name = "core.bidhistory.findAll", query = "SELECT b FROM BidHistory b"),
-
     @NamedQuery(name = "core.bidhistory.findByBidderId",
         query = "SELECT b FROM BidHistory b WHERE b.bidderId = :bidderId"),
-
     @NamedQuery(name = "core.bidhistory.findByItemId",
         query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId"),
-
     @NamedQuery(name = "core.bidhistory.findByBidTime",
-        query = "SELECT b FROM BidHistory b WHERE b.bidTime = :bidTime")})
+        query = "SELECT b FROM BidHistory b WHERE b.bidTime = :bidTime"),
+@NamedQuery(name = "core.bidhistory.findTopPriceById",
+        query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId ORDER BY b.bidPrice DESC")})
+@JsonSnakeCase
 public class BidHistory {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bid_history_id_seq_name")
-  @SequenceGenerator(name = "bid_history_id_seq_name", sequenceName = "bid_history_id_seq",
-      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty
   private Long id;
 
@@ -53,14 +52,17 @@ public class BidHistory {
 
   @Column(name = "bid_time", nullable = false)
   @JsonProperty
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
   private Date bidTime;
 
   @Column(name = "bid_price", nullable = false)
   @JsonProperty
   private double bidPrice;
 
-  public BidHistory(Long id, Long itemId, Long bidderId, Date bidTime, double bidPrice) {
-    this.id = id;
+  public BidHistory(@JsonProperty("item_id") Long itemId,
+                    @JsonProperty("bidder_id") Long bidderId,
+                    @JsonProperty("bid_time") Date bidTime,
+                    @JsonProperty("bid_price") double bidPrice) {
     this.itemId = itemId;
     this.bidderId = bidderId;
     this.bidTime = bidTime;

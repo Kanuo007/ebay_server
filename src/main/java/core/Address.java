@@ -12,10 +12,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.dropwizard.jackson.JsonSnakeCase;
+
 
 @Entity
 @Table(name = "address")
-@NamedQueries({@NamedQuery(name = "core.address.findAll", query = "SELECT a FROM address a"),
+@NamedQueries({@NamedQuery(name = "core.address.findAll", query = "SELECT a FROM Address a"),
     @NamedQuery(name = "core.address.findAddressByUserId",
         query = "SELECT a FROM Address a WHERE a.user_id = :user_id"),
     @NamedQuery(name = "core.address.findAddressByCity",
@@ -24,11 +26,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         query = "SELECT a FROM Address a WHERE a.country = :country"),
     @NamedQuery(name = "core.address.findAddressByZipcode",
         query = "SELECT a FROM Address a WHERE a.zipcode = :zipcode"),})
+@JsonSnakeCase
 public class Address {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_seq_name")
-  @SequenceGenerator(name = "address_id_seq_name", sequenceName = "address_id_seq",
-      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty
   private long id;
 
@@ -51,6 +52,16 @@ public class Address {
   @Column(name = "user_id", nullable = false)
   @JsonProperty
   private long user_id;
+
+  public Address(@JsonProperty("street") String street, @JsonProperty("city") String city,
+                 @JsonProperty("country") String country, @JsonProperty("zipcode") long zipcode,
+                 @JsonProperty("user_id") long user_id) {
+    this.street = street;
+    this.city = city;
+    this.country = country;
+    this.zipcode = zipcode;
+    this.user_id = user_id;
+  }
 
   public long getId() {
     return this.id;

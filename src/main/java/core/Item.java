@@ -8,25 +8,31 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.crypto.Data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
+
+import io.dropwizard.jackson.JsonSnakeCase;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-    @NamedQuery(name = "core.item.findItemByName",
-        query = "SELECT i FROM Item i where name = :name"),
-    @NamedQuery(name = "core.item.findItemByNameColorSize",
-        query = "SELECT i FROM Item i where name = :name and color = :color and size = :size"),
-    @NamedQuery(name = "core.item.findItemByAvailability",
-        query = "SELECT i from Item where status = :status")})
-
+@NamedQueries({
+        @NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
+        @NamedQuery(name = "core.item.findItemByName",
+                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+        @NamedQuery(name = "core.item.findItemByNameColorSize",
+                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+        @NamedQuery(name = "core.item.findItemByAvailability",
+                query = "SELECT i from Item i where i.status = :status"),
+        @NamedQuery(name = "core.item.updateCurrentPrice",
+                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+@JsonSnakeCase
 public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonProperty
   private long id;
 
   @Column(name = "user_id", nullable = false)
@@ -51,19 +57,21 @@ public class Item {
 
   @Column(name = "bid_start_time", nullable = false)
   @JsonProperty
-  private Data bid_start_time;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  private Date bid_start_time;
 
   @Column(name = "bid_end_time", nullable = false)
   @JsonProperty
-  private Data bid_end_time;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  private Date bid_end_time;
 
-  @Column(name = "basePrice", nullable = false)
+  @Column(name = "base_price", nullable = false)
   @JsonProperty
-  private double basePrice;
+  private double base_price;
 
-  @Column(name = "deliverFee")
+  @Column(name = "deliver_fee")
   @JsonProperty
-  private int deliveryFee;
+  private int delivery_fee;
 
   @Column(name = "description")
   @JsonProperty
@@ -98,20 +106,20 @@ public class Item {
     return this.status;
   }
 
-  public Data getBid_start_time() {
+  public Date getBid_start_time() {
     return this.bid_start_time;
   }
 
-  public Data getBid_end_time() {
+  public Date getBid_end_time() {
     return this.bid_end_time;
   }
 
-  public double getBasePrice() {
-    return this.basePrice;
+  public double getBase_price() {
+    return this.base_price;
   }
 
-  public int getDeliveryFee() {
-    return this.deliveryFee;
+  public int getDelivery_fee() {
+    return this.delivery_fee;
   }
 
   public String getDescription() {
@@ -142,20 +150,20 @@ public class Item {
     this.status = status;
   }
 
-  public void setBid_start_time(Data bid_start_time) {
+  public void setBid_start_time(Date bid_start_time) {
     this.bid_start_time = bid_start_time;
   }
 
-  public void setBid_end_time(Data bid_end_time) {
+  public void setBid_end_time(Date bid_end_time) {
     this.bid_end_time = bid_end_time;
   }
 
-  public void setBasePrice(double basePrice) {
-    this.basePrice = basePrice;
+  public void setBase_price(double base_price) {
+    this.base_price = base_price;
   }
 
-  public void setDeliveryFee(int deliveryFee) {
-    this.deliveryFee = deliveryFee;
+  public void setDelivery_fee(int delivery_fee) {
+    this.delivery_fee = delivery_fee;
   }
 
   public void setDescription(String description) {
@@ -167,13 +175,13 @@ public class Item {
     final int prime = 31;
     int result = 1;
     long temp;
-    temp = Double.doubleToLongBits(this.basePrice);
+    temp = Double.doubleToLongBits(this.base_price);
     result = (prime * result) + (int) (temp ^ (temp >>> 32));
     result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
     result =
-        (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
+            (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
     result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
-    result = (prime * result) + this.deliveryFee;
+    result = (prime * result) + this.delivery_fee;
     result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
     result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
     result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
@@ -195,7 +203,7 @@ public class Item {
       return false;
     }
     Item other = (Item) obj;
-    if (Double.doubleToLongBits(this.basePrice) != Double.doubleToLongBits(other.basePrice)) {
+    if (Double.doubleToLongBits(this.base_price) != Double.doubleToLongBits(other.base_price)) {
       return false;
     }
     if (this.bid_end_time == null) {
@@ -219,7 +227,7 @@ public class Item {
     } else if (!this.color.equals(other.color)) {
       return false;
     }
-    if (this.deliveryFee != other.deliveryFee) {
+    if (this.delivery_fee != other.delivery_fee) {
       return false;
     }
     if (this.description == null) {

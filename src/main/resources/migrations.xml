@@ -77,7 +77,7 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-             <column name = "date" type = "timestamp"/>
+             <column name = "transaction_date" type = "timestamp"/>
             <column name = "feedback_id" type = "bigint"/>
         </createTable>
     </changeSet>
@@ -98,10 +98,10 @@
             </column>
             <column name = "color" type = "char(255)"/>
             <column name = "size" type = "bigint"/>
-            <column name = "basePrice" type = "numeric">
+            <column name = "base_price" type = "numeric">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "deliverFee" type = "numeric"/>
+            <column name = "deliver_fee" type = "numeric"/>
             <column name = "description" type = "char(255)"/>
         </createTable>
     </changeSet>
@@ -114,13 +114,13 @@
             <column name = "buyer_id" type = "bigint">
                 <constraints nullable = "false"/>
             </column>
-            <column name = "content" type = "char(255)">
+            <column name = "feedback_content" type = "char(255)">
                 <constraints nullable = "false"/>
             </column>
            <column name = "transaction_id" type ="bigint">
                <constraints nullable = "false"/>
                </column>
-           <column name = "datetime" type = "timestamp">
+           <column name = "date_time" type = "timestamp">
                 <constraints nullable = "false"/>
             </column>
           </createTable>
@@ -220,7 +220,7 @@
             <column name="expiration_month" type="char(2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="billingAddress" type="varchar(255)">
+            <column name="billing_address" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -241,9 +241,9 @@
 
     <changeSet id= "14" author="bao">
         <addForeignKeyConstraint
-                baseColumnNames = "userID"
+                baseColumnNames = "user_id"
                 baseTableName = "item"
-                constraintName = "userID"
+                constraintName = "user_id"
                 deferrable = "false"
                 initiallyDeferred = "false"
                 onDelete = "CASCADE"

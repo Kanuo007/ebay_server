@@ -1,8 +1,9 @@
 package db;
 
-import java.util.List;
-
 import org.hibernate.SessionFactory;
+
+import java.util.List;
+import java.util.Optional;
 
 import core.BidHistory;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -30,6 +31,11 @@ public class BidHistoryDao extends AbstractDAO<BidHistory> {
 
   public List<BidHistory> findByItemId() {
     return list(namedQuery("core.bidhistory.findByItemId"));
+  }
+  public Optional<BidHistory> findByTopPriceById(Long id) {
+    return Optional.ofNullable((BidHistory) namedQuery("core.bidhistory.findTopPriceById")
+            .setParameter("id", id)
+            .setMaxResults(1));
   }
 
   public List<BidHistory> findByBidTime() {
