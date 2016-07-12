@@ -1,10 +1,5 @@
 package resource;
 
-import com.codahale.metrics.annotation.Timed;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
@@ -13,9 +8,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
+
 import core.BidHistory;
 import core.Item;
-import db.BidHistoryDao;
+import db.BidHistoryDAO;
 import db.ItemDao;
 import io.dropwizard.hibernate.UnitOfWork;
 
@@ -29,7 +29,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 
 public class BidResource {
-  private BidHistoryDao bidHistoryDao;
+  private BidHistoryDAO bidHistoryDao;
   private ItemDao itemDao;
   private static Logger logger = LoggerFactory.getLogger(BidResource.class);
 
@@ -38,7 +38,7 @@ public class BidResource {
    *
    * @param bidHistoryDao
    */
-  public BidResource(BidHistoryDao bidHistoryDao, ItemDao itemDao) {
+  public BidResource(BidHistoryDAO bidHistoryDao, ItemDao itemDao) {
     this.bidHistoryDao = bidHistoryDao;
     this.itemDao = itemDao;
   }
@@ -55,7 +55,8 @@ public class BidResource {
       if (itemAbleToBid) {
         // if this item is able to bid, find the current price
         double currentPrice = itemToBid.get().getBase_price();
-        double highestBidPrice = bidHistoryDao.findByTopPriceById(itemId).get().getBidPrice();
+        double highestBidPrice =
+            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
         if (highestBidPrice > currentPrice) {
           this.bidHistoryDao.createBidHistory(bidHistory);
           this.itemDao.updateCurrentPrice(highestBidPrice);
