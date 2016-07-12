@@ -39,5 +39,4 @@ public class ListResource {
       this.itemDao.createItem(item);
     }
   }
-
 }
