@@ -1,5 +1,6 @@
 package db;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ public class ItemDao extends AbstractDAO<Item> {
   public ItemDao(SessionFactory factory) {
     super(factory);
   }
+
+
 
   public Optional<Item> findItemByID(Long id) {
     return Optional.ofNullable(get(id));
@@ -36,5 +39,13 @@ public class ItemDao extends AbstractDAO<Item> {
 
   public List<Item> findAllItem() {
     return list(namedQuery(""));
+  }
+
+  // find available items.
+  public List<Item> findItemByAvailability(Boolean status) {
+    List<Item> result = new ArrayList<Item>();
+    result.add((Item) (namedQuery("core.Item.findItemByAvailability").setParameter("status", true)
+        .uniqueResult()));
+    return result;
   }
 }
