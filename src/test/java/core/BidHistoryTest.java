@@ -59,6 +59,11 @@ public class BidHistoryTest {
   }
 
   @Test
+  public void testGetStatus() {
+    Assert.assertEquals(this.b1.getStatus(), "Not set yet");
+  }
+
+  @Test
   public void testSetId() {
     Assert.assertEquals(this.b1.getId(), null);
     this.b1.setId(new Long(15));
@@ -92,6 +97,13 @@ public class BidHistoryTest {
     Assert.assertEquals(this.b1.getBidPrice(), 25.34, 0);
     this.b1.setBidPrice(11.11);
     Assert.assertEquals(this.b1.getBidPrice(), 11.11, 0);
+  }
+
+  @Test
+  public void testSetStatus() {
+    Assert.assertEquals(this.b1.getStatus(), "Not set yet");
+    this.b1.setStatus("Success");
+    Assert.assertEquals(this.b1.getStatus(), "Success");
   }
 
   @Test

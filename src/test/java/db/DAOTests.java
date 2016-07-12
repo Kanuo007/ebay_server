@@ -15,7 +15,7 @@ public class DAOTests {
     config.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
     config.setProperty("hibernate.current_session_context_class", "thread");
     config.setProperty("hibernate.show_sql", "false");
-    config.addAnnotatedClass(Persistable.class);
+    config.addAnnotatedClass(PersistableClass.class);
 
     this.sessionFactory = config.buildSessionFactory();
   }
