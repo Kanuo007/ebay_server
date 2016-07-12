@@ -58,6 +58,10 @@ public class BidHistory {
   @JsonProperty
   private double bidPrice;
 
+  @Column(name = "status", nullable = false)
+  @JsonProperty
+  private String status;
+
   /**
    * Creates an instance of BidHistory class given its itemId, bidderId, bidTime and bidPrice
    *
@@ -72,6 +76,7 @@ public class BidHistory {
     this.bidderId = bidderId;
     this.bidTime = bidTime;
     this.bidPrice = bidPrice;
+    this.status = "Not set yet";
   }
 
   /**
@@ -110,6 +115,14 @@ public class BidHistory {
   }
 
   /**
+   *
+   * @return the status
+   */
+  public String getStatus() {
+    return this.status;
+  }
+
+  /**
    * @param id the id to set
    */
   public void setId(Long id) {
@@ -142,6 +155,14 @@ public class BidHistory {
    */
   public void setBidPrice(double bidPrice) {
     this.bidPrice = bidPrice;
+  }
+
+  /**
+   *
+   * @param status the status to set
+   */
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   /**

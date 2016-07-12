@@ -37,6 +37,7 @@ public class BidResource {
    * Creates an instance of BidResource class
    *
    * @param bidHistoryDao
+   * @param itemDao
    */
   public BidResource(BidHistoryDAO bidHistoryDao, ItemDao itemDao) {
     this.bidHistoryDao = bidHistoryDao;
@@ -53,23 +54,21 @@ public class BidResource {
     if (itemToBid.isPresent()) {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
-        // if this item is able to bid, find the current price
         double currentPrice = itemToBid.get().getBase_price();
         double highestBidPrice =
             this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
         if (highestBidPrice > currentPrice) {
+          bidHistory.setStatus("Success");
           this.bidHistoryDao.createBidHistory(bidHistory);
           this.itemDao.updateCurrentPrice(highestBidPrice);
-          System.out.println("success");
         } else {
-          System.out.println("price lower than currentPrice");
+          bidHistory.setStatus("Failure: bidding price is lower than currentPrice");
         }
       } else {
-        System.out.println("item not able to bid");
+        bidHistory.setStatus("Failure: item not able to bid");
       }
-
     } else {
-      System.out.println("item doesn't exist");
+      bidHistory.setStatus("Failure: item doesn't exist");
     }
     return bidHistory;
   }
