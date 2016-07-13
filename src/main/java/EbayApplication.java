@@ -8,6 +8,7 @@ import core.User;
 import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
+import db.TransactionDao;
 import db.UserDao;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -15,14 +16,12 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-<<<<<<< HEAD
-=======
 import resource.AuctionResource;
 import resource.BidResource;
->>>>>>> master
 import resource.FeedbackResource;
 import resource.HomepageResource;
 import resource.LoginResource;
+import resource.NotificationResource;
 import resource.RegisterResource;
 import resource.SearchResource;
 import resource.SellResource;
@@ -32,59 +31,48 @@ import resource.SellResource;
  */
 public class EbayApplication extends Application<EbayApplicationConfiguration> {
 
-    public static void main(String[] args) throws Exception {
-        new EbayApplication().run(args);
-    }
+  public static void main(String[] args) throws Exception {
+    new EbayApplication().run(args);
+  }
 
-    private final MigrationsBundle<EbayApplicationConfiguration> migrations =
-            new MigrationsBundle<EbayApplicationConfiguration>() {
-                @Override
-                public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
-                    return configuration.getDataSourceFactory();
-                }
-            };
-    private final HibernateBundle<EbayApplicationConfiguration> hibernateBundle =
-            new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class, Feedback.class, CreditCard.class,
-                    Address.class, BidHistory.class, Transaction.class) {
-                @Override
-                public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
-                    return configuration.getDataSourceFactory();
-                }
-            };
+  private final MigrationsBundle<EbayApplicationConfiguration> migrations =
+      new MigrationsBundle<EbayApplicationConfiguration>() {
+        @Override
+        public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
+          return configuration.getDataSourceFactory();
+        }
+      };
+  private final HibernateBundle<EbayApplicationConfiguration> hibernateBundle =
+      new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class, Feedback.class,
+          CreditCard.class, Address.class, BidHistory.class, Transaction.class) {
+        @Override
+        public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
+          return configuration.getDataSourceFactory();
+        }
+      };
 
-    @Override
-    public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
-        bootstrap.addBundle(this.migrations);
-        bootstrap.addBundle(this.hibernateBundle);
-    }
+  @Override
+  public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
+    bootstrap.addBundle(this.migrations);
+    bootstrap.addBundle(this.hibernateBundle);
+  }
 
-<<<<<<< HEAD
   @Override
   public void run(EbayApplicationConfiguration configuration, Environment environment) {
     UserDao userDao = new UserDao(this.hibernateBundle.getSessionFactory());
     ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
+    FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
+    BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
+    TransactionDao transactionDao = new TransactionDao(this.hibernateBundle.getSessionFactory());
+
     environment.jersey().register(new HomepageResource());
     environment.jersey().register(new LoginResource());
-    // environment.jersey().register(new SearchResource());
+    environment.jersey().register(new SearchResource(itemDao));
     environment.jersey().register(new RegisterResource(userDao));
-    environment.jersey().register(new FeedbackResource());
+    environment.jersey().register(new FeedbackResource(feedbackDao));
+    environment.jersey().register(new AuctionResource(itemDao));
+    environment.jersey().register(new SellResource(itemDao));
+    environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
+    environment.jersey().register(new NotificationResource(transactionDao, itemDao));
   }
-=======
-    @Override
-    public void run(EbayApplicationConfiguration configuration, Environment environment) {
-        UserDao userDao = new UserDao(this.hibernateBundle.getSessionFactory());
-        ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
-        FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
-        BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
-
-        environment.jersey().register(new HomepageResource());
-        environment.jersey().register(new LoginResource());
-        environment.jersey().register(new SearchResource(itemDao));
-        environment.jersey().register(new RegisterResource(userDao));
-        environment.jersey().register(new FeedbackResource(feedbackDao));
-        environment.jersey().register(new AuctionResource(itemDao));
-        environment.jersey().register(new SellResource(itemDao));
-        environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
-    }
->>>>>>> master
 }

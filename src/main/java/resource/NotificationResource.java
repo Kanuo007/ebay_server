@@ -11,17 +11,23 @@ import org.slf4j.LoggerFactory;
 import com.codahale.metrics.annotation.Timed;
 
 import core.Notification;
-import core.Transaction;
 import db.ItemDao;
 import db.NotificationDao;
+import db.TransactionDao;
 
 public class NotificationResource {
   private NotificationDao notificationDao;
   private ItemDao itemDao;
   private static Logger logger = LoggerFactory.getLogger(NotificationResource.class);
 
-  public NotificationResource(NotificationDao notificationDao) {
+  public NotificationResource(NotificationDao notificationDao, TransactionDao transactionDao,
+      ItemDao itemDao2) {
     this.notificationDao = notificationDao;
+  }
+
+
+  public NotificationResource(TransactionDao transactionDao, ItemDao itemDao) {
+    this.notificationDao = this.notificationDao;
   }
 
 
@@ -29,11 +35,13 @@ public class NotificationResource {
   @Timed
   @Path("/Notification")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Notification Notice(Transaction transaction) {
+  public Notification Notice(NotificationDao notificationDao, TransactionDao transactionDao,
+      ItemDao itemDao) {
     Notification n;
-    String message = "Auction " + transaction.getId() + " has done.";
-    n = new Notification(transaction.getUser_id(), transaction.getId(), message);
-    m = new Notification(transaction.getItem_id(), transaction.getId(), message);
+    String message = "Auction " + transactionDao.getId() + " has done.";
+    n = new Notification(transactionDao.getUser_id(), transactionDao.getId(), message);
+
+    m = new Notification(transactionDao.getItem_id(), transactionDao.getId(), message);
     this.notificationDao.createNotification(n);
     this.notificationDao.createNotification(m);
     return n;

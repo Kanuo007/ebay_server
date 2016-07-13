@@ -1,9 +1,5 @@
 package resource;
 
-import com.codahale.metrics.annotation.Timed;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -11,6 +7,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
 
 import core.Item;
 import db.ItemDao;
@@ -29,7 +30,7 @@ public class SearchResource {
 
   @GET
   @Timed
-  @Path("/ALL")
+  @Path("/All")
   @UnitOfWork
   public List<Item> SearchAll() {
     return this.itemDao.findAllItem();
@@ -37,10 +38,18 @@ public class SearchResource {
 
   @GET
   @Timed
+  @Path("/AllBidding")
+  @UnitOfWork
+  public List<Item> SearchAllBidding() {
+    return this.itemDao.findItemByAvailability();
+  }
+
+  @GET
+  @Timed
   @Path("/{item}")
   @UnitOfWork
-  public List<Item> Search(@PathParam("item") String item) {
-   return this.itemDao.findItemByName(item);
+  public List<Item> SearchItem(@PathParam("item") String item) {
+    return this.itemDao.findItemByName(item);
   }
 
 }
