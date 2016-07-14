@@ -1,3 +1,5 @@
+import com.google.common.cache.CacheBuilderSpec;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -70,6 +72,9 @@ public class EbayApplicationConfiguration extends Configuration{
     @Valid
     private GraphiteReporterFactory graphiteReporterFactory = new GraphiteReporterFactory();
 
+    @Valid
+    private CacheBuilderSpec cacheBuilderSpec;
+
     @JsonProperty("viewRendererConfiguration")
     public Map<String, Map<String, String>> getViewRendererConfiguration() {
         return viewRendererConfiguration;
@@ -92,5 +97,9 @@ public class EbayApplicationConfiguration extends Configuration{
     @JsonProperty("metrics")
     public void setGraphiteReporterFactory(GraphiteReporterFactory graphiteReporterFactory) {
         this.graphiteReporterFactory = graphiteReporterFactory;
+    }
+
+    public CacheBuilderSpec getAuthenticationCachePolicy(){
+        return this.cacheBuilderSpec;
     }
 }

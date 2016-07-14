@@ -1,3 +1,7 @@
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+
+import auth.UserAuthenticator;
+import auth.UserAuthorizer;
 import core.Address;
 import core.BidHistory;
 import core.CreditCard;
@@ -10,6 +14,11 @@ import db.FeedbackDao;
 import db.ItemDao;
 import db.UserDao;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.CachingAuthenticator;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -61,6 +70,20 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
         ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
         FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
         BidHistoryDAO bidHistoryDao = new BidHistoryDAO(this.hibernateBundle.getSessionFactory());
+
+        CachingAuthenticator<BasicCredentials, User> cachingAuthenticator = new CachingAuthenticator<>(
+                environment.metrics(), new UserAuthenticator(userDao),
+                configuration.getAuthenticationCachePolicy());
+        environment.jersey().register(new AuthDynamicFeature(
+                new BasicCredentialAuthFilter.Builder<User>()
+                        .setAuthenticator(new UserAuthenticator(userDao))
+                        .setAuthorizer(new UserAuthorizer())
+                        .setRealm("Validate User")
+                        .buildAuthFilter()));
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        // use @Auth to inject a custom Principal type into your resource
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
+
 
         environment.jersey().register(new HomepageResource());
         environment.jersey().register(new LoginResource(userDao));
