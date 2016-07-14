@@ -1,5 +1,3 @@
-import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
-
 import core.Address;
 import core.BidHistory;
 import core.CreditCard;
@@ -55,7 +53,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
         bootstrap.addBundle(this.migrations);
         bootstrap.addBundle(this.hibernateBundle);
-        bootstrap.addBundle(new TemplateConfigBundle());
     }
 
     @Override
