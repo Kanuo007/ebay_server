@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="1" author="bao">
+        <createTable tableName="registered_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_email" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="danni">
+        <createTable tableName="address">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="street" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zipcode" type="numeric(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "user_id"
+                baseTableName = "address"
+                constraintName = "user_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+    </changeSet>
+
+    <changeSet id="4" author="danni">
+        <createTable tableName="transaction">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_address_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billing_address_id" type="bigint"/>
+            <column name="payment_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+             <column name = "transaction_date" type = "timestamp"/>
+            <column name = "feedback_id" type = "bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id = "5" author="wen">
+        <createTable tableName="item">
+            <column name = "id" type = "bigint">
+                <constraints primaryKey = "true" nullable = "false"/>
+            </column>
+            <column name = "user_id" type = "bigint">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "catagory" type = "char(255)">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "name" type = "char(255)">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "color" type = "char(255)"/>
+            <column name = "size" type = "bigint"/>
+            <column name = "base_price" type = "numeric">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "deliver_fee" type = "numeric"/>
+            <column name = "description" type = "char(255)"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id = "6" author = "wen">
+    	 <createTable tableName="feedback">
+            <column name = "id" type = "bigint">
+                <constraints primaryKey = "true" nullable = "false"/>
+            </column>
+            <column name = "buyer_id" type = "bigint">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "feedback_content" type = "char(255)">
+                <constraints nullable = "false"/>
+            </column>
+           <column name = "transaction_id" type ="bigint">
+               <constraints nullable = "false"/>
+               </column>
+           <column name = "date_time" type = "timestamp">
+                <constraints nullable = "false"/>
+            </column>
+          </createTable>
+    </changeSet>  
+
+    <changeSet id = "7" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "item_id"
+                baseTableName = "transaction"
+                constraintName = "item_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "item"/>
+    </changeSet>
+    <changeSet id = "8" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "shipping_address_id"
+                baseTableName = "transaction"
+                constraintName = "shipping_address_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "address"/>
+    </changeSet>
+    <changeSet id = "9" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "billing_address_id"
+                baseTableName = "transaction"
+                constraintName = "billing_address_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "address"/>
+    </changeSet>
+
+    <changeSet id= "10" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "user_id"
+                baseTableName = "transaction"
+                constraintName = "user_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+    </changeSet>
+
+    <changeSet id="11" author="yangli">
+        <createTable tableName="bid_history">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bidder_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bid_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bid_price" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="12" author="yangli">
+        <createTable tableName="credit_card">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="credit_card_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_number" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_holder" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cvv" type="numeric(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_year" type="char(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_month" type="char(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billing_address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id = "13" author="danni">
+        <addForeignKeyConstraint
+                baseColumnNames = "payment_id"
+                baseTableName = "transaction"
+                constraintName = "payment_id_key"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "credit_card"/>
+    </changeSet>
+
+    <changeSet id= "14" author="bao">
+        <addForeignKeyConstraint
+                baseColumnNames = "user_id"
+                baseTableName = "item"
+                constraintName = "user_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+        <addForeignKeyConstraint
+                baseColumnNames = "bidder_id"
+                baseTableName = "bid_history"
+                constraintName = "bid_history_bidder_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+        <addForeignKeyConstraint
+                baseColumnNames = "item_id"
+                baseTableName = "bid_history"
+                constraintName = "bid_history_item_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "item"/>
+        <addForeignKeyConstraint
+                baseColumnNames = "user_id"
+                baseTableName = "credit_card"
+                constraintName = "credit_card_user_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+    </changeSet>
+    <changeSet id="15" author="wen">
+    <addForeignKeyConstraint
+     			baseColumnNames = "feedback_id"
+                baseTableName = "transaction"
+                constraintName = "transaction_feedback_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "feedback"/>
+    </changeSet>
+    <changeSet id="16" author="danni">
+        <addColumn tableName="item">
+            <column name="status" type="boolean"/>
+            <column name="bid_start_time" type="timestamp"/>
+            <column name="bid_end_time" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
