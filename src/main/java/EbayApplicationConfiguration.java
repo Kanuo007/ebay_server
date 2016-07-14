@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Map;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.db.DatabaseConfiguration;
 import io.dropwizard.metrics.graphite.GraphiteReporterFactory;
 import jersey.repackaged.com.google.common.collect.ImmutableMap;
 
@@ -17,6 +20,8 @@ import jersey.repackaged.com.google.common.collect.ImmutableMap;
  * Created by baoheng ling on 6/9/2016.
  */
 public class EbayApplicationConfiguration extends Configuration{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EbayApplicationConfiguration.class);
 
     @NotEmpty
     private String template;
@@ -50,6 +55,12 @@ public class EbayApplicationConfiguration extends Configuration{
     private DataSourceFactory database = new DataSourceFactory();
 
     public DataSourceFactory getDataSourceFactory() {
+        LOGGER.info("Dropwizard dummy DB URL (will be overridden)=" + database.getUrl());
+        if(System.getenv("DATABASE_URL") != null) {
+            DatabaseConfiguration databaseConfiguration = BetterEbayDatabaseConfiguration.create(System.getenv("DATABASE_URL"));
+            database = (DataSourceFactory) databaseConfiguration.getDataSourceFactory(null);
+            LOGGER.info("Heroku DB URL=" + database.getUrl());
+        }
         return database;
     }
 
