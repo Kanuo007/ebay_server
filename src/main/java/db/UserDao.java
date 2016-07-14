@@ -1,9 +1,10 @@
 package db;
 
 import java.util.List;
-import com.google.common.base.Optional;
 
 import org.hibernate.SessionFactory;
+
+import com.google.common.base.Optional;
 
 import core.User;
 import io.dropwizard.hibernate.AbstractDAO;
