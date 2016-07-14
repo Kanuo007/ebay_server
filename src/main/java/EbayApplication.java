@@ -10,6 +10,7 @@ import db.FeedbackDao;
 import db.ItemDao;
 import db.TransactionDao;
 import db.UserDao;
+import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -55,6 +56,7 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
   public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
     bootstrap.addBundle(this.migrations);
     bootstrap.addBundle(this.hibernateBundle);
+    bootstrap.addBundle(new TemplateConfigBundle());
   }
 
   @Override
