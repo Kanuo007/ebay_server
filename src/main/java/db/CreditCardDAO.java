@@ -8,19 +8,19 @@ import core.CreditCard;
 import io.dropwizard.hibernate.AbstractDAO;
 
 /**
- * Represents a CreditCardDAO class which manages CreditCard
+ * Represents a CreditCardDao class which manages CreditCard
  *
  * @author LiYang
  *
  */
-public class CreditCardDAO extends AbstractDAO<CreditCard> {
+public class CreditCardDao extends AbstractDAO<CreditCard> {
 
   /**
-   * Creates an instance of CreditCardDAO given a session provider
+   * Creates an instance of CreditCardDao given a session provider
    *
    * @param factory The session provider
    */
-  public CreditCardDAO(SessionFactory factory) {
+  public CreditCardDao(SessionFactory factory) {
     super(factory);
   }
 

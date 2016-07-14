@@ -97,5 +97,3 @@ viewRendererConfiguration:
 metrics:
     type: graphite
     frequency: 10s
-
-authenticationCachePolicy: maximumSize=10, expireAfterAccess=1m

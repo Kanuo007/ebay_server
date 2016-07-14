@@ -1,11 +1,11 @@
 package core;
 
+import com.google.common.base.Optional;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.base.Optional;
 
 public class TemplateTest {
   private Template template1;

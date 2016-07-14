@@ -9,18 +9,18 @@ import core.BidHistory;
 import io.dropwizard.hibernate.AbstractDAO;
 
 /**
- * Represents a BidHistoryDAO class which manages BidHistory
+ * Represents a BidHistoryDao class which manages BidHistory
  *
  * @author LiYang
  *
  */
-public class BidHistoryDAO extends AbstractDAO<BidHistory> {
+public class BidHistoryDao extends AbstractDAO<BidHistory> {
   /**
-   * Creates an instance of BidHistoryDAO given a session provider
+   * Creates an instance of BidHistoryDao given a session provider
    *
    * @param factory The session provider
    */
-  public BidHistoryDAO(SessionFactory factory) {
+  public BidHistoryDao(SessionFactory factory) {
     super(factory);
   }
 

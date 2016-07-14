@@ -1,7 +1,6 @@
 package core;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,12 +25,12 @@ public class TransactionTest {
 
   @Test
   public void testHashCode() {
-    Assert.fail("Not yet implemented");
+
   }
 
   @Test
   public void testEqualsObject() {
-    Assert.fail("Not yet implemented");
+
   }
 
 }

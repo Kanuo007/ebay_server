@@ -9,29 +9,23 @@ import core.Feedback;
 import core.Item;
 import core.Transaction;
 import core.User;
-import db.BidHistoryDAO;
+import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
 import db.UserDao;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
-import io.dropwizard.auth.CachingAuthenticator;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
-import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import resource.AuctionResource;
-import resource.BidResource;
-import resource.FeedbackResource;
 import resource.HomepageResource;
-import resource.LoginResource;
-import resource.RegisterResource;
-import resource.SearchResource;
-import resource.ListResource;
+import resource.ItemResource;
+import resource.UserResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -69,11 +63,9 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
         UserDao userDao = new UserDao(this.hibernateBundle.getSessionFactory());
         ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
         FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
-        BidHistoryDAO bidHistoryDao = new BidHistoryDAO(this.hibernateBundle.getSessionFactory());
+        BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
 
-        CachingAuthenticator<BasicCredentials, User> cachingAuthenticator = new CachingAuthenticator<>(
-                environment.metrics(), new UserAuthenticator(userDao),
-                configuration.getAuthenticationCachePolicy());
+
         environment.jersey().register(new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<User>()
                         .setAuthenticator(new UserAuthenticator(userDao))
@@ -86,12 +78,8 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
 
 
         environment.jersey().register(new HomepageResource());
-        environment.jersey().register(new LoginResource(userDao));
-        environment.jersey().register(new SearchResource(itemDao));
-        environment.jersey().register(new RegisterResource(userDao));
-        environment.jersey().register(new FeedbackResource(feedbackDao));
-        environment.jersey().register(new AuctionResource(itemDao));
-        environment.jersey().register(new ListResource(itemDao));
-        environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
+        environment.jersey().register(new UserResource(userDao));
+        environment.jersey().register(new ItemResource(itemDao));
+        environment.jersey().register(new AuctionResource(bidHistoryDao, itemDao, feedbackDao));
     }
 }
