@@ -22,7 +22,7 @@ import resource.HomepageResource;
 import resource.LoginResource;
 import resource.RegisterResource;
 import resource.SearchResource;
-import resource.SellResource;
+import resource.ListResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -68,7 +68,7 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
         environment.jersey().register(new RegisterResource(userDao));
         environment.jersey().register(new FeedbackResource(feedbackDao));
         environment.jersey().register(new AuctionResource(itemDao));
-        environment.jersey().register(new SellResource(itemDao));
+        environment.jersey().register(new ListResource(itemDao));
         environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
     }
 }

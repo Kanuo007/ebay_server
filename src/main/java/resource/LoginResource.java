@@ -1,15 +1,15 @@
 package resource;
 
-import com.codahale.metrics.annotation.Timed;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import api.Welcome;
-import io.dropwizard.jersey.params.NonEmptyStringParam;
+import com.codahale.metrics.annotation.Timed;
+
+import core.User;
+import db.UserDao;
+import io.dropwizard.auth.Auth;
 
 // Author: Danni Li, created on June 28
 
@@ -17,17 +17,20 @@ import io.dropwizard.jersey.params.NonEmptyStringParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
-  public LoginResource() {
+  private UserDao userDao;
+
+  public LoginResource(UserDao userDao) {
+    this.userDao = userDao;
   }
 
   @GET
   @Timed
   @Path("/{username}")
-  public Welcome receiveUser(@PathParam("username") NonEmptyStringParam username) {
-    if (username != null) {
-      return new Welcome("Welcome, " + username);
+  public String checkUser(@Auth User user) {
+    if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
+      return new String("Sucessfully login");
     } else {
-      return new Welcome("Welcome Guest");
+      return new String("UserName and Password does not match. Please try again");
     }
   }
 }
