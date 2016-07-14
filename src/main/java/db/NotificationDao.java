@@ -30,4 +30,8 @@ public class NotificationDao extends AbstractDAO<Notification> {
         .setParameter("transaction_id", transaction_id));
   }
 
+  public Notification create_notification(Notification aNotification) {
+    return persist(aNotification);
+  }
+
 }

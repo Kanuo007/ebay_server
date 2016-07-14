@@ -8,9 +8,7 @@ import core.User;
 import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
-import db.TransactionDao;
 import db.UserDao;
-import de.thomaskrille.dropwizard_template_config.TemplateConfigBundle;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -22,7 +20,6 @@ import resource.BidResource;
 import resource.FeedbackResource;
 import resource.HomepageResource;
 import resource.LoginResource;
-import resource.NotificationResource;
 import resource.RegisterResource;
 import resource.SearchResource;
 import resource.SellResource;
@@ -56,7 +53,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
   public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
     bootstrap.addBundle(this.migrations);
     bootstrap.addBundle(this.hibernateBundle);
-    bootstrap.addBundle(new TemplateConfigBundle());
   }
 
   @Override
@@ -65,7 +61,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
     FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
     BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
-    TransactionDao transactionDao = new TransactionDao(this.hibernateBundle.getSessionFactory());
 
     environment.jersey().register(new HomepageResource());
     environment.jersey().register(new LoginResource());
@@ -75,6 +70,5 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     environment.jersey().register(new AuctionResource(itemDao));
     environment.jersey().register(new SellResource(itemDao));
     environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
-    environment.jersey().register(new NotificationResource(transactionDao, itemDao));
   }
 }
