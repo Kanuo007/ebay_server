@@ -1,3 +1,5 @@
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+
 import core.Address;
 import core.BidHistory;
 import core.CreditCard;
@@ -10,19 +12,16 @@ import db.FeedbackDao;
 import db.ItemDao;
 import db.UserDao;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import resource.AuctionResource;
-import resource.BidResource;
-import resource.FeedbackResource;
 import resource.HomepageResource;
-import resource.LoginResource;
-import resource.RegisterResource;
-import resource.SearchResource;
-import resource.SellResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -32,6 +31,7 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
   public static void main(String[] args) throws Exception {
     new EbayApplication().run(args);
   }
+
 
   private final MigrationsBundle<EbayApplicationConfiguration> migrations =
       new MigrationsBundle<EbayApplicationConfiguration>() {
@@ -62,13 +62,19 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
     BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
 
+    environment.jersey()
+        .register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
+            .setAuthenticator(new UserAuthenticator(userDao)).setAuthorizer(new UserAuthorizer())
+            .setRealm("Validate User").buildAuthFilter()));
+    environment.jersey().register(RolesAllowedDynamicFeature.class);
+    // use @Auth to inject a custom Principal type into your resource
+    environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
+
+
     environment.jersey().register(new HomepageResource());
-    environment.jersey().register(new LoginResource());
-    environment.jersey().register(new SearchResource(itemDao));
-    environment.jersey().register(new RegisterResource(userDao));
-    environment.jersey().register(new FeedbackResource(feedbackDao));
-    environment.jersey().register(new AuctionResource(itemDao));
-    environment.jersey().register(new SellResource(itemDao));
-    environment.jersey().register(new BidResource(bidHistoryDao, itemDao));
+    environment.jersey().register(new UserResource(userDao));
+    environment.jersey().register(new ItemResource(itemDao));
+    environment.jersey().register(new AuctionResource(bidHistoryDao, itemDao, feedbackDao));
   }
+
 }

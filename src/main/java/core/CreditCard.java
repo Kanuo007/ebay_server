@@ -1,7 +1,5 @@
 package core;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,22 +9,26 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.dropwizard.jackson.JsonSnakeCase;
 
 /**
- * Represents a CreditCard class
- * 
+ * Represents a CreditCard class with its id, userId, creditCardType, cardNumber,
+ * cardHolder,cvv,expirationYear, expirationMonth and billingAddress
+ *
  * @author LiYang
  *
  */
+
 @Entity
 @Table(name = "credit_card")
 @NamedQueries({
 
-        @NamedQuery(name = "core.creditcard.findAll", query = "SELECT c FROM CreditCard c"),
+    @NamedQuery(name = "core.creditcard.findAll", query = "SELECT c FROM CreditCard c"),
 
-        @NamedQuery(name = "core.creditcard.findByUserId",
-                query = "SELECT c FROM CreditCard c WHERE c.userId = :userId")})
+    @NamedQuery(name = "core.creditcard.findByUserId",
+        query = "SELECT c FROM CreditCard c WHERE c.userId = :userId")})
 @JsonSnakeCase
 public class CreditCard {
   @Id
@@ -66,10 +68,25 @@ public class CreditCard {
   private String billingAddress;
 
 
-  public CreditCard(@JsonProperty("user_id") Long userId, @JsonProperty("credit_card_type") String creditCardType,
-                    @JsonProperty("card_number") Long cardNumber, @JsonProperty("card_holder") String cardHolder,
-                    @JsonProperty("cvv") int cvv, @JsonProperty("expiration_year") String expirationYear,
-                    @JsonProperty("expiration_month") String expirationMonth, @JsonProperty("billing_address") String billingAddress) {
+  /**
+   * Creates an instance of CreditCard class given its userId, creditCardType, cardNumber,
+   * cardHolder,cvv,expirationYear, expirationMonth and billingAddress
+   * 
+   * @param userId The userId of the CreditCard object
+   * @param creditCardType The creditCardType of the CreditCard object
+   * @param cardNumber The cardNumber of the CreditCard object
+   * @param cardHolder The cardHolder of the CreditCard object
+   * @param cvv The cvv of the CreditCard object
+   * @param expirationYear The expirationYear of the CreditCard object
+   * @param expirationMonth The expirationMonth of the CreditCard object
+   * @param billingAddress The billingAddress of the CreditCard object
+   */
+  public CreditCard(@JsonProperty("user_id") Long userId,
+      @JsonProperty("credit_card_type") String creditCardType,
+      @JsonProperty("card_number") Long cardNumber, @JsonProperty("card_holder") String cardHolder,
+      @JsonProperty("cvv") int cvv, @JsonProperty("expiration_year") String expirationYear,
+      @JsonProperty("expiration_month") String expirationMonth,
+      @JsonProperty("billing_address") String billingAddress) {
     this.userId = userId;
     this.creditCardType = creditCardType;
     this.cardNumber = cardNumber;

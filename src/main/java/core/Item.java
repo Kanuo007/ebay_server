@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,22 +14,19 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
-
 import io.dropwizard.jackson.JsonSnakeCase;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({
-        @NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-        @NamedQuery(name = "core.item.findItemByName",
-                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-        @NamedQuery(name = "core.item.findItemByNameColorSize",
-                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-        @NamedQuery(name = "core.item.findItemByAvailability",
-                query = "SELECT i from Item i where i.status = :status"),
-        @NamedQuery(name = "core.item.updateCurrentPrice",
-                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+@NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
+    @NamedQuery(name = "core.item.findItemByName",
+        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+    @NamedQuery(name = "core.item.findItemByNameColorSize",
+        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+    @NamedQuery(name = "core.item.findItemByAvailability",
+        query = "SELECT i from Item i where i.status = :status"),
+    @NamedQuery(name = "core.item.updateCurrentPrice",
+        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
@@ -57,12 +56,12 @@ public class Item {
 
   @Column(name = "bid_start_time", nullable = false)
   @JsonProperty
-  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private Date bid_start_time;
 
   @Column(name = "bid_end_time", nullable = false)
   @JsonProperty
-  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private Date bid_end_time;
 
   @Column(name = "base_price", nullable = false)
@@ -179,7 +178,7 @@ public class Item {
     result = (prime * result) + (int) (temp ^ (temp >>> 32));
     result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
     result =
-            (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
+        (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
     result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
     result = (prime * result) + this.delivery_fee;
     result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
@@ -259,4 +258,8 @@ public class Item {
     return true;
   }
 
+  public Boolean checkEndTime(Item item) {
+    Date current_time = new Date();
+    return current_time.after(item.getBid_end_time());
+  }
 }
