@@ -300,4 +300,10 @@
             <column name="bid_end_time" type="timestamp"/>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="17" author="yangli">
+        <addColumn tableName="bid_history">
+            <column name="status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

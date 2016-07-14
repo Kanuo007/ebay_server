@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.security.Principal;
+
 import io.dropwizard.jackson.JsonSnakeCase;
 
 @Entity
@@ -25,7 +27,7 @@ import io.dropwizard.jackson.JsonSnakeCase;
     @NamedQuery(name = "core.user.findUserByPassword",
         query = "SELECT u FROM User u WHERE u.user_password = :password"),})
 @JsonSnakeCase
-public class User {
+public class User implements Principal{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
@@ -48,6 +50,11 @@ public class User {
     this.user_name = user_name;
     this.user_password = user_password;
     this.user_email = user_email;
+  }
+
+  @Override
+  public String getName(){
+    return this.getUser_name();
   }
 
   public long getId() {
