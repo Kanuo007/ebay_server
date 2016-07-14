@@ -5,7 +5,7 @@ import core.Feedback;
 import core.Item;
 import core.Transaction;
 import core.User;
-import db.BidHistoryDao;
+import db.BidHistoryDAO;
 import db.FeedbackDao;
 import db.ItemDao;
 import db.UserDao;
@@ -41,8 +41,8 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
                 }
             };
     private final HibernateBundle<EbayApplicationConfiguration> hibernateBundle =
-            new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class, Feedback.class, CreditCard.class,
-                    Address.class, BidHistory.class, Transaction.class) {
+            new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class, Feedback.class,
+                    CreditCard.class, Address.class, BidHistory.class, Transaction.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
                     return configuration.getDataSourceFactory();
@@ -60,10 +60,10 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
         UserDao userDao = new UserDao(this.hibernateBundle.getSessionFactory());
         ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
         FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
-        BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
+        BidHistoryDAO bidHistoryDao = new BidHistoryDAO(this.hibernateBundle.getSessionFactory());
 
         environment.jersey().register(new HomepageResource());
-        environment.jersey().register(new LoginResource());
+        environment.jersey().register(new LoginResource(userDao));
         environment.jersey().register(new SearchResource(itemDao));
         environment.jersey().register(new RegisterResource(userDao));
         environment.jersey().register(new FeedbackResource(feedbackDao));
