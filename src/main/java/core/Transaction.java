@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,15 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
 
 import io.dropwizard.jackson.JsonSnakeCase;
 
@@ -58,8 +57,14 @@ public class Transaction {
   @Column(name = "transaction_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
   @JsonProperty
-  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private Date date;
+
+  public Transaction(long item_id, long user_id, Date date) {
+    this.item_id = item_id;
+    this.user_id = user_id;
+    this.date = date;
+  }
 
   public long getId() {
     return this.id;

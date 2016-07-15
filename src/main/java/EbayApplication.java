@@ -1,15 +1,20 @@
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
+import auth.UserAuthenticator;
+import auth.UserAuthorizer;
 import core.Address;
 import core.BidHistory;
 import core.CreditCard;
 import core.Feedback;
 import core.Item;
 import core.Transaction;
+import core.Update;
 import core.User;
 import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
+import db.NotificationDao;
+import db.TransactionDao;
 import db.UserDao;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -22,6 +27,8 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import resource.AuctionResource;
 import resource.HomepageResource;
+import resource.ItemResource;
+import resource.UserResource;
 
 /**
  * Created by baoheng ling on 6/9/2016.
@@ -61,6 +68,11 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     ItemDao itemDao = new ItemDao(this.hibernateBundle.getSessionFactory());
     FeedbackDao feedbackDao = new FeedbackDao(this.hibernateBundle.getSessionFactory());
     BidHistoryDao bidHistoryDao = new BidHistoryDao(this.hibernateBundle.getSessionFactory());
+    NotificationDao notificationDao = new NotificationDao(this.hibernateBundle.getSessionFactory());
+    TransactionDao transactionDao = new TransactionDao(this.hibernateBundle.getSessionFactory());
+
+    Update update = new Update(notificationDao, transactionDao, bidHistoryDao, itemDao);
+    update.updateEverything();
 
     environment.jersey()
         .register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
