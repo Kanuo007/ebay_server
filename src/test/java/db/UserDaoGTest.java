@@ -10,10 +10,12 @@ import core.User;
 
 
 public class UserDaoGTest extends DAOTests {
+  UserDao userDao1;
+
   @Before
   public void initialize() {
 
-    UserDao userDao1 = new UserDao(this.sessionFactory);
+    this.userDao1 = new UserDao(this.sessionFactory);
     getSession().beginTransaction();
 
     Query query1 = getSession().createQuery("Delete from user");
@@ -27,10 +29,10 @@ public class UserDaoGTest extends DAOTests {
 
     User user1 = new User("John Snow", "Winterfall", "johnsnow@gmail.com");
     user1.setId(1);
-    UserDao userDao1 = new UserDao(this.sessionFactory);
-    userDao1.createUser(user1);
 
-    Assert.assertEquals(userDao1.findUserByID((long) 1), user1);
+    this.userDao1.createUser(user1);
+
+    Assert.assertEquals(this.userDao1.findUserByID((long) 1), user1);
     getSession().getTransaction().commit();
   }
 
