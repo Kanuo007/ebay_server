@@ -70,15 +70,28 @@ public class Item {
 
   @Column(name = "deliver_fee")
   @JsonProperty
-  private int delivery_fee;
+  private int deliver_fee;
 
   @Column(name = "description")
   @JsonProperty
   private String description;
 
-  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name) {
+  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name,
+      @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
+      @JsonProperty("bid_start_time") Date bid_start_time,
+      @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("size") int size,
+      @JsonProperty("color") String color, @JsonProperty("deliver_fee") int deliver_fee,
+      @JsonProperty("description") String description) {
     this.userID = user_id;
     this.name = item_name;
+    this.status = status;
+    this.base_price = base_price;
+    this.bid_end_time = bid_end_time;
+    this.bid_start_time = bid_start_time;
+    this.color = color;
+    this.size = size;
+    this.deliver_fee = deliver_fee;
+    this.description = description;
   }
 
   public long getId() {
@@ -117,8 +130,8 @@ public class Item {
     return this.base_price;
   }
 
-  public int getDelivery_fee() {
-    return this.delivery_fee;
+  public int getDeliver_fee() {
+    return this.deliver_fee;
   }
 
   public String getDescription() {
@@ -162,7 +175,7 @@ public class Item {
   }
 
   public void setDelivery_fee(int delivery_fee) {
-    this.delivery_fee = delivery_fee;
+    this.deliver_fee = delivery_fee;
   }
 
   public void setDescription(String description) {
@@ -180,7 +193,7 @@ public class Item {
     result =
         (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
     result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
-    result = (prime * result) + this.delivery_fee;
+    result = (prime * result) + this.deliver_fee;
     result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
     result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
     result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
@@ -226,7 +239,7 @@ public class Item {
     } else if (!this.color.equals(other.color)) {
       return false;
     }
-    if (this.delivery_fee != other.delivery_fee) {
+    if (this.deliver_fee != other.deliver_fee) {
       return false;
     }
     if (this.description == null) {
