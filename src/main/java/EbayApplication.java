@@ -82,7 +82,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     // use @Auth to inject a custom Principal type into your resource
     environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
-
     environment.jersey().register(new HomepageResource());
     environment.jersey().register(new UserResource(userDao));
     environment.jersey().register(new ItemResource(itemDao));

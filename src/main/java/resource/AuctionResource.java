@@ -1,10 +1,5 @@
 package resource;
 
-import com.codahale.metrics.annotation.Timed;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +12,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
+
 import core.BidHistory;
 import core.Feedback;
 import core.Item;
@@ -27,6 +27,8 @@ import db.ItemDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
+
+// User can use auction to leave feedback, search feedback and bid
 @Path("/auction")
 @Produces(MediaType.APPLICATION_JSON)
 public class AuctionResource {
@@ -46,7 +48,7 @@ public class AuctionResource {
   @Path("/leave_feedback")
   @UnitOfWork
   @Consumes(MediaType.APPLICATION_JSON)
-  public Feedback leaveFeedback(@Auth User user, Feedback feedback){
+  public Feedback leaveFeedback(@Auth User user, Feedback feedback) {
     return this.feedbackDao.createFeedback(feedback);
   }
 
@@ -54,9 +56,9 @@ public class AuctionResource {
   @Path("/search_feedback_by_transaction_id/{id}")
   @Timed
   @UnitOfWork
-  public Feedback findFeedbackByTransactionID(@PathParam("id") long id){
+  public Feedback findFeedbackByTransactionID(@PathParam("id") long id) {
     Optional<Feedback> feedback = this.feedbackDao.findFeedbackByTransactionID(id);
-    if(feedback.isPresent()) {
+    if (feedback.isPresent()) {
       return feedback.get();
     }
     return new Feedback(0, 0, "", new Date());
@@ -66,7 +68,7 @@ public class AuctionResource {
   @Path("/search_feedback_by_buyer_id/{id}")
   @Timed
   @UnitOfWork
-  public List<Feedback> findFeedbackByBuyerID(@PathParam("id") long id){
+  public List<Feedback> findFeedbackByBuyerID(@PathParam("id") long id) {
     return this.feedbackDao.findFeedbackByBuyerID(id);
   }
 
@@ -82,12 +84,15 @@ public class AuctionResource {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
         double basePrice = itemToBid.get().getBase_price();
-        double highestBidPrice = this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
-        if (bidHistory.getBidPrice() > basePrice && bidHistory.getBidPrice() > highestBidPrice ) {
+        double highestBidPrice =
+            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
+        if ((bidHistory.getBidPrice() > basePrice)
+            && (bidHistory.getBidPrice() > highestBidPrice)) {
           bidHistory.setStatus("Succeed.");
           this.bidHistoryDao.createBidHistory(bidHistory);
         } else {
-          bidHistory.setStatus("Failure: bidding price is lower than base price or the highest bid price.");
+          bidHistory.setStatus(
+              "Failure: bidding price is lower than base price or the highest bid price.");
         }
       } else {
         bidHistory.setStatus("Failure: item not able to bid.");

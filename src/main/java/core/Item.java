@@ -50,6 +50,10 @@ public class Item {
   @JsonProperty
   private int size;
 
+  @Column(name = "catagory")
+  @JsonProperty
+  private String catagory;
+
   @Column(name = "status", nullable = false)
   @JsonProperty
   private boolean status;
@@ -76,11 +80,25 @@ public class Item {
   @JsonProperty
   private String description;
 
+
   public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name,
       @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
       @JsonProperty("bid_start_time") Date bid_start_time,
-      @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("size") int size,
-      @JsonProperty("color") String color, @JsonProperty("deliver_fee") int deliver_fee,
+      @JsonProperty("bid_end_time") Date bid_end_time) {
+    this.userID = user_id;
+    this.name = item_name;
+    this.status = status;
+    this.base_price = base_price;
+    this.bid_end_time = bid_end_time;
+    this.bid_start_time = bid_start_time;
+  }
+
+  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name,
+      @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
+      @JsonProperty("bid_start_time") Date bid_start_time,
+      @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("catagory") String catagory,
+      @JsonProperty("size") int size, @JsonProperty("color") String color,
+      @JsonProperty("deliver_fee") int deliver_fee,
       @JsonProperty("description") String description) {
     this.userID = user_id;
     this.name = item_name;
@@ -98,89 +116,145 @@ public class Item {
     return this.id;
   }
 
+
+
   public long getUserID() {
     return this.userID;
   }
+
+
 
   public String getName() {
     return this.name;
   }
 
+
+
   public String getColor() {
     return this.color;
   }
+
+
 
   public int getSize() {
     return this.size;
   }
 
+
+
+  public String getCatagory() {
+    return this.catagory;
+  }
+
+
+
   public boolean getStatus() {
     return this.status;
   }
+
+
 
   public Date getBid_start_time() {
     return this.bid_start_time;
   }
 
+
+
   public Date getBid_end_time() {
     return this.bid_end_time;
   }
+
+
 
   public double getBase_price() {
     return this.base_price;
   }
 
+
+
   public int getDeliver_fee() {
     return this.deliver_fee;
   }
+
+
 
   public String getDescription() {
     return this.description;
   }
 
+
+
   public void setId(long id) {
     this.id = id;
   }
+
+
 
   public void setUserID(long userID) {
     this.userID = userID;
   }
 
+
+
   public void setName(String name) {
     this.name = name;
   }
+
+
 
   public void setColor(String color) {
     this.color = color;
   }
 
+
+
   public void setSize(int size) {
     this.size = size;
   }
+
+
+
+  public void setCatagory(String catagory) {
+    this.catagory = catagory;
+  }
+
+
 
   public void setStatus(boolean status) {
     this.status = status;
   }
 
+
+
   public void setBid_start_time(Date bid_start_time) {
     this.bid_start_time = bid_start_time;
   }
+
+
 
   public void setBid_end_time(Date bid_end_time) {
     this.bid_end_time = bid_end_time;
   }
 
+
+
   public void setBase_price(double base_price) {
     this.base_price = base_price;
   }
 
-  public void setDelivery_fee(int delivery_fee) {
-    this.deliver_fee = delivery_fee;
+
+
+  public void setDeliver_fee(int deliver_fee) {
+    this.deliver_fee = deliver_fee;
   }
+
+
 
   public void setDescription(String description) {
     this.description = description;
   }
+
+
 
   @Override
   public int hashCode() {
@@ -192,6 +266,7 @@ public class Item {
     result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
     result =
         (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
+    result = (prime * result) + ((this.catagory == null) ? 0 : this.catagory.hashCode());
     result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
     result = (prime * result) + this.deliver_fee;
     result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
@@ -202,6 +277,8 @@ public class Item {
     result = (prime * result) + (int) (this.userID ^ (this.userID >>> 32));
     return result;
   }
+
+
 
   @Override
   public boolean equals(Object obj) {
@@ -230,6 +307,13 @@ public class Item {
         return false;
       }
     } else if (!this.bid_start_time.equals(other.bid_start_time)) {
+      return false;
+    }
+    if (this.catagory == null) {
+      if (other.catagory != null) {
+        return false;
+      }
+    } else if (!this.catagory.equals(other.catagory)) {
       return false;
     }
     if (this.color == null) {
@@ -270,6 +354,8 @@ public class Item {
     }
     return true;
   }
+
+
 
   public Boolean checkEndTime(Item item) {
     Date current_time = new Date();
