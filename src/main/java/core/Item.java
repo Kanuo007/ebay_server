@@ -255,31 +255,9 @@ public class Item {
   }
 
 
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    long temp;
-    temp = Double.doubleToLongBits(this.base_price);
-    result = (prime * result) + (int) (temp ^ (temp >>> 32));
-    result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
-    result =
-        (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
-    result = (prime * result) + ((this.catagory == null) ? 0 : this.catagory.hashCode());
-    result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
-    result = (prime * result) + this.deliver_fee;
-    result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
-    result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
-    result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
-    result = (prime * result) + this.size;
-    result = (prime * result) + (this.status ? 1231 : 1237);
-    result = (prime * result) + (int) (this.userID ^ (this.userID >>> 32));
-    return result;
-  }
-
-
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
