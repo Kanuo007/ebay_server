@@ -31,18 +31,6 @@ public class UserTest {
     Assert.assertTrue(this.user1.getName() == "John Snow");
   }
 
-  // @Test
-  // public void testGetId() {
-  // Assert.fail("Not yet implemented");
-  // }
-
-  // @Test
-  // public void testSetId() {
-  // Assert.fail("Not yet implemented");
-  // }
-
-
-
   @Test
   public void testGetUser_password() {
     Assert.assertTrue(this.user1.getUser_password() == "winterfall");
@@ -76,9 +64,7 @@ public class UserTest {
     Assert.assertEquals(this.user1.equals(this.user2), true);
     Assert.assertEquals(this.user2.equals(this.user1), true);
 
-
     Assert.assertEquals(this.user1.equals(this.user3), false);
-
 
     Assert.assertEquals(this.user1.equals(null), false);
     Assert.assertEquals(this.user2.equals(null), false);

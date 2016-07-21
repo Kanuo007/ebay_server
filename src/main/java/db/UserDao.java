@@ -1,10 +1,9 @@
 package db;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.SessionFactory;
-
-import com.google.common.base.Optional;
 
 import core.User;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -16,21 +15,21 @@ public class UserDao extends AbstractDAO<User> {
   }
 
   public Optional<User> findUserByID(Long id) {
-    return Optional.fromNullable(get(id));
+    return Optional.ofNullable(get(id));
   }
 
   public Optional<User> findUserByName(String name) {
-    return Optional.fromNullable(
+    return Optional.ofNullable(
         (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()));
   }
 
   public Optional<User> findUserByEmail(String email) {
-    return Optional.fromNullable((User) (namedQuery("core.user.findUserByEmail")
+    return Optional.ofNullable((User) (namedQuery("core.user.findUserByEmail")
         .setParameter("email", email).uniqueResult()));
   }
 
   public Optional<User> findUserByPassword(String password) {
-    return Optional.fromNullable((User) (namedQuery("core.user.findUserByPassword")
+    return Optional.ofNullable((User) (namedQuery("core.user.findUserByPassword")
         .setParameter("password", password).uniqueResult()));
   }
 
@@ -45,12 +44,12 @@ public class UserDao extends AbstractDAO<User> {
   }
 
   public boolean UserNamePasswordMatch(String name, String password) {
-    if (Optional.fromNullable(
+    if (Optional.ofNullable(
         (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
         .isPresent()) {
       return false;
     } else {
-      return (Optional.fromNullable(
+      return (Optional.ofNullable(
           (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
           .get().getUser_password() == password);
     }
