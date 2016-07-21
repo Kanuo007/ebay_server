@@ -1,9 +1,9 @@
 package db;
 
-import org.hibernate.SessionFactory;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.hibernate.SessionFactory;
 
 import core.Item;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -39,7 +39,7 @@ public class ItemDao extends AbstractDAO<Item> {
     return list(namedQuery("core.item.findItemByAvailability").setBoolean("status", Boolean.TRUE));
   }
 
-  public void updateCurrentPrice(Double newPrice){
+  public void updateCurrentPrice(Double newPrice) {
     namedQuery("core.item.updateCurrentPrice").setParameter("newPrice", newPrice);
   }
 }
