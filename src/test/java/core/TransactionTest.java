@@ -1,5 +1,7 @@
 package core;
 
+import java.text.SimpleDateFormat;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,10 +16,15 @@ public class TransactionTest {
 
   @Before
   public void setUp() throws Exception {
-    this.tran1 = new Transaction();
-    this.tran2 = new Transaction();
-    this.tran3 = new Transaction();
-    this.tran4 = new Transaction();
+    SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    this.tran1 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
+        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
+    this.tran2 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
+        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
+    this.tran3 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
+        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
+    this.tran4 = new Transaction(new Long(2), new Long(22), new Long(223), new Long(2234),
+        new String("Not bad"), ft.parse("2016-10-18 03:30:00"));
 
   }
 
@@ -54,9 +61,6 @@ public class TransactionTest {
         this.tran1.equals(this.tran2) ? this.tran1.hashCode() == this.tran2.hashCode() : true);
     Assert.assertTrue(this.tran1.hashCode() == this.tran2.hashCode());
     Assert.assertTrue(this.tran1.hashCode() == this.tran2.hashCode());
-
-
-
   }
 
 }
