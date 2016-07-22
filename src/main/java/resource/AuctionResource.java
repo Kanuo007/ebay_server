@@ -27,6 +27,8 @@ import db.ItemDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
+
+// User can use auction to leave feedback, search feedback and bid
 @Path("/auction")
 @Produces(MediaType.APPLICATION_JSON)
 public class AuctionResource {
