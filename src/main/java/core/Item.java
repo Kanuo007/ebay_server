@@ -76,7 +76,7 @@ public class Item {
   @JsonProperty
   private String description;
 
-  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name) {
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name) {
     this.userID = user_id;
     this.name = item_name;
   }
