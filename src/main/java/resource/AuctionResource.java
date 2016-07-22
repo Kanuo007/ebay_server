@@ -83,22 +83,21 @@ public class AuctionResource {
     if (itemToBid.isPresent()) {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
-        double basePrice = itemToBid.get().getBase_price();
-        double highestBidPrice =
-            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
-        if ((bidHistory.getBidPrice() > basePrice)
-            && (bidHistory.getBidPrice() > highestBidPrice)) {
+        BidHistory bidHistoryWithHighestPrice =
+            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get();
+        double currentPrice = (bidHistoryWithHighestPrice == null) ? itemToBid.get().getBase_price()
+            : bidHistoryWithHighestPrice.getBidPrice();
+        if (bidHistory.getBidPrice() > currentPrice) {
           bidHistory.setStatus("Succeed.");
           this.bidHistoryDao.createBidHistory(bidHistory);
         } else {
-          bidHistory.setStatus(
-              "Failure: bidding price is lower than base price or the highest bid price.");
+          bidHistory.setStatus("Failure: bidding price is lower than current price.");
         }
       } else {
         bidHistory.setStatus("Failure: item not able to bid.");
       }
     } else {
-      bidHistory.setStatus("Failure: item is not existed.");
+      bidHistory.setStatus("Failure: item does not exist.");
     }
     return bidHistory;
   }
