@@ -31,7 +31,7 @@ public class Address {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty
-  private long id;
+  private Long id;
 
   @Column(name = "street", nullable = false)
   @JsonProperty
@@ -47,15 +47,17 @@ public class Address {
 
   @Column(name = "zipcode", nullable = false)
   @JsonProperty
-  private long zipcode;
+  private Long zipcode;
 
   @Column(name = "user_id", nullable = false)
   @JsonProperty
-  private long user_id;
+  private Long user_id;
+
+  public Address(){}
 
   public Address(@JsonProperty("street") String street, @JsonProperty("city") String city,
-                 @JsonProperty("country") String country, @JsonProperty("zipcode") long zipcode,
-                 @JsonProperty("user_id") long user_id) {
+                 @JsonProperty("country") String country, @JsonProperty("zipcode") Long zipcode,
+                 @JsonProperty("user_id") Long user_id) {
     this.street = street;
     this.city = city;
     this.country = country;
@@ -63,11 +65,11 @@ public class Address {
     this.user_id = user_id;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -95,19 +97,19 @@ public class Address {
     this.country = country;
   }
 
-  public long getZipcode() {
+  public Long getZipcode() {
     return this.zipcode;
   }
 
-  public void setZipcode(long zipcode) {
+  public void setZipcode(Long zipcode) {
     this.zipcode = zipcode;
   }
 
-  public long getUser_id() {
+  public Long getUser_id() {
     return this.user_id;
   }
 
-  public void setUser_id(long user_id) {
+  public void setUser_id(Long user_id) {
     this.user_id = user_id;
   }
 

@@ -68,6 +68,8 @@ public class CreditCard {
   private String billingAddress;
 
 
+  public CreditCard(){}
+
   /**
    * Creates an instance of CreditCard class given its userId, creditCardType, cardNumber,
    * cardHolder,cvv,expirationYear, expirationMonth and billingAddress
