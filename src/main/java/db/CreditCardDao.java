@@ -26,7 +26,7 @@ public class CreditCardDao extends AbstractDAO<CreditCard> {
 
   /**
    * Return the Credit Card object based on its id
-   * 
+   *
    * @param id The credit_card_id of a CreditCard object
    * @return the Credit Card object based on its id
    */
@@ -36,7 +36,7 @@ public class CreditCardDao extends AbstractDAO<CreditCard> {
 
   /**
    * Save the creditCard and return it
-   * 
+   *
    * @param creditCard An instance of CreditCard which is to be saved
    * @return the creditCard which is saved
    */
@@ -53,11 +53,12 @@ public class CreditCardDao extends AbstractDAO<CreditCard> {
   }
 
   /**
+   * @param userId The userId
    *
    * @return the results of all credit cards based on user_id
    */
-  public List<CreditCard> findByUserId() {
-    return list(namedQuery("core.creditcard.findByUserId"));
+  public List<CreditCard> findByUserId(Long userId) {
+    return list(namedQuery("core.creditcard.findByUserId").setParameter("user_id", userId));
   }
 }
 
