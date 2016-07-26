@@ -1,13 +1,13 @@
 package db;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 import core.Notification;
 
@@ -20,8 +20,8 @@ public class NotificationDaoTest {
   @Before
   public void setUp() throws Exception {
     this.notificationDao = Mockito.mock(NotificationDao.class);
-    this.a1 = new Notification(1111, 11, "Bid ends");
-    this.a2 = new Notification(2222, 22, "BBB");
+    this.a1 = new Notification(new Long(1111), new Long(11), "Bid ends");
+    this.a2 = new Notification(new Long(2222), new Long(22), "BBB");
     Mockito.when(this.notificationDao.createNotification(this.a1)).thenReturn(this.a1);
     Mockito.when(this.notificationDao.createNotification(this.a2)).thenReturn(this.a2);
     Mockito.when(this.notificationDao.findALL()).thenReturn(Arrays.asList(this.a1, this.a2));

@@ -1,12 +1,12 @@
 package core;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 
 public class ItemTest {
@@ -20,16 +20,16 @@ public class ItemTest {
   @Before
   public void setUp() throws Exception {
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    this.a1 = new Item(new Integer(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
+    this.a1 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
         ft.parse("2016-07-22 10:10:10"));
-    this.a2 = new Item(new Integer(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
+    this.a2 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
         ft.parse("2016-07-22 10:10:10"));
-    this.a3 = new Item(new Integer(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
+    this.a3 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
         ft.parse("2016-07-22 10:10:10"));
 
-    this.a4 = new Item(new Integer(2), "shoes", 100, false, ft.parse("2016-07-21 1:1:1"),
+    this.a4 = new Item(new Long(2), "shoes", 100.0, false, ft.parse("2016-07-21 1:1:1"),
         ft.parse("2016-07-21 1:1:1"), "A-catagory", 7, "green", 10, "AAA");
-    this.a5 = new Item(new Integer(2), "64", 89, true, ft.parse("2016-07-22 1:1:1"),
+    this.a5 = new Item(new Long(2), "64", 89.0, true, ft.parse("2016-07-22 1:1:1"),
         ft.parse("2016-07-21 1:1:1"), "B-catagory", 8, "red", 11, "BBB");
   }
 
@@ -38,13 +38,13 @@ public class ItemTest {
 
   @Test
   public void testGetId() {
-    Assert.assertEquals(this.a1.getId(), 0);
+    Assert.assertEquals(this.a1.getId(), new Long(0));
   }
 
   @Test
   public void testGetUserID() {
-    Assert.assertEquals(this.a1.getUserID(), 1);
-    Assert.assertNotEquals(this.a1.getUserID(), 2);
+    Assert.assertEquals(this.a1.getUserID(), new Long(1));
+    Assert.assertNotEquals(this.a1.getUserID(), new Long(2));
   }
 
   @Test
@@ -61,8 +61,8 @@ public class ItemTest {
 
   @Test
   public void testGetSize() {
-    Assert.assertEquals(this.a1.getSize(), 0);
-    Assert.assertEquals(this.a4.getSize(), 7);
+    Assert.assertEquals(this.a1.getSize(), new Long(0));
+    Assert.assertEquals(this.a4.getSize(), new Long(7));
   }
 
   @Test
@@ -107,8 +107,8 @@ public class ItemTest {
 
   @Test
   public void testGetDeliver_fee() {
-    Assert.assertNotEquals(this.a1.getDeliver_fee(), 10);
-    Assert.assertEquals(this.a4.getDeliver_fee(), 10);
+    Assert.assertNotEquals(this.a1.getDeliver_fee(), 10.0);
+    Assert.assertEquals(this.a4.getDeliver_fee(), new Double(10.0));
   }
 
   @Test

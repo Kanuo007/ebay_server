@@ -29,7 +29,7 @@ import io.dropwizard.jackson.JsonSnakeCase;
 public class User implements Principal {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "user_name", nullable = false)
   @JsonProperty
@@ -43,6 +43,7 @@ public class User implements Principal {
   @JsonProperty
   private String user_email;
 
+  public User(){}
 
   public User(@JsonProperty("user_name") String user_name,
       @JsonProperty("user_password") String user_password,
@@ -57,11 +58,11 @@ public class User implements Principal {
     return this.getUser_name();
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

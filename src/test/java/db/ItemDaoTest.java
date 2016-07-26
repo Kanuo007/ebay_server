@@ -1,14 +1,14 @@
 package db;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Optional;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Optional;
 
 import core.Item;
 
@@ -23,9 +23,9 @@ public class ItemDaoTest {
   public void setUp() throws Exception {
     this.itemDao = Mockito.mock(ItemDao.class);
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    this.a1 = new Item(new Integer(2), "shoes", 100, false, ft.parse("2016-07-21 1:1:1"),
+    this.a1 = new Item(new Long(2), "shoes", 100.0, false, ft.parse("2016-07-21 1:1:1"),
         ft.parse("2016-07-21 1:1:1"), "A-catagory", 7, "green", 10, "AAA");
-    this.a2 = new Item(new Integer(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
+    this.a2 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
         ft.parse("2016-07-22 10:10:10"));
 
     Mockito.when(this.itemDao.createItem(this.a1)).thenReturn(this.a1);

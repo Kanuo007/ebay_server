@@ -24,36 +24,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Notification {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "user_id", nullable = false)
   @JsonProperty
-  private long user_id;
+  private Long user_id;
 
   @Column(name = "transaction_id", nullable = false)
   @JsonProperty
-  private long transaction_id;
+  private Long transaction_id;
 
   @Column(name = "content", nullable = false)
   @JsonProperty
   private String content;
 
-  public Notification(@JsonProperty("user_id") long l, @JsonProperty("transaction_id") long m,
+  public Notification(){}
+
+  public Notification(@JsonProperty("user_id") Long l, @JsonProperty("transaction_id") Long m,
       @JsonProperty("content") String content) {
     this.user_id = l;
     this.transaction_id = m;
     this.content = content;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public long getUser_id() {
+  public Long getUser_id() {
     return this.user_id;
   }
 
-  public long getTransaction_id() {
+  public Long getTransaction_id() {
     return this.transaction_id;
   }
 
@@ -61,11 +63,11 @@ public class Notification {
     return this.content;
   }
 
-  public void setUser_id(long user_id) {
+  public void setUser_id(Long user_id) {
     this.user_id = user_id;
   }
 
-  public void setTransaction_id(long transaction_id) {
+  public void setTransaction_id(Long transaction_id) {
     this.transaction_id = transaction_id;
   }
 

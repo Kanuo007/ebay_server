@@ -12,8 +12,8 @@ public class NotificationTest {
 
   @Before
   public void setUp() throws Exception {
-    this.a1 = new Notification(1, 11, "Bid ends");
-    this.a2 = new Notification(2, 22, "BBB");
+    this.a1 = new Notification(new Long(1), new Long(11), "Bid ends");
+    this.a2 = new Notification(new Long(2), new Long(22), "BBB");
 
 
   }
@@ -23,19 +23,19 @@ public class NotificationTest {
 
   @Test
   public void testGetId() {
-    Assert.assertEquals(this.a1.getId(), 0);
+    Assert.assertEquals(this.a1.getId(), new Long(0));
   }
 
   @Test
   public void testGetUser_id() {
-    Assert.assertEquals(this.a1.getUser_id(), 1);
-    Assert.assertNotEquals(this.a1.getUser_id(), 2);
+    Assert.assertEquals(this.a1.getUser_id(), new Long(1));
+    Assert.assertNotEquals(this.a1.getUser_id(), new Long(2));
   }
 
   @Test
   public void testGetTransaction_id() {
-    Assert.assertEquals(this.a1.getTransaction_id(), 11);
-    Assert.assertNotEquals(this.a2.getTransaction_id(), 111);
+    Assert.assertEquals(this.a1.getTransaction_id(), new Long(11));
+    Assert.assertNotEquals(this.a2.getTransaction_id(), new Long(111));
   }
 
   @Test
@@ -46,14 +46,14 @@ public class NotificationTest {
 
   @Test
   public void testSetUser_id() {
-    this.a1.setUser_id(000);
-    Assert.assertEquals(this.a1.getUser_id(), 000);
+    this.a1.setUser_id(new Long(000));
+    Assert.assertEquals(this.a1.getUser_id(), new Long(000));
   }
 
   @Test
   public void testSetTransaction_id() {
-    this.a1.setTransaction_id(123);
-    Assert.assertEquals(this.a1.getTransaction_id(), 123);
+    this.a1.setTransaction_id(new Long(123));
+    Assert.assertEquals(this.a1.getTransaction_id(), new Long(123));
   }
 
   @Test
