@@ -54,7 +54,7 @@ public class User implements Principal {
 
   @Override
   public String getName() {
-    return this.user_name;
+    return this.getUser_name();
   }
 
   public long getId() {
@@ -65,6 +65,13 @@ public class User implements Principal {
     this.id = id;
   }
 
+  public String getUser_name() {
+    return this.user_name;
+  }
+
+  public void setUser_name(String user_name) {
+    this.user_name = user_name;
+  }
 
   public String getUser_password() {
     return this.user_password;

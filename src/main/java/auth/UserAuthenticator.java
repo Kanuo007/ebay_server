@@ -8,20 +8,20 @@ import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 
-public class UserAuthenticator implements Authenticator<BasicCredentials, User>{
+public class UserAuthenticator implements Authenticator<BasicCredentials, User> {
 
-    private UserDao userDao;
+  private UserDao userDao;
 
-    public UserAuthenticator(UserDao userDao) {
-        this.userDao = userDao;
+  public UserAuthenticator(UserDao userDao) {
+    this.userDao = userDao;
+  }
+
+  @Override
+  public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
+    Optional<User> user = this.userDao.findUserByName(credentials.getUsername());
+    if (user.isPresent() && user.get().getUser_password().equals(credentials.getPassword())) {
+      return user;
     }
-
-    @Override
-    public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
-        Optional<User> user = userDao.findUserByName(credentials.getUsername());
-        if(user.isPresent() && user.get().getUser_password().equals(credentials.getPassword())){
-            return user;
-        }
-        return Optional.absent();
-    }
+    return Optional.absent();
+  }
 }

@@ -62,5 +62,4 @@ public class TransactionTest {
     Assert.assertTrue(this.tran1.hashCode() == this.tran2.hashCode());
     Assert.assertTrue(this.tran1.hashCode() == this.tran2.hashCode());
   }
-
 }

@@ -71,6 +71,7 @@ public class Transaction {
     this.billing_address_id = billing_address_id;
     this.user_id = user_id;
     this.date = transaction_date;
+
   }
 
   public long getId() {

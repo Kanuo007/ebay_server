@@ -53,11 +53,12 @@ public class CreditCardDao extends AbstractDAO<CreditCard> {
   }
 
   /**
+   * @param userId The userId
    *
    * @return the results of all credit cards based on user_id
    */
-  public List<CreditCard> findByUserId() {
-    return list(namedQuery("core.creditcard.findByUserId"));
+  public List<CreditCard> findByUserId(Long userId) {
+    return list(namedQuery("core.creditcard.findByUserId").setParameter("user_id", userId));
   }
 }
 
