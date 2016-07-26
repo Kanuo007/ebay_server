@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,20 +53,22 @@ public class BidHistoryDao extends AbstractDAO<BidHistory> {
     return list(namedQuery("core.bidhistory.findAll"));
   }
 
-  /**
-   *
-   * @return the results of bid histories based on bidder_id
-   */
-  public List<BidHistory> findByBidderId() {
-    return list(namedQuery("core.bidhistory.findByBidderId"));
-  }
 
   /**
    *
+   * @param bidderId The bidderId
+   * @return the results of bid histories based on bidder_id
+   */
+  public List<BidHistory> findByBidderId(Long bidderId) {
+    return list(namedQuery("core.bidhistory.findByBidderId").setParameter("bidder_id", bidderId));
+  }
+
+  /**
+   * @param itemId The itemId
    * @return the results of bid histories based on item_id
    */
-  public List<BidHistory> findByItemId() {
-    return list(namedQuery("core.bidhistory.findByItemId"));
+  public List<BidHistory> findByItemId(Long itemId) {
+    return list(namedQuery("core.bidhistory.findByItemId").setParameter("item_id", itemId));
   }
 
   /**
@@ -82,8 +85,8 @@ public class BidHistoryDao extends AbstractDAO<BidHistory> {
    *
    * @return the results of all bid histories based on bid_time
    */
-  public List<BidHistory> findByBidTime() {
-    return list(namedQuery("core.bidhistory.findByBidTime"));
+  public List<BidHistory> findByBidTime(Date date) {
+    return list(namedQuery("core.bidhistory.findByBidTime").setParameter("bid_time", date));
   }
 }
 

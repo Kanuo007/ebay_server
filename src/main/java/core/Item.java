@@ -19,24 +19,24 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-    @NamedQuery(name = "core.item.findItemByName",
-        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-    @NamedQuery(name = "core.item.findItemByNameColorSize",
-        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-    @NamedQuery(name = "core.item.findItemByAvailability",
-        query = "SELECT i from Item i where i.status = :status"),
-    @NamedQuery(name = "core.item.updateCurrentPrice",
-        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+        @NamedQuery(name = "core.item.findItemByName",
+                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+        @NamedQuery(name = "core.item.findItemByNameColorSize",
+                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+        @NamedQuery(name = "core.item.findItemByAvailability",
+                query = "SELECT i from Item i where i.status = :status"),
+        @NamedQuery(name = "core.item.updateCurrentPrice",
+                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "user_id", nullable = false)
   @JsonProperty
-  private long userID;
+  private Long userID;
 
   @Column(name = "name", nullable = false)
   @JsonProperty
@@ -48,11 +48,15 @@ public class Item {
 
   @Column(name = "size")
   @JsonProperty
-  private int size;
+  private Integer size;
+
+  @Column(name = "catagory")
+  @JsonProperty
+  private String catagory;
 
   @Column(name = "status", nullable = false)
   @JsonProperty
-  private boolean status;
+  private Boolean status;
 
   @Column(name = "bid_start_time", nullable = false)
   @JsonProperty
@@ -66,26 +70,61 @@ public class Item {
 
   @Column(name = "base_price", nullable = false)
   @JsonProperty
-  private double base_price;
+  private Double base_price;
 
   @Column(name = "deliver_fee")
   @JsonProperty
-  private int delivery_fee;
+  private Integer deliver_fee;
 
   @Column(name = "description")
   @JsonProperty
   private String description;
 
-  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name) {
+  public Item(){}
+
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
+              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+              @JsonProperty("bid_start_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+              @JsonProperty("bid_end_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
     this.userID = user_id;
     this.name = item_name;
+    this.status = status;
+    this.base_price = base_price;
+    this.bid_end_time = bid_end_time;
+    this.bid_start_time = bid_start_time;
   }
 
-  public long getId() {
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
+              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+              @JsonProperty("bid_start_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+              @JsonProperty("bid_end_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
+              @JsonProperty("catagory") String catagory,
+              @JsonProperty("size") Integer size, @JsonProperty("color") String color,
+              @JsonProperty("deliver_fee") Integer deliver_fee,
+              @JsonProperty("description") String description) {
+    this.userID = user_id;
+    this.name = item_name;
+    this.status = status;
+    this.base_price = base_price;
+    this.bid_end_time = bid_end_time;
+    this.bid_start_time = bid_start_time;
+    this.catagory = catagory;
+    this.color = color;
+    this.size = size;
+    this.deliver_fee = deliver_fee;
+    this.description = description;
+  }
+
+  public Long getId() {
     return this.id;
   }
 
-  public long getUserID() {
+
+  public Long getUserID() {
     return this.userID;
   }
 
@@ -97,11 +136,15 @@ public class Item {
     return this.color;
   }
 
-  public int getSize() {
+  public Integer getSize() {
     return this.size;
   }
 
-  public boolean getStatus() {
+  public String getCatagory() {
+    return this.catagory;
+  }
+
+  public Boolean getStatus() {
     return this.status;
   }
 
@@ -113,82 +156,22 @@ public class Item {
     return this.bid_end_time;
   }
 
-  public double getBase_price() {
+  public Double getBase_price() {
     return this.base_price;
   }
 
-  public int getDelivery_fee() {
-    return this.delivery_fee;
+  public Integer getDeliver_fee() {
+    return this.deliver_fee;
   }
 
   public String getDescription() {
     return this.description;
   }
 
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public void setUserID(long userID) {
-    this.userID = userID;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-  public void setSize(int size) {
-    this.size = size;
-  }
-
-  public void setStatus(boolean status) {
+  public void setStatus(Boolean status) {
     this.status = status;
   }
 
-  public void setBid_start_time(Date bid_start_time) {
-    this.bid_start_time = bid_start_time;
-  }
-
-  public void setBid_end_time(Date bid_end_time) {
-    this.bid_end_time = bid_end_time;
-  }
-
-  public void setBase_price(double base_price) {
-    this.base_price = base_price;
-  }
-
-  public void setDelivery_fee(int delivery_fee) {
-    this.delivery_fee = delivery_fee;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    long temp;
-    temp = Double.doubleToLongBits(this.base_price);
-    result = (prime * result) + (int) (temp ^ (temp >>> 32));
-    result = (prime * result) + ((this.bid_end_time == null) ? 0 : this.bid_end_time.hashCode());
-    result =
-        (prime * result) + ((this.bid_start_time == null) ? 0 : this.bid_start_time.hashCode());
-    result = (prime * result) + ((this.color == null) ? 0 : this.color.hashCode());
-    result = (prime * result) + this.delivery_fee;
-    result = (prime * result) + ((this.description == null) ? 0 : this.description.hashCode());
-    result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
-    result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
-    result = (prime * result) + this.size;
-    result = (prime * result) + (this.status ? 1231 : 1237);
-    result = (prime * result) + (int) (this.userID ^ (this.userID >>> 32));
-    return result;
-  }
 
   @Override
   public boolean equals(Object obj) {
@@ -219,6 +202,13 @@ public class Item {
     } else if (!this.bid_start_time.equals(other.bid_start_time)) {
       return false;
     }
+    if (this.catagory == null) {
+      if (other.catagory != null) {
+        return false;
+      }
+    } else if (!this.catagory.equals(other.catagory)) {
+      return false;
+    }
     if (this.color == null) {
       if (other.color != null) {
         return false;
@@ -226,7 +216,7 @@ public class Item {
     } else if (!this.color.equals(other.color)) {
       return false;
     }
-    if (this.delivery_fee != other.delivery_fee) {
+    if (this.deliver_fee != other.deliver_fee) {
       return false;
     }
     if (this.description == null) {
