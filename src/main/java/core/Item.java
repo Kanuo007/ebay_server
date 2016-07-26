@@ -81,7 +81,7 @@ public class Item {
   private String description;
 
 
-  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name,
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
       @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
       @JsonProperty("bid_start_time") Date bid_start_time,
       @JsonProperty("bid_end_time") Date bid_end_time) {
@@ -93,7 +93,7 @@ public class Item {
     this.bid_start_time = bid_start_time;
   }
 
-  public Item(@JsonProperty("user_id") Integer user_id, @JsonProperty("name") String item_name,
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
       @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
       @JsonProperty("bid_start_time") Date bid_start_time,
       @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("catagory") String catagory,
