@@ -45,8 +45,6 @@ public class Notification {
     this.content = content;
   }
 
-
-
   public long getId() {
     return this.id;
   }
@@ -63,10 +61,6 @@ public class Notification {
     return this.content;
   }
 
-  public void setId(long id) {
-    this.id = id;
-  }
-
   public void setUser_id(long user_id) {
     this.user_id = user_id;
   }
@@ -78,7 +72,5 @@ public class Notification {
   public void setContent(String content) {
     this.content = content;
   }
-
-
 
 }

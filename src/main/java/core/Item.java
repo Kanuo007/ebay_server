@@ -106,6 +106,7 @@ public class Item {
     this.base_price = base_price;
     this.bid_end_time = bid_end_time;
     this.bid_start_time = bid_start_time;
+    this.catagory = catagory;
     this.color = color;
     this.size = size;
     this.deliver_fee = deliver_fee;
@@ -182,82 +183,11 @@ public class Item {
     return this.description;
   }
 
-
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-
-
-  public void setUserID(long userID) {
-    this.userID = userID;
-  }
-
-
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-
-
-  public void setSize(int size) {
-    this.size = size;
-  }
-
-
-
-  public void setCatagory(String catagory) {
-    this.catagory = catagory;
-  }
-
-
-
   public void setStatus(boolean status) {
     this.status = status;
   }
 
 
-
-  public void setBid_start_time(Date bid_start_time) {
-    this.bid_start_time = bid_start_time;
-  }
-
-
-
-  public void setBid_end_time(Date bid_end_time) {
-    this.bid_end_time = bid_end_time;
-  }
-
-
-
-  public void setBase_price(double base_price) {
-    this.base_price = base_price;
-  }
-
-
-
-  public void setDeliver_fee(int deliver_fee) {
-    this.deliver_fee = deliver_fee;
-  }
-
-
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -332,8 +262,6 @@ public class Item {
     }
     return true;
   }
-
-
 
   public Boolean checkEndTime(Item item) {
     Date current_time = new Date();
