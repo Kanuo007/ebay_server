@@ -143,7 +143,4 @@ public class User implements Principal {
     }
     return true;
   }
-
-
-
 }

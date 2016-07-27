@@ -60,16 +60,20 @@ public class Transaction {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private Date date;
 
-  public Transaction(@JsonProperty("item_id") long item_id,
-      @JsonProperty("shipping_address_id") long shipping_address_id,
-      @JsonProperty("billing_address_id") long billing_address_id,
-      @JsonProperty("user_id") long user_id, @JsonProperty("feedback") String feedback,
-      @JsonProperty("transaction_date") Date transaction_date) {
+  public Transaction() {}
+
+  public Transaction(@JsonProperty("item_id") Long item_id,
+      @JsonProperty("shipping_address_id") Long shipping_address_id,
+      @JsonProperty("billing_address_id") Long billing_address_id,
+      @JsonProperty("user_id") Long user_id, @JsonProperty("feedback") String feedback,
+      @JsonProperty("transaction_date") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
     this.item_id = item_id;
     this.shipping_address_id = shipping_address_id;
     this.billing_address_id = billing_address_id;
     this.user_id = user_id;
-    this.date = transaction_date;
+    this.feedback = feedback;
+    this.date = date;
   }
 
   public Long getId() {
