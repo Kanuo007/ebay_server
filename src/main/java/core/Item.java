@@ -88,7 +88,6 @@ public class Item {
           pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
       @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
           pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time) {
-
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -98,7 +97,6 @@ public class Item {
   }
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-
       @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
       @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
           pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
