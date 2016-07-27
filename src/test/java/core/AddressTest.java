@@ -12,9 +12,10 @@ public class AddressTest {
 
   @Before
   public void setUp() throws Exception {
-    this.add1 = new Address("110 Baker St", "Seattle", "USA", 98111, 23);
-    this.add2 = new Address("110 Baker St", "Seattle", "USA", 98111, 23);
-    this.add3 = new Address("111 Baker St", "Seattle", "USA", 98111, 24);
+    this.add1 = new Address("110 Baker St", "Seattle", "USA", new Long(98111), new Long(23));
+    this.add2 = new Address("110 Baker St", "Seattle", "USA", new Long(98111), new Long(23));
+    this.add3 = new Address("111 Baker St", "Seattle", "USA", new Long(98111), new Long(24));
+
   }
 
   @After
@@ -62,24 +63,24 @@ public class AddressTest {
 
   @Test
   public void testGetZipcode() {
-    Assert.assertEquals(this.add1.getZipcode(), 98111);
+    Assert.assertEquals(this.add1.getZipcode(), new Long(98111));
   }
 
   @Test
   public void testSetZipcode() {
-    this.add3.setZipcode(98102);
-    Assert.assertEquals(this.add3.getZipcode(), 98102);
+    this.add3.setZipcode(new Long(98102));
+    Assert.assertEquals(this.add3.getZipcode(), new Long(98102));
   }
 
   @Test
   public void testGetUser_id() {
-    Assert.assertEquals(this.add1.getUser_id(), 23);
+    Assert.assertEquals(this.add1.getUser_id(), new Long(23));
   }
 
   @Test
   public void testSetUser_id() {
-    this.add3.setUser_id(22);
-    Assert.assertEquals(this.add3.getUser_id(), 22);
+    this.add3.setUser_id(new Long(22));
+    Assert.assertEquals(this.add3.getUser_id(), new Long(22));
   }
 
   @Test

@@ -1,6 +1,10 @@
 package core;
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.context.internal.ManagedSessionContext;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +22,16 @@ public class Update {
   TransactionDao transactionDao;
   BidHistoryDao bidHistoryDao;
   ItemDao itemDao;
+  SessionFactory sessionFactory;
 
 
   public Update(NotificationDao notificationDao, TransactionDao transactionDao,
-      BidHistoryDao bidHistoryDao, ItemDao itemDao) {
+                BidHistoryDao bidHistoryDao, ItemDao itemDao, SessionFactory sessionFactory) {
     this.notificationDao = notificationDao;
     this.transactionDao = transactionDao;
     this.bidHistoryDao = bidHistoryDao;
     this.itemDao = itemDao;
+    this.sessionFactory = sessionFactory;
   }
 
   // update everyTable per second.
@@ -44,6 +50,8 @@ public class Update {
     TimerTask task = new TimerTask() {
       @Override
       public void run() {
+        Session session = sessionFactory.openSession();
+        ManagedSessionContext.bind(session);
         List<Item> Allitem = Update.this.itemDao.findAllItem();
         Date currentTime = new Date();
 
@@ -58,17 +66,17 @@ public class Update {
             curItem.setStatus(false);
             Optional<BidHistory> WinBid =
                 Update.this.bidHistoryDao.findByHighestPriceByItemId(curItem.getId());
-            Transaction newTransaction = new Transaction(curItem.getId(),
-                WinBid.get().getBidderId(), curItem.getBid_end_time());
-            Update.this.transactionDao.createTransaction(newTransaction);
-
-            String content = "Auction has end.";
-            Notification notification_1 =
-                new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
-            Notification notification_2 =
-                new Notification(curItem.getUserID(), newTransaction.getId(), content);
-            Update.this.notificationDao.createNotification(notification_1);
-            Update.this.notificationDao.createNotification(notification_2);
+            // check constructor
+            //Transaction newTransaction = new Transaction(curItem.getId(),WinBid.get().getBidderId(), curItem.getBid_end_time());
+//            Update.this.transactionDao.createTransaction(newTransaction);
+//
+//            String content = "Auction has end.";
+//            Notification notification_1 =
+//                new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
+//            Notification notification_2 =
+//                new Notification(curItem.getUserID(), newTransaction.getId(), content);
+//            Update.this.notificationDao.createNotification(notification_1);
+//            Update.this.notificationDao.createNotification(notification_2);
           }
         }
       }

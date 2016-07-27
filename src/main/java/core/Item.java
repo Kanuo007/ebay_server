@@ -19,24 +19,24 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-    @NamedQuery(name = "core.item.findItemByName",
-        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-    @NamedQuery(name = "core.item.findItemByNameColorSize",
-        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-    @NamedQuery(name = "core.item.findItemByAvailability",
-        query = "SELECT i from Item i where i.status = :status"),
-    @NamedQuery(name = "core.item.updateCurrentPrice",
-        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+        @NamedQuery(name = "core.item.findItemByName",
+                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+        @NamedQuery(name = "core.item.findItemByNameColorSize",
+                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+        @NamedQuery(name = "core.item.findItemByAvailability",
+                query = "SELECT i from Item i where i.status = :status"),
+        @NamedQuery(name = "core.item.updateCurrentPrice",
+                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "user_id", nullable = false)
   @JsonProperty
-  private long userID;
+  private Long userID;
 
   @Column(name = "name", nullable = false)
   @JsonProperty
@@ -48,7 +48,7 @@ public class Item {
 
   @Column(name = "size")
   @JsonProperty
-  private int size;
+  private Integer size;
 
   @Column(name = "catagory")
   @JsonProperty
@@ -56,7 +56,7 @@ public class Item {
 
   @Column(name = "status", nullable = false)
   @JsonProperty
-  private boolean status;
+  private Boolean status;
 
   @Column(name = "bid_start_time", nullable = false)
   @JsonProperty
@@ -70,21 +70,30 @@ public class Item {
 
   @Column(name = "base_price", nullable = false)
   @JsonProperty
-  private double base_price;
+  private Double base_price;
 
   @Column(name = "deliver_fee")
   @JsonProperty
-  private int deliver_fee;
+  private Integer deliver_fee;
 
   @Column(name = "description")
   @JsonProperty
   private String description;
 
+  public Item(){}
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
+<<<<<<< HEAD
       @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
       @JsonProperty("bid_start_time") Date bid_start_time,
       @JsonProperty("bid_end_time") Date bid_end_time) {
+=======
+              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+              @JsonProperty("bid_start_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+              @JsonProperty("bid_end_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
+>>>>>>> master
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -94,170 +103,91 @@ public class Item {
   }
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
+<<<<<<< HEAD
       @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
       @JsonProperty("bid_start_time") Date bid_start_time,
       @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("catagory") String catagory,
       @JsonProperty("size") int size, @JsonProperty("color") String color,
       @JsonProperty("deliver_fee") int deliver_fee,
       @JsonProperty("description") String description) {
+=======
+              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+              @JsonProperty("bid_start_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+              @JsonProperty("bid_end_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
+              @JsonProperty("catagory") String catagory,
+              @JsonProperty("size") Integer size, @JsonProperty("color") String color,
+              @JsonProperty("deliver_fee") Integer deliver_fee,
+              @JsonProperty("description") String description) {
+>>>>>>> master
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
     this.base_price = base_price;
     this.bid_end_time = bid_end_time;
     this.bid_start_time = bid_start_time;
+    this.catagory = catagory;
     this.color = color;
     this.size = size;
     this.deliver_fee = deliver_fee;
     this.description = description;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 
 
-
-  public long getUserID() {
+  public Long getUserID() {
     return this.userID;
   }
-
-
 
   public String getName() {
     return this.name;
   }
 
-
-
   public String getColor() {
     return this.color;
   }
 
-
-
-  public int getSize() {
+  public Integer getSize() {
     return this.size;
   }
-
-
 
   public String getCatagory() {
     return this.catagory;
   }
 
-
-
-  public boolean getStatus() {
+  public Boolean getStatus() {
     return this.status;
   }
-
-
 
   public Date getBid_start_time() {
     return this.bid_start_time;
   }
 
-
-
   public Date getBid_end_time() {
     return this.bid_end_time;
   }
 
-
-
-  public double getBase_price() {
+  public Double getBase_price() {
     return this.base_price;
   }
 
-
-
-  public int getDeliver_fee() {
+  public Integer getDeliver_fee() {
     return this.deliver_fee;
   }
-
-
 
   public String getDescription() {
     return this.description;
   }
 
-
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-
-
-  public void setUserID(long userID) {
-    this.userID = userID;
-  }
-
-
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-
-
-  public void setSize(int size) {
-    this.size = size;
-  }
-
-
-
-  public void setCatagory(String catagory) {
-    this.catagory = catagory;
-  }
-
-
-
-  public void setStatus(boolean status) {
+  public void setStatus(Boolean status) {
     this.status = status;
   }
 
 
-
-  public void setBid_start_time(Date bid_start_time) {
-    this.bid_start_time = bid_start_time;
-  }
-
-
-
-  public void setBid_end_time(Date bid_end_time) {
-    this.bid_end_time = bid_end_time;
-  }
-
-
-
-  public void setBase_price(double base_price) {
-    this.base_price = base_price;
-  }
-
-
-
-  public void setDeliver_fee(int deliver_fee) {
-    this.deliver_fee = deliver_fee;
-  }
-
-
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -332,8 +262,6 @@ public class Item {
     }
     return true;
   }
-
-
 
   public Boolean checkEndTime(Item item) {
     Date current_time = new Date();
