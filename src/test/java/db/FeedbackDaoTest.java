@@ -27,8 +27,8 @@ public class FeedbackDaoTest {
         feedbackDao = mock(FeedbackDao.class);
         SimpleDateFormat ft =
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        feedback1 = new Feedback(123, 456, "first feedback", ft.parse("2014-11-21 23:00:00"));
-        feedback2 = new Feedback(789, 221, "second feedback", ft.parse("2016-02-21 10:40:42"));
+        feedback1 = new Feedback(new Long(123), new Long(456), "first feedback", ft.parse("2014-11-21 23:00:00"));
+        feedback2 = new Feedback(new Long(789), new Long(221), "second feedback", ft.parse("2016-02-21 10:40:42"));
 
         when(feedbackDao.createFeedback(feedback1)).thenReturn(feedback1);
         when(feedbackDao.createFeedback(feedback2)).thenReturn(feedback2);
@@ -51,8 +51,8 @@ public class FeedbackDaoTest {
         SimpleDateFormat ft =
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Assert.assertEquals(feedback.get().getBuyer_id(), 123);
-        Assert.assertEquals(feedback.get().getTransaction_id(), 456);
+        Assert.assertEquals(feedback.get().getBuyer_id(), new Long(123));
+        Assert.assertEquals(feedback.get().getTransaction_id(), new Long(456));
         Assert.assertEquals(feedback.get().getContent(), "first feedback");
         Assert.assertEquals(feedback.get().getDatetime(), ft.parse("2014-11-21 23:00:00"));
     }
@@ -63,8 +63,8 @@ public class FeedbackDaoTest {
         SimpleDateFormat ft =
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Assert.assertEquals(feedback.get().getBuyer_id(), 789);
-        Assert.assertEquals(feedback.get().getTransaction_id(), 221);
+        Assert.assertEquals(feedback.get().getBuyer_id(), new Long(789));
+        Assert.assertEquals(feedback.get().getTransaction_id(), new Long(221));
         Assert.assertEquals(feedback.get().getContent(), "second feedback");
         Assert.assertEquals(feedback.get().getDatetime(), ft.parse("2016-02-21 10:40:42"));
     }
@@ -76,8 +76,8 @@ public class FeedbackDaoTest {
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Assert.assertTrue(feedbacks.size() == 1);
-        Assert.assertEquals(feedbacks.get(0).getBuyer_id(), 123);
-        Assert.assertEquals(feedbacks.get(0).getTransaction_id(), 456);
+        Assert.assertEquals(feedbacks.get(0).getBuyer_id(), new Long(123));
+        Assert.assertEquals(feedbacks.get(0).getTransaction_id(), new Long(456));
         Assert.assertEquals(feedbacks.get(0).getContent(), "first feedback");
         Assert.assertEquals(feedbacks.get(0).getDatetime(), ft.parse("2014-11-21 23:00:00"));
     }

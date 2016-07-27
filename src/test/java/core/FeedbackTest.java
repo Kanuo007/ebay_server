@@ -17,10 +17,10 @@ public class FeedbackTest {
     public void setUp() throws Exception {
         SimpleDateFormat ft =
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        feedback1 = new Feedback(123, 456, "first feedback", ft.parse("2014-11-21 23:00:00"));
-        feedback2 = new Feedback(789, 221, "second feedback", ft.parse("2016-02-21 10:40:42"));
-        feedback3 = new Feedback(123, 456, "first feedback", ft.parse("2014-11-21 23:00:00"));
-        feedback4 = new Feedback(123, 456, "first feedback", ft.parse("2014-11-21 23:00:00"));
+        feedback1 = new Feedback(new Long(123), new Long(456), "first feedback", ft.parse("2014-11-21 23:00:00"));
+        feedback2 = new Feedback(new Long(789), new Long(221), "second feedback", ft.parse("2016-02-21 10:40:42"));
+        feedback3 = new Feedback(new Long(123), new Long(456), "first feedback", ft.parse("2014-11-21 23:00:00"));
+        feedback4 = new Feedback(new Long(123), new Long(456), "first feedback", ft.parse("2014-11-21 23:00:00"));
     }
 
     @After

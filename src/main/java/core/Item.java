@@ -11,6 +11,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -80,22 +81,7 @@ public class Item {
   @JsonProperty
   private String description;
 
-  public Item(){}
-
-  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
-    this.userID = user_id;
-    this.name = item_name;
-    this.status = status;
-    this.base_price = base_price;
-    this.bid_end_time = bid_end_time;
-    this.bid_start_time = bid_start_time;
-  }
-
+  @JsonCreator
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
               @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
               @JsonProperty("bid_start_time")
@@ -119,10 +105,27 @@ public class Item {
     this.description = description;
   }
 
+  @Deprecated
+  public Item(){}
+
+  @Deprecated
+  public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
+              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+              @JsonProperty("bid_start_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+              @JsonProperty("bid_end_time")
+              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
+    this.userID = user_id;
+    this.name = item_name;
+    this.status = status;
+    this.base_price = base_price;
+    this.bid_end_time = bid_end_time;
+    this.bid_start_time = bid_start_time;
+  }
+
   public Long getId() {
     return this.id;
   }
-
 
   public Long getUserID() {
     return this.userID;
@@ -168,84 +171,113 @@ public class Item {
     return this.description;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setUserID(Long userID) {
+    this.userID = userID;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public void setSize(Integer size) {
+    this.size = size;
+  }
+
+  public void setCatagory(String catagory) {
+    this.catagory = catagory;
+  }
+
+  public void setBid_start_time(Date bid_start_time) {
+    this.bid_start_time = bid_start_time;
+  }
+
+  public void setBid_end_time(Date bid_end_time) {
+    this.bid_end_time = bid_end_time;
+  }
+
+  public void setBase_price(Double base_price) {
+    this.base_price = base_price;
+  }
+
+  public void setDeliver_fee(Integer deliver_fee) {
+    this.deliver_fee = deliver_fee;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   public void setStatus(Boolean status) {
     this.status = status;
   }
 
+  @Override
+  public String toString() {
+    return "Item{" +
+            "id=" + id +
+            ", userID=" + userID +
+            ", name='" + name + '\'' +
+            ", color='" + color + '\'' +
+            ", size=" + size +
+            ", catagory='" + catagory + '\'' +
+            ", status=" + status +
+            ", bid_start_time=" + bid_start_time +
+            ", bid_end_time=" + bid_end_time +
+            ", base_price=" + base_price +
+            ", deliver_fee=" + deliver_fee +
+            ", description='" + description + '\'' +
+            '}';
+  }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Item item = (Item) o;
+
+    if (id != null ? !id.equals(item.id) : item.id != null) return false;
+    if (userID != null ? !userID.equals(item.userID) : item.userID != null) return false;
+    if (name != null ? !name.equals(item.name) : item.name != null) return false;
+    if (color != null ? !color.equals(item.color) : item.color != null) return false;
+    if (size != null ? !size.equals(item.size) : item.size != null) return false;
+    if (catagory != null ? !catagory.equals(item.catagory) : item.catagory != null) return false;
+    if (status != null ? !status.equals(item.status) : item.status != null) return false;
+    if (bid_start_time != null ? !bid_start_time.equals(item.bid_start_time) : item.bid_start_time != null)
       return false;
-    }
-    if (getClass() != obj.getClass()) {
+    if (bid_end_time != null ? !bid_end_time.equals(item.bid_end_time) : item.bid_end_time != null)
       return false;
-    }
-    Item other = (Item) obj;
-    if (Double.doubleToLongBits(this.base_price) != Double.doubleToLongBits(other.base_price)) {
+    if (base_price != null ? !base_price.equals(item.base_price) : item.base_price != null)
       return false;
-    }
-    if (this.bid_end_time == null) {
-      if (other.bid_end_time != null) {
-        return false;
-      }
-    } else if (!this.bid_end_time.equals(other.bid_end_time)) {
+    if (deliver_fee != null ? !deliver_fee.equals(item.deliver_fee) : item.deliver_fee != null)
       return false;
-    }
-    if (this.bid_start_time == null) {
-      if (other.bid_start_time != null) {
-        return false;
-      }
-    } else if (!this.bid_start_time.equals(other.bid_start_time)) {
-      return false;
-    }
-    if (this.catagory == null) {
-      if (other.catagory != null) {
-        return false;
-      }
-    } else if (!this.catagory.equals(other.catagory)) {
-      return false;
-    }
-    if (this.color == null) {
-      if (other.color != null) {
-        return false;
-      }
-    } else if (!this.color.equals(other.color)) {
-      return false;
-    }
-    if (this.deliver_fee != other.deliver_fee) {
-      return false;
-    }
-    if (this.description == null) {
-      if (other.description != null) {
-        return false;
-      }
-    } else if (!this.description.equals(other.description)) {
-      return false;
-    }
-    if (this.id != other.id) {
-      return false;
-    }
-    if (this.name == null) {
-      if (other.name != null) {
-        return false;
-      }
-    } else if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (this.size != other.size) {
-      return false;
-    }
-    if (this.status != other.status) {
-      return false;
-    }
-    if (this.userID != other.userID) {
-      return false;
-    }
-    return true;
+    return description != null ? description.equals(item.description) : item.description == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id != null ? id.hashCode() : 0;
+    result = 31 * result + (userID != null ? userID.hashCode() : 0);
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    result = 31 * result + (color != null ? color.hashCode() : 0);
+    result = 31 * result + (size != null ? size.hashCode() : 0);
+    result = 31 * result + (catagory != null ? catagory.hashCode() : 0);
+    result = 31 * result + (status != null ? status.hashCode() : 0);
+    result = 31 * result + (bid_start_time != null ? bid_start_time.hashCode() : 0);
+    result = 31 * result + (bid_end_time != null ? bid_end_time.hashCode() : 0);
+    result = 31 * result + (base_price != null ? base_price.hashCode() : 0);
+    result = 31 * result + (deliver_fee != null ? deliver_fee.hashCode() : 0);
+    result = 31 * result + (description != null ? description.hashCode() : 0);
+    return result;
   }
 
   public Boolean checkEndTime(Item item) {
