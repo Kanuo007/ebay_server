@@ -20,9 +20,9 @@ public class AddressDaoTest {
   @Before
   public void setUp() throws Exception {
     this.addressDao1 = Mockito.mock(AddressDao.class);
-    this.add1 = new Address("110 Baker St", "Seattle", "USA", 98111, 23);
-    this.add2 = new Address("111 Baker St", "Seattle", "USA", 98111, 24);
-    this.add3 = new Address("7 Smith St", "San Franscisco", "USA", 99001, 90);
+    this.add1 = new Address("110 Baker St", "Seattle", "USA", new Long(98111), new Long(23));
+    this.add2 = new Address("111 Baker St", "Seattle", "USA", new Long(98111), new Long(24));
+    this.add3 = new Address("7 Smith St", "San Franscisco", "USA", new Long(99001), new Long(90));
     Mockito.when(this.addressDao1.findAll())
         .thenReturn(Arrays.asList(this.add1, this.add2, this.add3));
     Mockito.when(this.addressDao1.findAddressByUserId(0))

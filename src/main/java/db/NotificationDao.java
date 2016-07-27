@@ -21,6 +21,10 @@ public class NotificationDao extends AbstractDAO<Notification> {
     return Optional.ofNullable(get(id));
   }
 
+  public List<Notification> findALL() {
+    return list(namedQuery("core.Notification.findAll"));
+  }
+
   public List<Notification> findNotificationByUserID(Long user_id) {
     return list(namedQuery("core.user.findNotificationByUserID").setParameter("user_id", user_id));
   }
@@ -28,10 +32,6 @@ public class NotificationDao extends AbstractDAO<Notification> {
   public List<Notification> findNotificationByTransactionID(Long transaction_id) {
     return list(namedQuery("core.Notification.findNotificationByTransactionID")
         .setParameter("transaction_id", transaction_id));
-  }
-
-  public Notification create_notification(Notification aNotification) {
-    return persist(aNotification);
   }
 
 }

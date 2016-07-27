@@ -29,7 +29,7 @@ import io.dropwizard.jackson.JsonSnakeCase;
 public class User implements Principal {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "user_name", nullable = false)
   @JsonProperty
@@ -43,6 +43,7 @@ public class User implements Principal {
   @JsonProperty
   private String user_email;
 
+  public User() {}
 
   public User(@JsonProperty("user_name") String user_name,
       @JsonProperty("user_password") String user_password,
@@ -57,11 +58,11 @@ public class User implements Principal {
     return this.getUser_name();
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -90,37 +91,59 @@ public class User implements Principal {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if ((o == null) || (getClass() != o.getClass())) {
-      return false;
-    }
-
-    User user = (User) o;
-
-    if (this.id != user.id) {
-      return false;
-    }
-    if (this.user_name != null ? !this.user_name.equals(user.user_name) : user.user_name != null) {
-      return false;
-    }
-    if (this.user_password != null ? !this.user_password.equals(user.user_password)
-        : user.user_password != null) {
-      return false;
-    }
-    return this.user_email != null ? this.user_email.equals(user.user_email)
-        : user.user_email == null;
-
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
+    result = (prime * result) + ((this.user_email == null) ? 0 : this.user_email.hashCode());
+    result = (prime * result) + ((this.user_name == null) ? 0 : this.user_name.hashCode());
+    result = (prime * result) + ((this.user_password == null) ? 0 : this.user_password.hashCode());
+    return result;
   }
 
   @Override
-  public int hashCode() {
-    int result = (int) (this.id ^ (this.id >>> 32));
-    result = (31 * result) + (this.user_name != null ? this.user_name.hashCode() : 0);
-    result = (31 * result) + (this.user_password != null ? this.user_password.hashCode() : 0);
-    result = (31 * result) + (this.user_email != null ? this.user_email.hashCode() : 0);
-    return result;
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    User other = (User) obj;
+    if (this.id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!this.id.equals(other.id)) {
+      return false;
+    }
+    if (this.user_email == null) {
+      if (other.user_email != null) {
+        return false;
+      }
+    } else if (!this.user_email.equals(other.user_email)) {
+      return false;
+    }
+    if (this.user_name == null) {
+      if (other.user_name != null) {
+        return false;
+      }
+    } else if (!this.user_name.equals(other.user_name)) {
+      return false;
+    }
+    if (this.user_password == null) {
+      if (other.user_password != null) {
+        return false;
+      }
+    } else if (!this.user_password.equals(other.user_password)) {
+      return false;
+    }
+    return true;
   }
+
+
+
 }

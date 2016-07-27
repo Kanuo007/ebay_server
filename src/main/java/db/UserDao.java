@@ -44,7 +44,7 @@ public class UserDao extends AbstractDAO<User> {
   }
 
   public boolean UserNamePasswordMatch(String name, String password) {
-    if (Optional.ofNullable(
+    if (!Optional.ofNullable(
         (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
         .isPresent()) {
       return false;

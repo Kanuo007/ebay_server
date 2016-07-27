@@ -47,20 +47,17 @@ public class TransactionDaoTest {
     Assert.assertEquals(transactions.get(1), this.tran2);
   }
 
-  // @Test
-  // public void testFindTransactionByUserId() {
-  // Assert.fail("Not yet implemented");
-  // }
-
   @Test
   public void testFindTransactionByItemId() {
     Optional<Transaction> transaction = this.transactionDao1.findTransactionByItemId(new Long(1));
-    Assert.assertEquals(transaction.get().getItem_id(), 1);
+    Assert.assertEquals(transaction.get().getItem_id(), new Long(1));
   }
 
   @Test
   public void testFindTransactionByBuyerId() {
-    Assert.fail("Not yet implemented");
+    Optional<Transaction> transaction =
+        this.transactionDao1.findTransactionByBuyerId(new Long(1234));
+    Assert.assertEquals(transaction.get().getUser_id(), new Long(1234));
   }
 
   @Test
