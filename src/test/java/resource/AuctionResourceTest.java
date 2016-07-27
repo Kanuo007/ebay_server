@@ -45,26 +45,24 @@ public class AuctionResourceTest {
     this.mockedBidHistoryDao = Mockito.mock(BidHistoryDao.class);
     this.mockedAuctionResource = Mockito.mock(AuctionResource.class);
 
-    this.item1 = new Item(1570l, "Computer", 1000, true, this.ft.parse("2016-07-22 00:00:00"),
-        this.ft.parse("2016-07-23 12:00:00"));
-    this.item1.setId(1l);// item1 has been bid for two times
+    this.item1 = new Item(1570l, "Computer", 1000.0, true, this.ft.parse("2016-07-22 00:00:00"),
+        this.ft.parse("2016-07-23 12:00:00"));// item1 has been bid for two times
 
-    this.item2 = new Item(777l, "Desk", 50, false, this.ft.parse("2016-07-20 10:40:42"),
-        this.ft.parse("2016-07-21 12:00:00"));
-    this.item2.setId(2l);// item2 hasn't been ready to bid
+    this.item2 = new Item(777l, "Desk", 50.0, false, this.ft.parse("2016-07-20 10:40:42"),
+        this.ft.parse("2016-07-21 12:00:00"));// item2 hasn't been ready to bid
 
     // 成功
     this.bidHistory1 =
-        new BidHistory(new Long(1), new Long(544), this.ft.parse("2016-07-22 10:40:42"), 1050);
+        new BidHistory(new Long(1), new Long(544), this.ft.parse("2016-07-22 10:40:42"), 1050.0);
     this.bidHistory1Response =
-        new BidHistory(new Long(1), new Long(544), this.ft.parse("2016-07-22 10:40:42"), 1050);
+        new BidHistory(new Long(1), new Long(544), this.ft.parse("2016-07-22 10:40:42"), 1050.0);
     this.bidHistory1Response.setStatus("Succeed.");
 
     // 出价低了
     this.bidHistory2 =
-        new BidHistory(new Long(1), new Long(222), this.ft.parse("2016-07-22 11:00:0"), 1049);
+        new BidHistory(new Long(1), new Long(222), this.ft.parse("2016-07-22 11:00:0"), 1049.0);
     this.bidHistory2Response =
-        new BidHistory(new Long(1), new Long(222), this.ft.parse("2016-07-22 11:00:0"), 1049);
+        new BidHistory(new Long(1), new Long(222), this.ft.parse("2016-07-22 11:00:0"), 1049.0);
     this.bidHistory2Response.setStatus("Failure: item not able to bid.");
 
     // item id不存在
@@ -113,7 +111,6 @@ public class AuctionResourceTest {
 
     Assert.assertEquals(this.mockedAuctionResource.bid(this.user, this.bidHistory4),
         this.bidHistory4Response);
-
     Mockito.verify(this.mockedAuctionResource).bid(this.user, this.bidHistory1);
     Mockito.verify(this.mockedAuctionResource).bid(this.user, this.bidHistory2);
     Mockito.verify(this.mockedAuctionResource).bid(this.user, this.bidHistory3);

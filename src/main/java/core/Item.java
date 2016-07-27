@@ -19,14 +19,14 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-        @NamedQuery(name = "core.item.findItemByName",
-                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-        @NamedQuery(name = "core.item.findItemByNameColorSize",
-                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-        @NamedQuery(name = "core.item.findItemByAvailability",
-                query = "SELECT i from Item i where i.status = :status"),
-        @NamedQuery(name = "core.item.updateCurrentPrice",
-                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+    @NamedQuery(name = "core.item.findItemByName",
+        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+    @NamedQuery(name = "core.item.findItemByNameColorSize",
+        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+    @NamedQuery(name = "core.item.findItemByAvailability",
+        query = "SELECT i from Item i where i.status = :status"),
+    @NamedQuery(name = "core.item.updateCurrentPrice",
+        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
@@ -80,20 +80,15 @@ public class Item {
   @JsonProperty
   private String description;
 
-  public Item(){}
+  public Item() {}
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-<<<<<<< HEAD
-      @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
-      @JsonProperty("bid_start_time") Date bid_start_time,
-      @JsonProperty("bid_end_time") Date bid_end_time) {
-=======
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
->>>>>>> master
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time) {
+
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -103,24 +98,15 @@ public class Item {
   }
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-<<<<<<< HEAD
-      @JsonProperty("base_price") double base_price, @JsonProperty("status") boolean status,
-      @JsonProperty("bid_start_time") Date bid_start_time,
-      @JsonProperty("bid_end_time") Date bid_end_time, @JsonProperty("catagory") String catagory,
-      @JsonProperty("size") int size, @JsonProperty("color") String color,
-      @JsonProperty("deliver_fee") int deliver_fee,
+
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
+      @JsonProperty("catagory") String catagory, @JsonProperty("size") Integer size,
+      @JsonProperty("color") String color, @JsonProperty("deliver_fee") Integer deliver_fee,
       @JsonProperty("description") String description) {
-=======
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
-              @JsonProperty("catagory") String catagory,
-              @JsonProperty("size") Integer size, @JsonProperty("color") String color,
-              @JsonProperty("deliver_fee") Integer deliver_fee,
-              @JsonProperty("description") String description) {
->>>>>>> master
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
