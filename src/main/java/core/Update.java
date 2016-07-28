@@ -67,18 +67,19 @@ public class Update {
             Optional<BidHistory> WinBid =
                 Update.this.bidHistoryDao.findByHighestPriceByItemId(curItem.getId());
             // check constructor
-            //Transaction newTransaction = new Transaction(curItem.getId(),WinBid.get().getBidderId(), curItem.getBid_end_time());
-//            Update.this.transactionDao.createTransaction(newTransaction);
-//
-//            String content = "Auction has end.";
-//            Notification notification_1 =
-//                new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
-//            Notification notification_2 =
-//                new Notification(curItem.getUserID(), newTransaction.getId(), content);
-//            Update.this.notificationDao.createNotification(notification_1);
-//            Update.this.notificationDao.createNotification(notification_2);
+            Transaction newTransaction = new Transaction(curItem.getId(),WinBid.get().getBidderId(), curItem.getBid_end_time());
+            Update.this.transactionDao.createTransaction(newTransaction);
+
+            String content = "Auction has end.";
+            Notification notification_1 =
+                new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
+            Notification notification_2 =
+                new Notification(curItem.getUserID(), newTransaction.getId(), content);
+            Update.this.notificationDao.createNotification(notification_1);
+            Update.this.notificationDao.createNotification(notification_2);
           }
         }
+        session.close();
       }
     };
     t.schedule(task, 0, 1000);
