@@ -2,13 +2,14 @@ package db;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.google.common.base.Optional;
 
 import core.User;
 
@@ -25,13 +26,13 @@ public class UserDaoTest {
     this.user2 = new User("Lady Bella", "mountain", "ladybella@gmail.com");
     Mockito.when(this.userDao1.findAllUser()).thenReturn(Arrays.asList(this.user1, this.user2));
     Mockito.when(this.userDao1.findUserByEmail("johnsnow@gmail.com"))
-        .thenReturn(Optional.ofNullable(this.user1));
+        .thenReturn(Optional.fromNullable(this.user1));
     Mockito.when(this.userDao1.findUserByID(new Long(1)))
-        .thenReturn(Optional.ofNullable(this.user1));
+        .thenReturn(Optional.fromNullable(this.user1));
     Mockito.when(this.userDao1.findUserByName("Lady Bella"))
-        .thenReturn(Optional.ofNullable(this.user2));
+        .thenReturn(Optional.fromNullable(this.user2));
     Mockito.when(this.userDao1.findUserByPassword("mountain"))
-        .thenReturn(Optional.ofNullable(this.user2));
+        .thenReturn(Optional.fromNullable(this.user2));
     Mockito.when(this.userDao1.createUser(this.user1)).thenReturn(this.user1);
     Mockito.when(this.userDao1.createUser(this.user1)).thenReturn(this.user2);
   }
@@ -42,26 +43,26 @@ public class UserDaoTest {
   @Test
   public void testFindUserByID() {
     Optional<User> user = this.userDao1.findUserByID(new Long(1));
-    Assert.assertEquals(user, Optional.ofNullable(this.user1));
+    Assert.assertEquals(user, Optional.fromNullable(this.user1));
     Assert.assertEquals(user.get().getName(), "John Snow");
   }
 
   @Test
   public void testFindUserByName() {
     Optional<User> user = this.userDao1.findUserByName("Lady Bella");
-    Assert.assertEquals(user, Optional.ofNullable(this.user2));
+    Assert.assertEquals(user, Optional.fromNullable(this.user2));
   }
 
   @Test
   public void testFindUserByEmail() {
     Optional<User> user = this.userDao1.findUserByEmail("johnsnow@gmail.com");
-    Assert.assertEquals(user, Optional.ofNullable(this.user1));
+    Assert.assertEquals(user, Optional.fromNullable(this.user1));
   }
 
   @Test
   public void testFindUserByPassword() {
     Optional<User> user = this.userDao1.findUserByPassword("mountain");
-    Assert.assertEquals(user, Optional.ofNullable(this.user2));
+    Assert.assertEquals(user, Optional.fromNullable(this.user2));
   }
 
   @Test

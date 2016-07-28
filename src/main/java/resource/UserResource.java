@@ -34,7 +34,7 @@ public class UserResource {
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
   public User login(@Auth User user) {
-    if (this.userDao.UserNamePasswordMatch(user.getName(), user.getUser_password())) {
+    if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
       return user;
     } else {
       return new User("invalid user name", "invalid password", "invalid email");
@@ -48,12 +48,13 @@ public class UserResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Register register(User user) {
     Register r;
-    if (!this.userDao.findUserByName(user.getName()).isPresent()) {
+    if (!this.userDao.findUserByName(user.getUser_name()).isPresent()) {
       // If user doesn't exist
       this.userDao.createUser(user);
-      r = new Register(user.getName(), user.getUser_email(), user.getUser_password(), "Success");
+      r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(),
+          "Success");
     } else {
-      r = new Register("", "", "", "Failure");
+      r = new Register("", "", "", "Failure : user name alrady exists");
     }
     return r;
   }

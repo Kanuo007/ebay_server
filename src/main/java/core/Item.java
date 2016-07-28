@@ -22,14 +22,14 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-        @NamedQuery(name = "core.item.findItemByName",
-                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-        @NamedQuery(name = "core.item.findItemByNameColorSize",
-                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-        @NamedQuery(name = "core.item.findItemByAvailability",
-                query = "SELECT i from Item i where i.status = :status"),
-        @NamedQuery(name = "core.item.updateCurrentPrice",
-                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+    @NamedQuery(name = "core.item.findItemByName",
+        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+    @NamedQuery(name = "core.item.findItemByNameColorSize",
+        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+    @NamedQuery(name = "core.item.findItemByAvailability",
+        query = "SELECT i from Item i where i.status = :status"),
+    @NamedQuery(name = "core.item.updateCurrentPrice",
+        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
@@ -87,15 +87,14 @@ public class Item {
 
   @JsonCreator
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
-              @JsonProperty("catagory") String catagory,
-              @JsonProperty("size") Integer size, @JsonProperty("color") String color,
-              @JsonProperty("deliver_fee") Integer deliver_fee,
-              @JsonProperty("description") String description) {
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
+      @JsonProperty("catagory") String catagory, @JsonProperty("size") Integer size,
+      @JsonProperty("color") String color, @JsonProperty("deliver_fee") Integer deliver_fee,
+      @JsonProperty("description") String description) {
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -110,15 +109,15 @@ public class Item {
   }
 
   @Deprecated
-  public Item(){}
+  public Item() {}
 
   @Deprecated
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time) {
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -225,62 +224,80 @@ public class Item {
 
   @Override
   public String toString() {
-    return "Item{" +
-            "id=" + id +
-            ", userID=" + userID +
-            ", name='" + name + '\'' +
-            ", color='" + color + '\'' +
-            ", size=" + size +
-            ", catagory='" + catagory + '\'' +
-            ", status=" + status +
-            ", bid_start_time=" + bid_start_time +
-            ", bid_end_time=" + bid_end_time +
-            ", base_price=" + base_price +
-            ", deliver_fee=" + deliver_fee +
-            ", description='" + description + '\'' +
-            '}';
+    return "Item{" + "id=" + this.id + ", userID=" + this.userID + ", name='" + this.name + '\''
+        + ", color='" + this.color + '\'' + ", size=" + this.size + ", catagory='" + this.catagory
+        + '\'' + ", status=" + this.status + ", bid_start_time=" + this.bid_start_time
+        + ", bid_end_time=" + this.bid_end_time + ", base_price=" + this.base_price
+        + ", deliver_fee=" + this.deliver_fee + ", description='" + this.description + '\'' + '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if ((o == null) || (getClass() != o.getClass())) {
+      return false;
+    }
 
     Item item = (Item) o;
 
-    if (id != null ? !id.equals(item.id) : item.id != null) return false;
-    if (userID != null ? !userID.equals(item.userID) : item.userID != null) return false;
-    if (name != null ? !name.equals(item.name) : item.name != null) return false;
-    if (color != null ? !color.equals(item.color) : item.color != null) return false;
-    if (size != null ? !size.equals(item.size) : item.size != null) return false;
-    if (catagory != null ? !catagory.equals(item.catagory) : item.catagory != null) return false;
-    if (status != null ? !status.equals(item.status) : item.status != null) return false;
-    if (bid_start_time != null ? !bid_start_time.equals(item.bid_start_time) : item.bid_start_time != null)
+    if (this.id != null ? !this.id.equals(item.id) : item.id != null) {
       return false;
-    if (bid_end_time != null ? !bid_end_time.equals(item.bid_end_time) : item.bid_end_time != null)
+    }
+    if (this.userID != null ? !this.userID.equals(item.userID) : item.userID != null) {
       return false;
-    if (base_price != null ? !base_price.equals(item.base_price) : item.base_price != null)
+    }
+    if (this.name != null ? !this.name.equals(item.name) : item.name != null) {
       return false;
-    if (deliver_fee != null ? !deliver_fee.equals(item.deliver_fee) : item.deliver_fee != null)
+    }
+    if (this.color != null ? !this.color.equals(item.color) : item.color != null) {
       return false;
-    return description != null ? description.equals(item.description) : item.description == null;
+    }
+    if (this.size != null ? !this.size.equals(item.size) : item.size != null) {
+      return false;
+    }
+    if (this.catagory != null ? !this.catagory.equals(item.catagory) : item.catagory != null) {
+      return false;
+    }
+    if (this.status != null ? !this.status.equals(item.status) : item.status != null) {
+      return false;
+    }
+    if (this.bid_start_time != null ? !this.bid_start_time.equals(item.bid_start_time)
+        : item.bid_start_time != null) {
+      return false;
+    }
+    if (this.bid_end_time != null ? !this.bid_end_time.equals(item.bid_end_time)
+        : item.bid_end_time != null) {
+      return false;
+    }
+    if (this.base_price != null ? !this.base_price.equals(item.base_price)
+        : item.base_price != null) {
+      return false;
+    }
+    if (this.deliver_fee != null ? !this.deliver_fee.equals(item.deliver_fee)
+        : item.deliver_fee != null) {
+      return false;
+    }
+    return this.description != null ? this.description.equals(item.description)
+        : item.description == null;
 
   }
 
   @Override
   public int hashCode() {
-    int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (userID != null ? userID.hashCode() : 0);
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    result = 31 * result + (color != null ? color.hashCode() : 0);
-    result = 31 * result + (size != null ? size.hashCode() : 0);
-    result = 31 * result + (catagory != null ? catagory.hashCode() : 0);
-    result = 31 * result + (status != null ? status.hashCode() : 0);
-    result = 31 * result + (bid_start_time != null ? bid_start_time.hashCode() : 0);
-    result = 31 * result + (bid_end_time != null ? bid_end_time.hashCode() : 0);
-    result = 31 * result + (base_price != null ? base_price.hashCode() : 0);
-    result = 31 * result + (deliver_fee != null ? deliver_fee.hashCode() : 0);
-    result = 31 * result + (description != null ? description.hashCode() : 0);
+    int result = this.id != null ? this.id.hashCode() : 0;
+    result = (31 * result) + (this.userID != null ? this.userID.hashCode() : 0);
+    result = (31 * result) + (this.name != null ? this.name.hashCode() : 0);
+    result = (31 * result) + (this.color != null ? this.color.hashCode() : 0);
+    result = (31 * result) + (this.size != null ? this.size.hashCode() : 0);
+    result = (31 * result) + (this.catagory != null ? this.catagory.hashCode() : 0);
+    result = (31 * result) + (this.status != null ? this.status.hashCode() : 0);
+    result = (31 * result) + (this.bid_start_time != null ? this.bid_start_time.hashCode() : 0);
+    result = (31 * result) + (this.bid_end_time != null ? this.bid_end_time.hashCode() : 0);
+    result = (31 * result) + (this.base_price != null ? this.base_price.hashCode() : 0);
+    result = (31 * result) + (this.deliver_fee != null ? this.deliver_fee.hashCode() : 0);
+    result = (31 * result) + (this.description != null ? this.description.hashCode() : 0);
     return result;
   }
 
