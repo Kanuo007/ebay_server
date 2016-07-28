@@ -2,9 +2,12 @@ package resource;
 
 import com.codahale.metrics.annotation.Timed;
 
+import de.thomaskrille.dropwizard_template_config.redist.freemarker.template.SimpleDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +77,7 @@ public class ItemResource {
   // create a new item and put it into database
   public Item createItem(Item item) {
     Date d = new Date();
-    if (!d.after(item.getBid_end_time())) {
+    if (d.before(item.getBid_end_time())) {
       return this.itemDao.createItem(item);
     }
     return null;
