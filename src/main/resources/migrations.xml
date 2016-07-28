@@ -22,8 +22,8 @@
             </column>
         </createTable>
     </changeSet>
-
-    <changeSet id="2" author="danni">
+   	
+   	<changeSet id="2" author="danni">
         <createTable tableName="address">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -45,7 +45,7 @@
             </column>
         </createTable>
     </changeSet>
-
+    
     <changeSet id="3" author="danni">
         <addForeignKeyConstraint
                 baseColumnNames = "user_id"
@@ -58,7 +58,7 @@
                 referencedColumnNames = "id"
                 referencedTableName = "registered_user"/>
     </changeSet>
-
+    
     <changeSet id="4" author="danni">
         <createTable tableName="transaction">
             <column name="id" type="bigint" autoIncrement="true">
@@ -67,21 +67,13 @@
             <column name="item_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="shipping_address_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="billing_address_id" type="bigint"/>
-            <column name="payment_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-             <column name = "transaction_date" type = "timestamp"/>
             <column name = "feedback_id" type = "bigint"/>
         </createTable>
     </changeSet>
-
+    
     <changeSet id = "5" author="wen">
         <createTable tableName="item">
             <column name = "id" type = "bigint">
@@ -115,9 +107,7 @@
             </column>
             <column name = "description" type = "char(255)">
             </column>
-            
-           
-        </createTable>
+             </createTable>
     </changeSet>
     
     <changeSet id = "6" author = "wen">
@@ -138,8 +128,8 @@
                 <constraints nullable = "false"/>
             </column>
           </createTable>
-    </changeSet>  
-
+    </changeSet> 
+    
     <changeSet id = "7" author="danni">
         <addForeignKeyConstraint
                 baseColumnNames = "item_id"
@@ -152,32 +142,8 @@
                 referencedColumnNames = "id"
                 referencedTableName = "item"/>
     </changeSet>
-    <changeSet id = "8" author="danni">
-        <addForeignKeyConstraint
-                baseColumnNames = "shipping_address_id"
-                baseTableName = "transaction"
-                constraintName = "shipping_address_id_key"
-                deferrable = "false"
-                initiallyDeferred = "false"
-                onDelete = "CASCADE"
-                onUpdate = "CASCADE"
-                referencedColumnNames = "id"
-                referencedTableName = "address"/>
-    </changeSet>
-    <changeSet id = "9" author="danni">
-        <addForeignKeyConstraint
-                baseColumnNames = "billing_address_id"
-                baseTableName = "transaction"
-                constraintName = "billing_address_id_key"
-                deferrable = "false"
-                initiallyDeferred = "false"
-                onDelete = "CASCADE"
-                onUpdate = "CASCADE"
-                referencedColumnNames = "id"
-                referencedTableName = "address"/>
-    </changeSet>
-
-    <changeSet id= "10" author="danni">
+    
+    <changeSet id= "8" author="danni">
         <addForeignKeyConstraint
                 baseColumnNames = "user_id"
                 baseTableName = "transaction"
@@ -189,8 +155,8 @@
                 referencedColumnNames = "id"
                 referencedTableName = "registered_user"/>
     </changeSet>
-
-    <changeSet id="11" author="yangli">
+    
+    <changeSet id="9" author="yangli">
         <createTable tableName="bid_history">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -209,8 +175,8 @@
             </column>
         </createTable>
     </changeSet>
-
-    <changeSet id="12" author="yangli">
+    
+    <changeSet id="10" author="yangli">
         <createTable tableName="credit_card">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -239,21 +205,8 @@
             </column>
         </createTable>
     </changeSet>
-
-    <changeSet id = "13" author="danni">
-        <addForeignKeyConstraint
-                baseColumnNames = "payment_id"
-                baseTableName = "transaction"
-                constraintName = "payment_id_key"
-                deferrable = "false"
-                initiallyDeferred = "false"
-                onDelete = "CASCADE"
-                onUpdate = "CASCADE"
-                referencedColumnNames = "id"
-                referencedTableName = "credit_card"/>
-    </changeSet>
-
-    <changeSet id= "14" author="bao">
+    
+    <changeSet id= "11" author="bao">
         <addForeignKeyConstraint
                 baseColumnNames = "user_id"
                 baseTableName = "item"
@@ -295,7 +248,8 @@
                 referencedColumnNames = "id"
                 referencedTableName = "registered_user"/>
     </changeSet>
-    <changeSet id="15" author="wen">
+    
+    <changeSet id="12" author="wen">
     <addForeignKeyConstraint
      			baseColumnNames = "feedback_id"
                 baseTableName = "transaction"
@@ -307,7 +261,7 @@
                 referencedColumnNames = "id"
                 referencedTableName = "feedback"/>
     </changeSet>
-    <changeSet id="16" author="danni">
+    <changeSet id="13" author="danni">
         <addColumn tableName="item">
             <column name="status" type="boolean"/>
             <column name="bid_start_time" type="timestamp"/>
@@ -315,9 +269,15 @@
         </addColumn>
     </changeSet>
     
-    <changeSet id="17" author="yangli">
+    <changeSet id="14" author="yangli">
         <addColumn tableName="bid_history">
             <column name="status" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
+    
+    
+            
+    
+    
+   	

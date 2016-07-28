@@ -1,12 +1,12 @@
 package core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 
 public class ItemTest {
@@ -38,7 +38,7 @@ public class ItemTest {
 
   @Test
   public void testGetId() {
-    Assert.assertEquals(this.a1.getId(), new Long(0));
+    Assert.assertEquals(this.a1.getId(), null);
   }
 
   @Test
@@ -61,8 +61,8 @@ public class ItemTest {
 
   @Test
   public void testGetSize() {
-    Assert.assertEquals(this.a1.getSize(), new Long(0));
-    Assert.assertEquals(this.a4.getSize(), new Long(7));
+    Assert.assertEquals(this.a1.getSize(), null);
+    Assert.assertEquals(this.a4.getSize(), new Integer(7));
   }
 
   @Test
@@ -107,8 +107,8 @@ public class ItemTest {
 
   @Test
   public void testGetDeliver_fee() {
-    Assert.assertNotEquals(this.a1.getDeliver_fee(), 10.0);
-    Assert.assertEquals(this.a4.getDeliver_fee(), new Double(10.0));
+    Assert.assertNotEquals(this.a1.getDeliver_fee(), new Double(10));
+    Assert.assertEquals(this.a4.getDeliver_fee(), new Integer(10));
   }
 
   @Test
@@ -119,7 +119,7 @@ public class ItemTest {
 
   @Test
   public void testCheckEndTime() throws ParseException {
-    Assert.assertEquals(this.a1.checkEndTime(this.a1), false);
+    Assert.assertEquals(this.a1.checkEndTime(this.a1), true);
   }
 
 

@@ -23,7 +23,7 @@ public class NotificationTest {
 
   @Test
   public void testGetId() {
-    Assert.assertEquals(this.a1.getId(), new Long(0));
+    Assert.assertEquals(this.a1.getId(), null);
   }
 
   @Test

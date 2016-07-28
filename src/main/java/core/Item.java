@@ -19,14 +19,14 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
-        @NamedQuery(name = "core.item.findItemByName",
-                query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
-        @NamedQuery(name = "core.item.findItemByNameColorSize",
-                query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
-        @NamedQuery(name = "core.item.findItemByAvailability",
-                query = "SELECT i from Item i where i.status = :status"),
-        @NamedQuery(name = "core.item.updateCurrentPrice",
-                query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+    @NamedQuery(name = "core.item.findItemByName",
+        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+    @NamedQuery(name = "core.item.findItemByNameColorSize",
+        query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
+    @NamedQuery(name = "core.item.findItemByAvailability",
+        query = "SELECT i from Item i where i.status = :status"),
+    @NamedQuery(name = "core.item.updateCurrentPrice",
+        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
@@ -80,14 +80,14 @@ public class Item {
   @JsonProperty
   private String description;
 
-  public Item(){}
+  public Item() {}
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")Date bid_end_time) {
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time) {
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -97,15 +97,14 @@ public class Item {
   }
 
   public Item(@JsonProperty("user_id") Long user_id, @JsonProperty("name") String item_name,
-              @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
-              @JsonProperty("bid_start_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
-              @JsonProperty("bid_end_time")
-              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
-              @JsonProperty("catagory") String catagory,
-              @JsonProperty("size") Integer size, @JsonProperty("color") String color,
-              @JsonProperty("deliver_fee") Integer deliver_fee,
-              @JsonProperty("description") String description) {
+      @JsonProperty("base_price") Double base_price, @JsonProperty("status") Boolean status,
+      @JsonProperty("bid_start_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_start_time,
+      @JsonProperty("bid_end_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bid_end_time,
+      @JsonProperty("catagory") String catagory, @JsonProperty("size") Integer size,
+      @JsonProperty("color") String color, @JsonProperty("deliver_fee") Integer deliver_fee,
+      @JsonProperty("description") String description) {
     this.userID = user_id;
     this.name = item_name;
     this.status = status;
@@ -173,6 +172,7 @@ public class Item {
   }
 
 
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -185,7 +185,11 @@ public class Item {
       return false;
     }
     Item other = (Item) obj;
-    if (Double.doubleToLongBits(this.base_price) != Double.doubleToLongBits(other.base_price)) {
+    if (this.base_price == null) {
+      if (other.base_price != null) {
+        return false;
+      }
+    } else if (!this.base_price.equals(other.base_price)) {
       return false;
     }
     if (this.bid_end_time == null) {
@@ -216,7 +220,11 @@ public class Item {
     } else if (!this.color.equals(other.color)) {
       return false;
     }
-    if (this.deliver_fee != other.deliver_fee) {
+    if (this.deliver_fee == null) {
+      if (other.deliver_fee != null) {
+        return false;
+      }
+    } else if (!this.deliver_fee.equals(other.deliver_fee)) {
       return false;
     }
     if (this.description == null) {
@@ -226,7 +234,11 @@ public class Item {
     } else if (!this.description.equals(other.description)) {
       return false;
     }
-    if (this.id != other.id) {
+    if (this.id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!this.id.equals(other.id)) {
       return false;
     }
     if (this.name == null) {
@@ -236,13 +248,25 @@ public class Item {
     } else if (!this.name.equals(other.name)) {
       return false;
     }
-    if (this.size != other.size) {
+    if (this.size == null) {
+      if (other.size != null) {
+        return false;
+      }
+    } else if (!this.size.equals(other.size)) {
       return false;
     }
-    if (this.status != other.status) {
+    if (this.status == null) {
+      if (other.status != null) {
+        return false;
+      }
+    } else if (!this.status.equals(other.status)) {
       return false;
     }
-    if (this.userID != other.userID) {
+    if (this.userID == null) {
+      if (other.userID != null) {
+        return false;
+      }
+    } else if (!this.userID.equals(other.userID)) {
       return false;
     }
     return true;
