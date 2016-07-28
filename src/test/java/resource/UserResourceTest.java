@@ -1,7 +1,10 @@
 package resource;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -22,21 +25,22 @@ public class UserResourceTest {
   Register register1;
   Register register2;
   Optional<User> empty = Optional.fromNullable(null);
-  Optional<User> list1 = Optional.of(this.user1);
+  Optional<User> list1 = Optional.of(this.user2);
   @ClassRule
   public static ResourceTestRule resources = ResourceTestRule.builder()
       .addResource(new UserResource(UserResourceTest.mockedUserDao)).build();
 
   @Before
   public void setUp() throws Exception {
-    this.mockedUserResource = Mockito.mock(UserResource.class);
     UserResourceTest.mockedUserDao = Mockito.mock(UserDao.class);
-    this.register1 = new Register("li", "aa", "li@gmail.com", "Success");
+
+    this.mockedUserResource = new UserResource(UserResourceTest.mockedUserDao);
+    this.register1 = new Register("li", "li@gmail.com", "aa", "Success");
     this.register2 = new Register("", "", "", "Failure : user name alrady exists");
     Mockito.when(UserResourceTest.mockedUserDao.findUserByName(this.user1.getUser_name()))
-        .thenReturn(this.list1);
-    Mockito.when(UserResourceTest.mockedUserDao.findUserByName(this.user2.getUser_name()))
         .thenReturn(this.empty);
+    Mockito.when(UserResourceTest.mockedUserDao.findUserByName(this.user2.getUser_name()))
+        .thenReturn(this.list1);
   }
 
   @After
@@ -46,7 +50,15 @@ public class UserResourceTest {
   @Test
   public void testRegister() {
     // Assert.assertEquals(this.mockedUserResource.register(this.user1), this.register1);
-    Assert.assertEquals(this.mockedUserResource.register(this.user2), this.register2);
+    // Assert.assertEquals(this.mockedUserResource.register(this.user2), this.register2);
+    Assertions
+        .assertThat(UserResourceTest.resources.client().target("/user/register")
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class))
+        .isEqualTo(this.register1);
+    Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
   }
+
+
 
 }
