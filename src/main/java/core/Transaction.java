@@ -38,21 +38,9 @@ public class Transaction {
   @JsonProperty
   private Long item_id;
 
-  @Column(name = "shipping_address_id", nullable = false)
-  @JsonProperty
-  private Long shipping_address_id;
-
-  @Column(name = "billing_address_id", nullable = false)
-  @JsonProperty
-  private Long billing_address_id;
-
   @Column(name = "user_id", nullable = false)
   @JsonProperty
   private Long user_id;
-
-  @Column(name = "feedback", nullable = false)
-  @JsonProperty
-  private String feedback;
 
   @Column(name = "transaction_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
@@ -62,17 +50,11 @@ public class Transaction {
 
   public Transaction() {}
 
-  public Transaction(@JsonProperty("item_id") Long item_id,
-      @JsonProperty("shipping_address_id") Long shipping_address_id,
-      @JsonProperty("billing_address_id") Long billing_address_id,
-      @JsonProperty("user_id") Long user_id, @JsonProperty("feedback") String feedback,
+  public Transaction(@JsonProperty("item_id") Long item_id, @JsonProperty("user_id") Long user_id,
       @JsonProperty("transaction_date") @JsonFormat(shape = JsonFormat.Shape.STRING,
           pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
     this.item_id = item_id;
-    this.shipping_address_id = shipping_address_id;
-    this.billing_address_id = billing_address_id;
     this.user_id = user_id;
-    this.feedback = feedback;
     this.date = date;
   }
 
@@ -92,36 +74,12 @@ public class Transaction {
     this.item_id = item_id;
   }
 
-  public Long getShipping_address_id() {
-    return this.shipping_address_id;
-  }
-
-  public void setShipping_address_id(Long shipping_address_id) {
-    this.shipping_address_id = shipping_address_id;
-  }
-
-  public Long getBilling_address_id() {
-    return this.billing_address_id;
-  }
-
-  public void setBilling_address_id(Long billing_address_id) {
-    this.billing_address_id = billing_address_id;
-  }
-
   public Long getUser_id() {
     return this.user_id;
   }
 
   public void setUser_id(Long user_id) {
     this.user_id = user_id;
-  }
-
-  public String getFeedback() {
-    return this.feedback;
-  }
-
-  public void setFeedback(String feedback) {
-    this.feedback = feedback;
   }
 
   public Date getDate() {
@@ -133,61 +91,35 @@ public class Transaction {
   }
 
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + (int) (this.billing_address_id ^ (this.billing_address_id >>> 32));
-    result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
-    result = (prime * result) + ((this.feedback == null) ? 0 : this.feedback.hashCode());
-    result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
-    result = (prime * result) + (int) (this.item_id ^ (this.item_id >>> 32));
-    result =
-        (prime * result) + (int) (this.shipping_address_id ^ (this.shipping_address_id >>> 32));
-    result = (prime * result) + (int) (this.user_id ^ (this.user_id >>> 32));
-    return result;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if ((o == null) || (getClass() != o.getClass())) {
+      return false;
+    }
+
+    Transaction that = (Transaction) o;
+
+    if (this.id != null ? !this.id.equals(that.id) : that.id != null) {
+      return false;
+    }
+    if (this.item_id != null ? !this.item_id.equals(that.item_id) : that.item_id != null) {
+      return false;
+    }
+    if (this.user_id != null ? !this.user_id.equals(that.user_id) : that.user_id != null) {
+      return false;
+    }
+    return this.date != null ? this.date.equals(that.date) : that.date == null;
+
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Transaction other = (Transaction) obj;
-    if (this.billing_address_id != other.billing_address_id) {
-      return false;
-    }
-    if (this.date == null) {
-      if (other.date != null) {
-        return false;
-      }
-    } else if (!this.date.equals(other.date)) {
-      return false;
-    }
-    if (this.feedback == null) {
-      if (other.feedback != null) {
-        return false;
-      }
-    } else if (!this.feedback.equals(other.feedback)) {
-      return false;
-    }
-    if (this.id != other.id) {
-      return false;
-    }
-    if (this.item_id != other.item_id) {
-      return false;
-    }
-    if (this.shipping_address_id != other.shipping_address_id) {
-      return false;
-    }
-    if (this.user_id != other.user_id) {
-      return false;
-    }
-    return true;
+  public int hashCode() {
+    int result = this.id != null ? this.id.hashCode() : 0;
+    result = (31 * result) + (this.item_id != null ? this.item_id.hashCode() : 0);
+    result = (31 * result) + (this.user_id != null ? this.user_id.hashCode() : 0);
+    result = (31 * result) + (this.date != null ? this.date.hashCode() : 0);
+    return result;
   }
 }

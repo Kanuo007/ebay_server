@@ -1,5 +1,6 @@
 package core;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -58,6 +59,7 @@ public class Feedback {
 
   public Feedback(){}
 
+  @JsonCreator
   public Feedback(@JsonProperty("buyer_id") Long buyer_id,
                   @JsonProperty("transaction_id") Long transaction_id,
                   @JsonProperty("feedback_content") String content,
