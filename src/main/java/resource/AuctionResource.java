@@ -20,10 +20,12 @@ import com.codahale.metrics.annotation.Timed;
 import core.BidHistory;
 import core.Feedback;
 import core.Item;
+import core.Notification;
 import core.User;
 import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
+import db.NotificationDao;
 import db.TransactionDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -34,6 +36,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuctionResource {
 
+  private NotificationDao notificationDao;
   private ItemDao itemDao;
   private BidHistoryDao bidHistoryDao;
   private FeedbackDao feedbackDao;
@@ -75,6 +78,31 @@ public class AuctionResource {
   @UnitOfWork
   public List<Feedback> findFeedbackByBuyerID(@PathParam("id") long id) {
     return this.feedbackDao.findFeedbackByBuyerID(id);
+  }
+
+  @GET
+  @Path("/Notification/FindALL")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findALL() {
+    return this.notificationDao.findALL();
+  }
+
+  @GET
+  @Path("/Notification/FindByUserId/{userId}")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findNotificationByUserID(@PathParam("userId") long userId) {
+    return this.notificationDao.findNotificationByUserID(userId);
+  }
+
+  @GET
+  @Path("/Notification/findNotificationByTransactionID/{transaction_id}")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findNotificationByTransactionID(
+      @PathParam("transaction_id") long transaction_id) {
+    return this.notificationDao.findNotificationByTransactionID(transaction_id);
   }
 
   @POST
