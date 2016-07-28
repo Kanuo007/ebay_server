@@ -1,5 +1,10 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.annotation.Timed;
 
 import core.BidHistory;
 import core.Feedback;
@@ -61,7 +61,7 @@ public class AuctionResource {
     if (feedback.isPresent()) {
       return feedback.get();
     }
-    return new Feedback(0, 0, "", new Date());
+    return new Feedback(new Long(0), new Long(0), "", new Date());
   }
 
   @GET

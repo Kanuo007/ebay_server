@@ -71,12 +71,13 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     NotificationDao notificationDao = new NotificationDao(this.hibernateBundle.getSessionFactory());
     TransactionDao transactionDao = new TransactionDao(this.hibernateBundle.getSessionFactory());
 
-    Update update = new Update(notificationDao, transactionDao, bidHistoryDao, itemDao);
+    Update update = new Update(notificationDao, transactionDao, bidHistoryDao, itemDao,
+            this.hibernateBundle.getSessionFactory());
     update.updateEverything();
 
     environment.jersey()
         .register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
-            .setAuthenticator(new UserAuthenticator(userDao)).setAuthorizer(new UserAuthorizer())
+            .setAuthenticator(new UserAuthenticator(userDao,this.hibernateBundle.getSessionFactory())).setAuthorizer(new UserAuthorizer())
             .setRealm("Validate User").buildAuthFilter()));
     environment.jersey().register(RolesAllowedDynamicFeature.class);
     // use @Auth to inject a custom Principal type into your resource

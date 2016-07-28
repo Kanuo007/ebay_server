@@ -1,5 +1,6 @@
 package core;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,15 +37,15 @@ import io.dropwizard.jackson.JsonSnakeCase;
 public class Feedback {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "buyer_id", nullable = false)
   @JsonProperty
-  private long buyer_id;
+  private Long buyer_id;
 
   @Column(name = "transaction_id", nullable = false)
   @JsonProperty
-  private long transaction_id;
+  private Long transaction_id;
 
   @Column(name = "feedback_content", nullable = false)
   @JsonProperty
@@ -56,36 +57,41 @@ public class Feedback {
   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
   private Date datetime;
 
-  public Feedback(@JsonProperty("buyer_id") long buyer_id,
-                  @JsonProperty("transaction_id") long transaction_id,
-                  @JsonProperty("feedback_content") String content, @JsonProperty("date") Date datetime) {
+  public Feedback(){}
+
+  @JsonCreator
+  public Feedback(@JsonProperty("buyer_id") Long buyer_id,
+                  @JsonProperty("transaction_id") Long transaction_id,
+                  @JsonProperty("feedback_content") String content,
+                  @JsonProperty("date")
+                  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss") Date datetime) {
     this.buyer_id = buyer_id;
     this.transaction_id = transaction_id;
     this.content = content;
     this.datetime = datetime;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public long getBuyer_id() {
+  public Long getBuyer_id() {
     return buyer_id;
   }
 
-  public void setBuyer_id(long buyer_id) {
+  public void setBuyer_id(Long buyer_id) {
     this.buyer_id = buyer_id;
   }
 
-  public long getTransaction_id() {
+  public Long getTransaction_id() {
     return transaction_id;
   }
 
-  public void setTransaction_id(long transaction_id) {
+  public void setTransaction_id(Long transaction_id) {
     this.transaction_id = transaction_id;
   }
 

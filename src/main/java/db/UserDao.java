@@ -1,9 +1,10 @@
 package db;
 
-import java.util.List;
 import com.google.common.base.Optional;
 
 import org.hibernate.SessionFactory;
+
+import java.util.List;
 
 import core.User;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -44,9 +45,9 @@ public class UserDao extends AbstractDAO<User> {
   }
 
   public boolean UserNamePasswordMatch(String name, String password) {
-    if (Optional.fromNullable(
-        (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
-        .isPresent()) {
+    if (!Optional.fromNullable(
+        (User) (namedQuery("core.user.findUserByName").setParameter("name", name)).uniqueResult())
+            .isPresent()) {
       return false;
     } else {
       return (Optional.fromNullable(
