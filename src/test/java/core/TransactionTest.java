@@ -17,14 +17,10 @@ public class TransactionTest {
   @Before
   public void setUp() throws Exception {
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    this.tran1 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
-        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
-    this.tran2 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
-        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
-    this.tran3 = new Transaction(new Long(1), new Long(12), new Long(123), new Long(1234),
-        new String("Great Product"), ft.parse("2016-10-18 13:30:00"));
-    this.tran4 = new Transaction(new Long(2), new Long(22), new Long(223), new Long(2234),
-        new String("Not bad"), ft.parse("2016-10-18 03:30:00"));
+    this.tran1 = new Transaction(new Long(1), new Long(1234), ft.parse("2016-10-18 13:30:00"));
+    this.tran2 = new Transaction(new Long(1), new Long(1234), ft.parse("2016-10-18 13:30:00"));
+    this.tran3 = new Transaction(new Long(1), new Long(1234), ft.parse("2016-10-18 13:30:00"));
+    this.tran4 = new Transaction(new Long(2), new Long(2234), ft.parse("2016-10-18 03:30:00"));
 
   }
 
