@@ -1,8 +1,15 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
+import de.thomaskrille.dropwizard_template_config.redist.freemarker.template.SimpleDate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,11 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.annotation.Timed;
 
 import core.Item;
 import db.ItemDao;
@@ -51,7 +53,7 @@ public class ItemResource {
 
   @GET
   @Timed
-  @Path("/search_item_onBid/{item}")
+  @Path("/search_item_onBid")
   @UnitOfWork
   // list all item available to bid on
   public List<Item> findAllAvailableItems() {
@@ -63,8 +65,8 @@ public class ItemResource {
   @Path("/search_item_id/{itemid}")
   @UnitOfWork
   // search item by itemID
-  public Optional<Item> findIDItems(@PathParam("itemid") Long id) {
-    return this.itemDao.findItemByID(id);
+  public Item findIDItems(@PathParam("itemid") Long id) {
+    return this.itemDao.findItemByID(id).get();
   }
 
   @POST
@@ -73,10 +75,11 @@ public class ItemResource {
   @UnitOfWork
   @Consumes(MediaType.APPLICATION_JSON)
   // create a new item and put it into database
-  public void createItem(Item item) {
+  public Item createItem(Item item) {
     Date d = new Date();
-    if (!d.after(item.getBid_end_time())) {
-      this.itemDao.createItem(item);
+    if (d.before(item.getBid_end_time())) {
+      return this.itemDao.createItem(item);
     }
+    return null;
   }
 }
