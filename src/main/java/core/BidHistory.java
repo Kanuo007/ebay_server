@@ -183,6 +183,7 @@ public class BidHistory {
     result = (prime * result) + ((this.bidderId == null) ? 0 : this.bidderId.hashCode());
     result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
     result = (prime * result) + ((this.itemId == null) ? 0 : this.itemId.hashCode());
+    result = (prime * result) + ((this.status == null) ? 0 : this.status.hashCode());
     return result;
   }
 
@@ -230,6 +231,13 @@ public class BidHistory {
         return false;
       }
     } else if (!this.itemId.equals(other.itemId)) {
+      return false;
+    }
+    if (this.status == null) {
+      if (other.status != null) {
+        return false;
+      }
+    } else if (!this.status.equals(other.status)) {
       return false;
     }
     return true;

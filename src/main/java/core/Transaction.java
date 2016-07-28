@@ -40,18 +40,9 @@ public class Transaction {
   @JsonProperty
   private Long item_id;
 
-  @Column(name = "shipping_address_id", nullable = false)
-  @JsonProperty
-  private Long shipping_address_id;
-
-  @Column(name = "billing_address_id", nullable = false)
-  @JsonProperty
-  private Long billing_address_id;
-
   @Column(name = "user_id", nullable = false)
   @JsonProperty
   private Long user_id;
-
 
   @Column(name = "transaction_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
@@ -77,14 +68,6 @@ public class Transaction {
     return this.item_id;
   }
 
-  public Long getShipping_address_id() {
-    return this.shipping_address_id;
-  }
-
-  public Long getBilling_address_id() {
-    return this.billing_address_id;
-  }
-
   public Long getUser_id() {
     return this.user_id;
   }
@@ -101,14 +84,6 @@ public class Transaction {
     this.item_id = item_id;
   }
 
-  public void setShipping_address_id(Long shipping_address_id) {
-    this.shipping_address_id = shipping_address_id;
-  }
-
-  public void setBilling_address_id(Long billing_address_id) {
-    this.billing_address_id = billing_address_id;
-  }
-
   public void setUser_id(Long user_id) {
     this.user_id = user_id;
   }
@@ -121,13 +96,9 @@ public class Transaction {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = (prime * result)
-        + ((this.billing_address_id == null) ? 0 : this.billing_address_id.hashCode());
     result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
     result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
     result = (prime * result) + ((this.item_id == null) ? 0 : this.item_id.hashCode());
-    result = (prime * result)
-        + ((this.shipping_address_id == null) ? 0 : this.shipping_address_id.hashCode());
     result = (prime * result) + ((this.user_id == null) ? 0 : this.user_id.hashCode());
     return result;
   }
@@ -144,13 +115,6 @@ public class Transaction {
       return false;
     }
     Transaction other = (Transaction) obj;
-    if (this.billing_address_id == null) {
-      if (other.billing_address_id != null) {
-        return false;
-      }
-    } else if (!this.billing_address_id.equals(other.billing_address_id)) {
-      return false;
-    }
     if (this.date == null) {
       if (other.date != null) {
         return false;
@@ -172,13 +136,6 @@ public class Transaction {
     } else if (!this.item_id.equals(other.item_id)) {
       return false;
     }
-    if (this.shipping_address_id == null) {
-      if (other.shipping_address_id != null) {
-        return false;
-      }
-    } else if (!this.shipping_address_id.equals(other.shipping_address_id)) {
-      return false;
-    }
     if (this.user_id == null) {
       if (other.user_id != null) {
         return false;
@@ -188,7 +145,5 @@ public class Transaction {
     }
     return true;
   }
-
-
 
 }

@@ -1,6 +1,7 @@
 package core;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -13,13 +14,19 @@ public class BidHistoryTest {
   BidHistory b2;
   BidHistory b3;
   BidHistory b4;
+  SimpleDateFormat ft;
 
   @Before
   public void setUp() throws Exception {
-    this.b1 = new BidHistory(new Long(111), new Long(222), new Date(1, 1, 1, 1, 1, 1), 25.34);
-    this.b2 = new BidHistory(new Long(111), new Long(222), new Date(1, 1, 1, 1, 1, 1), 25.34);
-    this.b3 = new BidHistory(new Long(111), new Long(222), new Date(1, 1, 1, 1, 1, 1), 25.34);
-    this.b4 = new BidHistory(new Long(222), new Long(222), new Date(1, 1, 1, 1, 1, 1), 25.34);
+    this.ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    this.b1 =
+        new BidHistory(new Long(111), new Long(222), this.ft.parse("2014-11-21 23:00:00"), 25.34);
+    this.b2 =
+        new BidHistory(new Long(111), new Long(222), this.ft.parse("2014-11-21 23:00:00"), 25.34);
+    this.b3 =
+        new BidHistory(new Long(111), new Long(222), this.ft.parse("2014-11-21 23:00:00"), 25.34);
+    this.b4 =
+        new BidHistory(new Long(222), new Long(222), this.ft.parse("2014-11-21 23:00:00"), 25.34);
   }
 
   @After
@@ -49,8 +56,8 @@ public class BidHistoryTest {
   }
 
   @Test
-  public void testGetBidTime() {
-    Assert.assertEquals(this.b1.getBidTime(), new Date(1, 1, 1, 1, 1, 1));
+  public void testGetBidTime() throws ParseException {
+    Assert.assertEquals(this.b1.getBidTime(), this.ft.parse("2014-11-21 23:00:00"));
   }
 
   @Test
@@ -85,10 +92,10 @@ public class BidHistoryTest {
   }
 
   @Test
-  public void testSetBidTime() {
-    Assert.assertEquals(this.b1.getBidTime(), new Date(1, 1, 1, 1, 1, 1));
-    this.b1.setBidTime(new Date(2, 2, 2, 2, 2, 2));
-    Assert.assertEquals(this.b1.getBidTime(), new Date(2, 2, 2, 2, 2, 2));
+  public void testSetBidTime() throws ParseException {
+    Assert.assertEquals(this.b1.getBidTime(), this.ft.parse("2014-11-21 23:00:00"));
+    this.b1.setBidTime(this.ft.parse("2016-02-21 10:40:42"));
+    Assert.assertEquals(this.b1.getBidTime(), this.ft.parse("2016-02-21 10:40:42"));
 
   }
 
