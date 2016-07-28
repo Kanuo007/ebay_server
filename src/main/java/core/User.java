@@ -12,6 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.jackson.JsonSnakeCase;
@@ -54,6 +55,7 @@ public class User implements Principal {
   }
 
   @Override
+  @JsonIgnore
   public String getName() {
     return this.getUser_name();
   }
