@@ -143,6 +143,15 @@ public class Register {
     return true;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString() {
+    return "Register [name=" + this.name + ", email=" + this.email + ", password=" + this.password
+        + ", status=" + this.status + "]";
+  }
+
 
 
 }
