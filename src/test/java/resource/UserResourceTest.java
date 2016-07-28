@@ -69,10 +69,10 @@ public class UserResourceTest {
   @After
   public void tearDown() throws Exception {}
 
-  @Test
-  public void testLogin() {
-    Boolean bool = UserResourceTest.userDao.UserNamePasswordMatch("Lady Bella", "mountain");
-  }
+  // @Test
+  // public void testLogin() {
+  // Assertions.assertThat(UserResourceTest.resources.client().target("/user/login-in"))
+  // }
 
 
 
