@@ -1,10 +1,5 @@
 package resource;
 
-import com.codahale.metrics.annotation.Timed;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.codahale.metrics.annotation.Timed;
 
 import core.BidHistory;
 import core.Feedback;
@@ -83,22 +83,21 @@ public class AuctionResource {
     if (itemToBid.isPresent()) {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
-        double basePrice = itemToBid.get().getBase_price();
-        double highestBidPrice =
-            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get().getBidPrice();
-        if ((bidHistory.getBidPrice() > basePrice)
-            && (bidHistory.getBidPrice() > highestBidPrice)) {
+        BidHistory bidHistoryWithHighestPrice =
+            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get();
+        double currentPrice = (bidHistoryWithHighestPrice == null) ? itemToBid.get().getBase_price()
+            : bidHistoryWithHighestPrice.getBidPrice();
+        if (bidHistory.getBidPrice() > currentPrice) {
           bidHistory.setStatus("Succeed.");
           this.bidHistoryDao.createBidHistory(bidHistory);
         } else {
-          bidHistory.setStatus(
-              "Failure: bidding price is lower than base price or the highest bid price.");
+          bidHistory.setStatus("Failure: bidding price is lower than current price.");
         }
       } else {
         bidHistory.setStatus("Failure: item not able to bid.");
       }
     } else {
-      bidHistory.setStatus("Failure: item is not existed.");
+      bidHistory.setStatus("Failure: item does not exist.");
     }
     return bidHistory;
   }
