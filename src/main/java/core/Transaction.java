@@ -21,11 +21,11 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "transaction")
 @NamedQueries({
-        @NamedQuery(name = "core.transaction.findAll", query = "SELECT t FROM Transaction t"),
-        @NamedQuery(name = "core.transaction.findTransactionByUserId",
-                query = "SELECT t FROM Transaction t WHERE t.user_id = :user_id"),
-        @NamedQuery(name = "core.transaction.findTransactionByItemId",
-                query = "SELECT t FROM Transaction t WHERE t.item_id = :item_id"),})
+    @NamedQuery(name = "core.transaction.findAll", query = "SELECT t FROM Transaction t"),
+    @NamedQuery(name = "core.transaction.findTransactionByUserId",
+        query = "SELECT t FROM Transaction t WHERE t.user_id = :user_id"),
+    @NamedQuery(name = "core.transaction.findTransactionByItemId",
+        query = "SELECT t FROM Transaction t WHERE t.item_id = :item_id"),})
 @JsonSnakeCase
 public class Transaction {
 
@@ -48,12 +48,11 @@ public class Transaction {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private Date date;
 
-  public Transaction(){}
+  public Transaction() {}
 
-  public Transaction(@JsonProperty("item_id") Long item_id,
-                     @JsonProperty("user_id") Long user_id,
-                     @JsonProperty("transaction_date")
-                     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
+  public Transaction(@JsonProperty("item_id") Long item_id, @JsonProperty("user_id") Long user_id,
+      @JsonProperty("transaction_date") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
     this.item_id = item_id;
     this.user_id = user_id;
     this.date = date;
@@ -93,24 +92,34 @@ public class Transaction {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if ((o == null) || (getClass() != o.getClass())) {
+      return false;
+    }
 
     Transaction that = (Transaction) o;
 
-    if (id != null ? !id.equals(that.id) : that.id != null) return false;
-    if (item_id != null ? !item_id.equals(that.item_id) : that.item_id != null) return false;
-    if (user_id != null ? !user_id.equals(that.user_id) : that.user_id != null) return false;
-    return date != null ? date.equals(that.date) : that.date == null;
+    if (this.id != null ? !this.id.equals(that.id) : that.id != null) {
+      return false;
+    }
+    if (this.item_id != null ? !this.item_id.equals(that.item_id) : that.item_id != null) {
+      return false;
+    }
+    if (this.user_id != null ? !this.user_id.equals(that.user_id) : that.user_id != null) {
+      return false;
+    }
+    return this.date != null ? this.date.equals(that.date) : that.date == null;
 
   }
 
   @Override
   public int hashCode() {
-    int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (item_id != null ? item_id.hashCode() : 0);
-    result = 31 * result + (user_id != null ? user_id.hashCode() : 0);
-    result = 31 * result + (date != null ? date.hashCode() : 0);
+    int result = this.id != null ? this.id.hashCode() : 0;
+    result = (31 * result) + (this.item_id != null ? this.item_id.hashCode() : 0);
+    result = (31 * result) + (this.user_id != null ? this.user_id.hashCode() : 0);
+    result = (31 * result) + (this.date != null ? this.date.hashCode() : 0);
     return result;
   }
 }

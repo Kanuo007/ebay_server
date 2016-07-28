@@ -1,5 +1,7 @@
 package resource;
 
+import java.util.Arrays;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
@@ -26,12 +28,33 @@ public class UserResourceTest {
   Register register2;
   Optional<User> empty = Optional.fromNullable(null);
   Optional<User> list1 = Optional.of(this.user2);
+
   @ClassRule
   public static ResourceTestRule resources = ResourceTestRule.builder()
       .addResource(new UserResource(UserResourceTest.mockedUserDao)).build();
 
+  private static final UserDao userDao = Mockito.mock(UserDao.class);
+  @ClassRule
+  public static final ResourceTestRule Userresources =
+      ResourceTestRule.builder().addResource(new UserResource(UserResourceTest.userDao)).build();
+
   @Before
   public void setUp() throws Exception {
+    this.user1 = new User("John Snow", "winterfall", "johnsnow@gmail.com");
+    this.user2 = new User("Lady Bella", "mountain", "ladybella@gmail.com");
+    Mockito.when(UserResourceTest.userDao.findAllUser())
+        .thenReturn(Arrays.asList(this.user1, this.user2));
+    Mockito.when(UserResourceTest.userDao.findUserByEmail("johnsnow@gmail.com"))
+        .thenReturn(Optional.fromNullable(this.user1));
+    Mockito.when(UserResourceTest.userDao.findUserByID(new Long(1)))
+        .thenReturn(Optional.fromNullable(this.user1));
+    Mockito.when(UserResourceTest.userDao.findUserByName("Lady Bella"))
+        .thenReturn(Optional.fromNullable(this.user2));
+    Mockito.when(UserResourceTest.userDao.findUserByPassword("mountain"))
+        .thenReturn(Optional.fromNullable(this.user2));
+    Mockito.when(UserResourceTest.userDao.createUser(this.user1)).thenReturn(this.user1);
+    Mockito.when(UserResourceTest.userDao.createUser(this.user1)).thenReturn(this.user2);
+
     UserResourceTest.mockedUserDao = Mockito.mock(UserDao.class);
 
     this.mockedUserResource = new UserResource(UserResourceTest.mockedUserDao);
@@ -45,6 +68,12 @@ public class UserResourceTest {
 
   @After
   public void tearDown() throws Exception {}
+
+  @Test
+  public void testLogin() {
+    Boolean bool = UserResourceTest.userDao.UserNamePasswordMatch("Lady Bella", "mountain");
+  }
+
 
 
   @Test
