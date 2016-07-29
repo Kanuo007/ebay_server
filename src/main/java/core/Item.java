@@ -23,13 +23,15 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Table(name = "item")
 @NamedQueries({@NamedQuery(name = "core.item.findAll", query = "SELECT i FROM Item i"),
     @NamedQuery(name = "core.item.findItemByName",
-        query = "SELECT i FROM Item i where i.name = :name and i.status = true"),
+        query = "SELECT i FROM Item i where i.name = :name"),
     @NamedQuery(name = "core.item.findItemByNameColorSize",
         query = "SELECT i FROM Item i where i.name = :name and i.color = :color and i.size = :item_size"),
     @NamedQuery(name = "core.item.findItemByAvailability",
         query = "SELECT i from Item i where i.status = :status"),
     @NamedQuery(name = "core.item.updateCurrentPrice",
-        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId")})
+        query = "UPDATE Item i SET i.base_price = :newPrice where i.id = :itemId"),
+    @NamedQuery(name = "core.item.updateStatus",
+        query = "UPDATE Item i SET i.status = :status where i.id = :itemId")})
 @JsonSnakeCase
 public class Item {
 
