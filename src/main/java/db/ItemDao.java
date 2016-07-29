@@ -41,6 +41,7 @@ public class ItemDao extends AbstractDAO<Item> {
   }
 
   public void updateStatus(Boolean status, Long itemId) {
-    namedQuery("core.item.updateStatus").setLong("itemId", itemId).setBoolean("status", status);
+    namedQuery("core.item.updateStatus").setLong("itemId", itemId).setBoolean("status", status)
+        .executeUpdate();
   }
 }
