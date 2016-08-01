@@ -13,6 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.jackson.JsonSnakeCase;
@@ -27,6 +28,7 @@ import io.dropwizard.jackson.JsonSnakeCase;
     @NamedQuery(name = "core.user.findUserByPassword",
         query = "SELECT u FROM User u WHERE u.user_password = :password"),})
 @JsonSnakeCase
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Principal {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
