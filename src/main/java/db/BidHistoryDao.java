@@ -77,8 +77,12 @@ public class BidHistoryDao extends AbstractDAO<BidHistory> {
    * @return an instance of Optional<BidHistory> with the highest price
    */
   public Optional<BidHistory> findByHighestPriceByItemId(Long item_id) {
-    return Optional.ofNullable((BidHistory) namedQuery("core.bidhistory.findByHighestPriceByItemId")
-        .setParameter("id", item_id).setMaxResults(1));
+    List<BidHistory> list = list(
+        namedQuery("core.bidhistory.findByHighestPriceByItemId").setParameter("itemId", item_id));
+    if (!list.isEmpty()) {
+      return Optional.ofNullable(list.get(0));
+    }
+    return Optional.empty();
   }
 
   /**

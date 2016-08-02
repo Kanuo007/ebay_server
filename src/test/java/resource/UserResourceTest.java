@@ -1,7 +1,6 @@
 package resource;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
+import com.google.common.base.Optional;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -10,7 +9,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.google.common.base.Optional;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 
 import api.Register;
 import core.User;
@@ -31,7 +31,6 @@ public class UserResourceTest {
   @ClassRule
   public static ResourceTestRule resources = ResourceTestRule.builder()
       .addResource(new UserResource(UserResourceTest.mockedUserDao)).build();
-
 
 
   @Before
@@ -69,6 +68,10 @@ public class UserResourceTest {
     // Boolean bool = UserResourceTest.userDao.UserNamePasswordMatch("Lady Bella", "mountain");
   }
 
+  // @Test
+  // public void testLogin() {
+  // Assertions.assertThat(UserResourceTest.resources.client().target("/user/login-in"))
+  // }
 
 
   @Test

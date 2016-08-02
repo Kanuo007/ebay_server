@@ -118,9 +118,11 @@ public class Feedback {
 
     Feedback feedback = (Feedback) o;
 
-    if (id != feedback.id) return false;
-    if (buyer_id != feedback.buyer_id) return false;
-    if (transaction_id != feedback.transaction_id) return false;
+    if (id != null ? !id.equals(feedback.id) : feedback.id != null) return false;
+    if (buyer_id != null ? !buyer_id.equals(feedback.buyer_id) : feedback.buyer_id != null)
+      return false;
+    if (transaction_id != null ? !transaction_id.equals(feedback.transaction_id) : feedback.transaction_id != null)
+      return false;
     if (content != null ? !content.equals(feedback.content) : feedback.content != null)
       return false;
     return datetime != null ? datetime.equals(feedback.datetime) : feedback.datetime == null;
@@ -129,9 +131,9 @@ public class Feedback {
 
   @Override
   public int hashCode() {
-    int result = (int) (id ^ (id >>> 32));
-    result = 31 * result + (int) (buyer_id ^ (buyer_id >>> 32));
-    result = 31 * result + (int) (transaction_id ^ (transaction_id >>> 32));
+    int result = id != null ? id.hashCode() : 0;
+    result = 31 * result + (buyer_id != null ? buyer_id.hashCode() : 0);
+    result = 31 * result + (transaction_id != null ? transaction_id.hashCode() : 0);
     result = 31 * result + (content != null ? content.hashCode() : 0);
     result = 31 * result + (datetime != null ? datetime.hashCode() : 0);
     return result;

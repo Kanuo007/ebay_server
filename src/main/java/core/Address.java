@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -53,11 +52,11 @@ public class Address {
   @JsonProperty
   private Long user_id;
 
-  public Address(){}
+  public Address() {}
 
   public Address(@JsonProperty("street") String street, @JsonProperty("city") String city,
-                 @JsonProperty("country") String country, @JsonProperty("zipcode") Long zipcode,
-                 @JsonProperty("user_id") Long user_id) {
+      @JsonProperty("country") String country, @JsonProperty("zipcode") Long zipcode,
+      @JsonProperty("user_id") Long user_id) {
     this.street = street;
     this.city = city;
     this.country = country;
@@ -119,10 +118,10 @@ public class Address {
     int result = 1;
     result = (prime * result) + ((this.city == null) ? 0 : this.city.hashCode());
     result = (prime * result) + ((this.country == null) ? 0 : this.country.hashCode());
-    result = (prime * result) + (int) (this.id ^ (this.id >>> 32));
+    result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
     result = (prime * result) + ((this.street == null) ? 0 : this.street.hashCode());
-    result = (prime * result) + (int) (this.user_id ^ (this.user_id >>> 32));
-    result = (prime * result) + (int) (this.zipcode ^ (this.zipcode >>> 32));
+    result = (prime * result) + ((this.user_id == null) ? 0 : this.user_id.hashCode());
+    result = (prime * result) + ((this.zipcode == null) ? 0 : this.zipcode.hashCode());
     return result;
   }
 
@@ -152,7 +151,11 @@ public class Address {
     } else if (!this.country.equals(other.country)) {
       return false;
     }
-    if (this.id != other.id) {
+    if (this.id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!this.id.equals(other.id)) {
       return false;
     }
     if (this.street == null) {
@@ -162,14 +165,23 @@ public class Address {
     } else if (!this.street.equals(other.street)) {
       return false;
     }
-    if (this.user_id != other.user_id) {
+    if (this.user_id == null) {
+      if (other.user_id != null) {
+        return false;
+      }
+    } else if (!this.user_id.equals(other.user_id)) {
       return false;
     }
-    if (this.zipcode != other.zipcode) {
+    if (this.zipcode == null) {
+      if (other.zipcode != null) {
+        return false;
+      }
+    } else if (!this.zipcode.equals(other.zipcode)) {
       return false;
     }
     return true;
   }
+
 
 
 }

@@ -1,5 +1,10 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -12,18 +17,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.annotation.Timed;
-
 import core.BidHistory;
 import core.Feedback;
 import core.Item;
+import core.Notification;
 import core.User;
 import db.BidHistoryDao;
 import db.FeedbackDao;
 import db.ItemDao;
+import db.NotificationDao;
+import db.TransactionDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
@@ -33,15 +36,19 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuctionResource {
 
+  private NotificationDao notificationDao;
   private ItemDao itemDao;
   private BidHistoryDao bidHistoryDao;
   private FeedbackDao feedbackDao;
+  private TransactionDao transactionDao;
   private static Logger logger = LoggerFactory.getLogger(AuctionResource.class);
 
-  public AuctionResource(BidHistoryDao bidHistoryDao, ItemDao itemDao, FeedbackDao feedbackDao) {
+  public AuctionResource(BidHistoryDao bidHistoryDao, TransactionDao transactionDao,
+      ItemDao itemDao, FeedbackDao feedbackDao) {
     this.bidHistoryDao = bidHistoryDao;
     this.feedbackDao = feedbackDao;
     this.itemDao = itemDao;
+    this.transactionDao = transactionDao;
   }
 
   @POST
@@ -51,6 +58,7 @@ public class AuctionResource {
   public Feedback leaveFeedback(@Auth User user, Feedback feedback) {
     return this.feedbackDao.createFeedback(feedback);
   }
+
 
   @GET
   @Path("/search_feedback_by_transaction_id/{id}")
@@ -70,6 +78,31 @@ public class AuctionResource {
   @UnitOfWork
   public List<Feedback> findFeedbackByBuyerID(@PathParam("id") long id) {
     return this.feedbackDao.findFeedbackByBuyerID(id);
+  }
+
+  @GET
+  @Path("/Notification/FindALL")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findALL() {
+    return this.notificationDao.findALL();
+  }
+
+  @GET
+  @Path("/Notification/FindByUserId/{userId}")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findNotificationByUserID(@PathParam("userId") long userId) {
+    return this.notificationDao.findNotificationByUserID(userId);
+  }
+
+  @GET
+  @Path("/Notification/findNotificationByTransactionID/{transaction_id}")
+  @Timed
+  @UnitOfWork
+  public List<Notification> findNotificationByTransactionID(
+      @PathParam("transaction_id") long transaction_id) {
+    return this.notificationDao.findNotificationByTransactionID(transaction_id);
   }
 
   @POST
