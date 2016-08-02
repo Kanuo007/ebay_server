@@ -70,7 +70,7 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-             <column name = "transaction_date" type = "timestamp"/>
+             <column name = "transaction_date" type = "timestamp with time zone"/>
         </createTable>
     </changeSet>
 
@@ -117,7 +117,7 @@
            <column name = "transaction_id" type ="bigint">
                <constraints nullable = "false"/>
                </column>
-           <column name = "date_time" type = "timestamp">
+           <column name = "date_time" type = "timestamp with time zone">
                 <constraints nullable = "false"/>
             </column>
           </createTable>
@@ -160,7 +160,7 @@
             <column name="bidder_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="bid_time" type="timestamp">
+            <column name="bid_time" type="timestamp with time zone">
                 <constraints nullable="false"/>
             </column>
             <column name="bid_price" type="numeric">
@@ -244,8 +244,8 @@
     <changeSet id="12" author="danni">
         <addColumn tableName="item">
             <column name="status" type="boolean"/>
-            <column name="bid_start_time" type="timestamp"/>
-            <column name="bid_end_time" type="timestamp"/>
+            <column name="bid_start_time" type="timestamp with time zone"/>
+            <column name="bid_end_time" type="timestamp with time zone"/>
         </addColumn>
     </changeSet>
 

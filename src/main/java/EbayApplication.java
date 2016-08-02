@@ -72,13 +72,14 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     TransactionDao transactionDao = new TransactionDao(this.hibernateBundle.getSessionFactory());
 
     Update update = new Update(notificationDao, transactionDao, bidHistoryDao, itemDao,
-            this.hibernateBundle.getSessionFactory());
+        this.hibernateBundle.getSessionFactory());
     update.updateEverything();
 
     environment.jersey()
         .register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
-            .setAuthenticator(new UserAuthenticator(userDao,this.hibernateBundle.getSessionFactory())).setAuthorizer(new UserAuthorizer())
-            .setRealm("Validate User").buildAuthFilter()));
+            .setAuthenticator(
+                new UserAuthenticator(userDao, this.hibernateBundle.getSessionFactory()))
+            .setAuthorizer(new UserAuthorizer()).setRealm("Validate User").buildAuthFilter()));
     environment.jersey().register(RolesAllowedDynamicFeature.class);
     // use @Auth to inject a custom Principal type into your resource
     environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
@@ -86,7 +87,8 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     environment.jersey().register(new HomepageResource());
     environment.jersey().register(new UserResource(userDao));
     environment.jersey().register(new ItemResource(itemDao));
-    environment.jersey().register(new AuctionResource(bidHistoryDao, itemDao, feedbackDao));
+    environment.jersey()
+        .register(new AuctionResource(bidHistoryDao, transactionDao, itemDao, feedbackDao));
   }
 
 }

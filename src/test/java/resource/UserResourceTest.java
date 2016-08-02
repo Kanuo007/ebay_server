@@ -33,7 +33,6 @@ public class UserResourceTest {
       .addResource(new UserResource(UserResourceTest.mockedUserDao)).build();
 
 
-
   @Before
   public void setUp() throws Exception {
     this.user1 = new User("John Snow", "winterfall", "johnsnow@gmail.com");
