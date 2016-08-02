@@ -24,8 +24,9 @@ public class UserResourceTest {
   static UserDao mockedUserDao = Mockito.mock(UserDao.class);
   Register register1;
   Register register2;
-  Optional<User> list2 = Optional.fromNullable(this.user1);
-  Optional<User> list1 = Optional.fromNullable(this.user2);
+  Optional<User> list1 = Optional.fromNullable(null);
+  Optional<User> list2 = Optional.fromNullable(this.user2);
+
 
   @ClassRule
   public static ResourceTestRule resources = ResourceTestRule.builder()
@@ -50,13 +51,12 @@ public class UserResourceTest {
     // Mockito.when(UserResourceTest.userDao.createUser(this.user1)).thenReturn(this.user1);
     // Mockito.when(UserResourceTest.userDao.createUser(this.user1)).thenReturn(this.user2);
 
-    UserResourceTest.mockedUserDao = Mockito.mock(UserDao.class);
     Mockito.when(UserResourceTest.mockedUserDao.findUserByName(this.user1.getUser_name()))
         .thenReturn(this.list1);
     Mockito.when(UserResourceTest.mockedUserDao.findUserByName(this.user2.getUser_name()))
-        .thenReturn(this.list1);
-    // this.userResource = new UserResource(UserResourceTest.mockedUserDao);
-    this.register1 = new Register("li", "li@gmail.com", "aa", "Success");
+        .thenReturn(this.list2);
+    this.userResource = new UserResource(UserResourceTest.mockedUserDao);
+    this.register1 = new Register("John Snow", "johnsnow@gmail.com", "winterfall", "Success");
     this.register2 = new Register("", "", "", "Failure : user name alrady exists");
 
   }
@@ -73,20 +73,21 @@ public class UserResourceTest {
 
   @Test
   public void testRegister() {
-    // Assert.assertEquals(this.mockedUserResource.register(this.user1), this.register1);
-    // Assert.assertEquals(this.mockedUserResource.register(this.user2), this.register2);
-    // System.out.println(UserResourceTest.mockedUserDao == null);
-    // System.out.println(this.userResource == null);
-    // System.out.println(this.userResource.getUserDao() == null);
-    Assert.assertEquals(UserResourceTest.mockedUserDao.findUserByName(this.user1.getUser_name()),
-        this.list1);
-    Assert.assertEquals(UserResourceTest.resources.client().target("/user/register")
+    Assert.assertEquals(this.userResource.register(this.user1), this.register1);
+    Assert.assertEquals(this.userResource.register(this.user2), this.register2);
+    System.out.println(UserResourceTest.resources.client().target("/user/register")
         .request(MediaType.APPLICATION_JSON)
-        .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class), this.register1);
-    // Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
-    // System.out.println(UserResourceTest.mockedUserDao == null);
-    // System.out.println(this.userResource == null);
-    // this.userResource.register(this.user1);
+        .post(Entity.entity(this.user2, MediaType.APPLICATION_JSON), User.class).toString());
+
+    System.out.println(this.user2.toString());
+
+
+
+    // Assert.assertEquals(UserResourceTest.resources.client().target("/user/register")
+    // .request(MediaType.APPLICATION_JSON)
+    // .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class), this.user1);
+
+    Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
   }
 
 

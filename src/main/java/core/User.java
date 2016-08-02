@@ -147,4 +147,15 @@ public class User implements Principal {
     }
     return true;
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString() {
+    return "User [id=" + this.id + ", user_name=" + this.user_name + ", user_password="
+        + this.user_password + ", user_email=" + this.user_email + "]";
+  }
+
+
 }

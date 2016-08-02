@@ -59,12 +59,12 @@ public class UserResource {
   public Register register(User user) {
     Register r;
     Optional<User> op = this.userDao.findUserByName(user.getUser_name());
-    System.out.println(op == null);
     if (!op.isPresent()) {
       // If user doesn't exist
       this.userDao.createUser(user);
       r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(),
           "Success");
+
     } else {
       r = new Register("", "", "", "Failure : user name alrady exists");
     }
