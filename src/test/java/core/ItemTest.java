@@ -21,16 +21,16 @@ public class ItemTest {
   public void setUp() throws Exception {
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     this.a1 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
-        ft.parse("2016-07-22 10:10:10"));
+            ft.parse("2016-07-22 10:10:10"));
     this.a2 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
-        ft.parse("2016-07-22 10:10:10"));
+            ft.parse("2016-07-22 10:10:10"));
     this.a3 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
-        ft.parse("2016-07-22 10:10:10"));
+            ft.parse("2016-07-22 10:10:10"));
 
     this.a4 = new Item(new Long(2), "shoes", 100.0, false, ft.parse("2016-07-21 1:1:1"),
-        ft.parse("2016-07-21 1:1:1"), "A-catagory", 7, "green", 10, "AAA");
+            ft.parse("2016-07-21 1:1:1"), "A-catagory", 7, "green", 10, "AAA");
     this.a5 = new Item(new Long(2), "64", 89.0, true, ft.parse("2016-07-22 1:1:1"),
-        ft.parse("2016-07-21 1:1:1"), "B-catagory", 8, "red", 11, "BBB");
+            ft.parse("2016-07-21 1:1:1"), "B-catagory", 8, "red", 11, "BBB");
   }
 
   @After
@@ -38,7 +38,7 @@ public class ItemTest {
 
   @Test
   public void testGetId() {
-    Assert.assertEquals(this.a1.getId(), new Long(0));
+    Assert.assertEquals(this.a1.getId(), null);
   }
 
   @Test
@@ -61,8 +61,8 @@ public class ItemTest {
 
   @Test
   public void testGetSize() {
-    Assert.assertEquals(this.a1.getSize(), new Long(0));
-    Assert.assertEquals(this.a4.getSize(), new Long(7));
+    Assert.assertEquals(this.a1.getSize(), null);
+    Assert.assertEquals(this.a4.getSize(), new Integer(7));
   }
 
   @Test
@@ -107,8 +107,8 @@ public class ItemTest {
 
   @Test
   public void testGetDeliver_fee() {
-    Assert.assertNotEquals(this.a1.getDeliver_fee(), 10.0);
-    Assert.assertEquals(this.a4.getDeliver_fee(), new Double(10.0));
+    Assert.assertNotEquals(this.a1.getDeliver_fee(), new Double(10));
+    Assert.assertEquals(this.a4.getDeliver_fee(), new Integer(10));
   }
 
   @Test
@@ -119,7 +119,7 @@ public class ItemTest {
 
   @Test
   public void testCheckEndTime() throws ParseException {
-    Assert.assertEquals(this.a1.checkEndTime(this.a1), false);
+    Assert.assertEquals(this.a1.checkEndTime(this.a1), true);
   }
 
 
@@ -133,6 +133,5 @@ public class ItemTest {
     Assert.assertTrue(this.a2.equals(this.a3));
     Assert.assertTrue(this.a2.equals(this.a3) && this.a3.equals(this.a2));
   }
-
 
 }

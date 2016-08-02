@@ -15,6 +15,10 @@ public class TransactionDao extends AbstractDAO<Transaction> {
     super(factory);
   }
 
+  public Optional<Transaction> findTransactionByID(Long id) {
+    return Optional.ofNullable(get(id));
+  }
+
   public List<Transaction> findAll() {
     return list(namedQuery("core.transaction.findAll"));
   }
