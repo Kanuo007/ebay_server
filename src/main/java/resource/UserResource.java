@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.base.Optional;
 
 import api.Register;
 import core.User;
@@ -28,6 +29,15 @@ public class UserResource {
   public UserResource(UserDao userDao) {
     this.userDao = userDao;
   }
+
+
+  /**
+   * @return the userDao
+   */
+  public UserDao getUserDao() {
+    return this.userDao;
+  }
+
 
   @GET
   @Timed
@@ -48,11 +58,13 @@ public class UserResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Register register(User user) {
     Register r;
-    if (!this.userDao.findUserByName(user.getUser_name()).isPresent()) {
+    Optional<User> op = this.userDao.findUserByName(user.getUser_name());
+    if (!op.isPresent()) {
       // If user doesn't exist
       this.userDao.createUser(user);
       r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(),
           "Success");
+
     } else {
       r = new Register("", "", "", "Failure : user name alrady exists");
     }

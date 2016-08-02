@@ -22,6 +22,8 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Table(name = "transaction")
 @NamedQueries({
     @NamedQuery(name = "core.transaction.findAll", query = "SELECT t FROM Transaction t"),
+    @NamedQuery(name = "core.transaction.findTransactionById",
+        query = "SELECT t FROM Transaction t WHERE t.id = :id"),
     @NamedQuery(name = "core.transaction.findTransactionByUserId",
         query = "SELECT t FROM Transaction t WHERE t.user_id = :user_id"),
     @NamedQuery(name = "core.transaction.findTransactionByItemId",
@@ -62,28 +64,28 @@ public class Transaction {
     return this.id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public Long getItem_id() {
     return this.item_id;
-  }
-
-  public void setItem_id(Long item_id) {
-    this.item_id = item_id;
   }
 
   public Long getUser_id() {
     return this.user_id;
   }
 
-  public void setUser_id(Long user_id) {
-    this.user_id = user_id;
-  }
-
   public Date getDate() {
     return this.date;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setItem_id(Long item_id) {
+    this.item_id = item_id;
+  }
+
+  public void setUser_id(Long user_id) {
+    this.user_id = user_id;
   }
 
   public void setDate(Date date) {
@@ -91,35 +93,57 @@ public class Transaction {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if ((o == null) || (getClass() != o.getClass())) {
-      return false;
-    }
-
-    Transaction that = (Transaction) o;
-
-    if (this.id != null ? !this.id.equals(that.id) : that.id != null) {
-      return false;
-    }
-    if (this.item_id != null ? !this.item_id.equals(that.item_id) : that.item_id != null) {
-      return false;
-    }
-    if (this.user_id != null ? !this.user_id.equals(that.user_id) : that.user_id != null) {
-      return false;
-    }
-    return this.date != null ? this.date.equals(that.date) : that.date == null;
-
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
+    result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
+    result = (prime * result) + ((this.item_id == null) ? 0 : this.item_id.hashCode());
+    result = (prime * result) + ((this.user_id == null) ? 0 : this.user_id.hashCode());
+    return result;
   }
 
   @Override
-  public int hashCode() {
-    int result = this.id != null ? this.id.hashCode() : 0;
-    result = (31 * result) + (this.item_id != null ? this.item_id.hashCode() : 0);
-    result = (31 * result) + (this.user_id != null ? this.user_id.hashCode() : 0);
-    result = (31 * result) + (this.date != null ? this.date.hashCode() : 0);
-    return result;
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Transaction other = (Transaction) obj;
+    if (this.date == null) {
+      if (other.date != null) {
+        return false;
+      }
+    } else if (!this.date.equals(other.date)) {
+      return false;
+    }
+    if (this.id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!this.id.equals(other.id)) {
+      return false;
+    }
+    if (this.item_id == null) {
+      if (other.item_id != null) {
+        return false;
+      }
+    } else if (!this.item_id.equals(other.item_id)) {
+      return false;
+    }
+    if (this.user_id == null) {
+      if (other.user_id != null) {
+        return false;
+      }
+    } else if (!this.user_id.equals(other.user_id)) {
+      return false;
+    }
+    return true;
   }
+
 }
