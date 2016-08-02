@@ -1,10 +1,10 @@
 package auth;
 
-import com.google.common.base.Optional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ManagedSessionContext;
+
+import com.google.common.base.Optional;
 
 import core.User;
 import db.UserDao;

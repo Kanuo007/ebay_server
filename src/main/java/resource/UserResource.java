@@ -1,9 +1,13 @@
 package resource;
 
+import java.util.Optional;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -11,13 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.annotation.Timed;
-import com.google.common.base.Optional;
 
 import api.Register;
 import core.User;
 import db.UserDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.params.LongParam;
 
 
 @Path("/user")
@@ -31,23 +35,28 @@ public class UserResource {
   }
 
 
-  /**
-   * @return the userDao
-   */
-  public UserDao getUserDao() {
-    return this.userDao;
+  @GET
+  @UnitOfWork
+  public User getUser(@PathParam("userId") LongParam userId) {
+    return findUser(userId.get());
+  }
+
+  private User findUser(Long userId) {
+    return this.userDao.findUserByID(userId)
+        .orElseThrow(() -> new NotFoundException("User does not exist"));
   }
 
 
   @GET
   @Timed
+  @UnitOfWork
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
-  public User login(@Auth User user) {
+  public String login(@Auth User user) {
     if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
-      return user;
+      return new String("Login Successfully");
     } else {
-      return new User("invalid user name", "invalid password", "invalid email");
+      throw new NotFoundException("User does't exist or password and username doesn't match");
     }
   }
 
