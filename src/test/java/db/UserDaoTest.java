@@ -35,6 +35,7 @@ public class UserDaoTest {
         .thenReturn(Optional.ofNullable(this.user2));
     Mockito.when(this.userDao1.createUser(this.user1)).thenReturn(this.user1);
     Mockito.when(this.userDao1.createUser(this.user2)).thenReturn(this.user2);
+    Mockito.when(this.userDao1.UserNamePasswordMatch("Lady Bella", "mountain")).thenReturn(true);
   }
 
   @After
@@ -80,8 +81,10 @@ public class UserDaoTest {
   @Test
   public void testUserNamePasswordMatch() {
     Optional<User> user = this.userDao1.findUserByName("Lady Bella");
-    // Assert.assertEquals(this.userDao1.UserNamePasswordMatch("Lady Bella", "mountain"),
-    // user.get().getUser_password().equals("mountain"));
+    System.out.println(user.get().getUser_password());
+    Assert.assertEquals(this.userDao1.UserNamePasswordMatch("Lady Bella", "mountain"),
+        user.get().getUser_password().equals(new String("mountain")));
+
   }
 
 }

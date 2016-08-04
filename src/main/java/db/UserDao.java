@@ -51,7 +51,7 @@ public class UserDao extends AbstractDAO<User> {
     } else {
       return (Optional.ofNullable(
           (User) (namedQuery("core.user.findUserByName").setParameter("name", name).uniqueResult()))
-          .get().getUser_password() == password);
+          .get().getUser_password().equals(password));
     }
   }
 }
