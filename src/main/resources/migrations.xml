@@ -64,6 +64,9 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="bidhistory_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
             <column name="item_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -97,9 +100,7 @@
             <column name = "deliver_fee" type = "int">
             </column>
             <column name = "description" type = "char(255)">
-            </column>
-            
-           
+            </column>        
         </createTable>
     </changeSet>
     
@@ -123,7 +124,25 @@
           </createTable>
     </changeSet>  
 
-    <changeSet id = "7" author="danni">
+   <changeSet id = "7" author="wen">
+        <createTable tableName="notification">
+            <column name = "id" type = "bigint" autoIncrement="true">
+                <constraints primaryKey = "true" nullable = "false"/>
+            </column>
+            <column name = "user_id" type = "bigint">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "transaction_id" type = "bigint">
+                <constraints nullable = "false"/>
+            </column>
+            <column name = "content" type = "char(255)">
+            <constraints nullable = "false"/>
+            </column>        
+        </createTable>
+    </changeSet>
+ 
+
+    <changeSet id = "8" author="danni">
         <addForeignKeyConstraint
                 baseColumnNames = "item_id"
                 baseTableName = "transaction"
@@ -136,7 +155,7 @@
                 referencedTableName = "item"/>
     </changeSet>
 
-    <changeSet id= "8" author="danni">
+    <changeSet id= "9" author="danni">
         <addForeignKeyConstraint
                 baseColumnNames = "user_id"
                 baseTableName = "transaction"
@@ -149,7 +168,7 @@
                 referencedTableName = "registered_user"/>
     </changeSet>
 
-    <changeSet id="9" author="yangli">
+    <changeSet id="10" author="yangli">
         <createTable tableName="bid_history">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -169,7 +188,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="10" author="yangli">
+    <changeSet id="11" author="yangli">
         <createTable tableName="credit_card">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -199,7 +218,17 @@
         </createTable>
     </changeSet>
 
-    <changeSet id= "11" author="bao">
+    <changeSet id= "12" author="bao">
+        <addForeignKeyConstraint
+                baseColumnNames = "bidhistory_id"
+                baseTableName = "transaction"
+                constraintName = "bidhistory_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "bid_history"/>
         <addForeignKeyConstraint
                 baseColumnNames = "user_id"
                 baseTableName = "item"
@@ -240,8 +269,29 @@
                 onUpdate = "CASCADE"
                 referencedColumnNames = "id"
                 referencedTableName = "registered_user"/>
+          <addForeignKeyConstraint
+                baseColumnNames = "user_id"
+                baseTableName = "notification"
+                constraintName = "notification_user_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "registered_user"/>
+           <addForeignKeyConstraint
+                baseColumnNames = "transaction_id"
+                baseTableName = "notification"
+                constraintName = "notification_transaction_id"
+                deferrable = "false"
+                initiallyDeferred = "false"
+                onDelete = "CASCADE"
+                onUpdate = "CASCADE"
+                referencedColumnNames = "id"
+                referencedTableName = "transaction"/>
+    
     </changeSet>
-    <changeSet id="12" author="danni">
+    <changeSet id="13" author="danni">
         <addColumn tableName="item">
             <column name="status" type="boolean"/>
             <column name="bid_start_time" type="timestamp with time zone"/>
@@ -249,12 +299,12 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="13" author="yangli">
+    <changeSet id="14" author="yangli">
         <addColumn tableName="bid_history">
             <column name="status" type="varchar(255)"/>
         </addColumn>
     </changeSet>
-    <changeSet author="bao" id="14">
+    <changeSet author="bao" id="15">
         <addAutoIncrement columnDataType="bigint"
                           columnName="id"
                           incrementBy="1"
@@ -265,5 +315,7 @@
                           incrementBy="1"
                           startWith="1"
                           tableName="item"/>
-    </changeSet>
+    </changeSet>  
 </databaseChangeLog>
+
+

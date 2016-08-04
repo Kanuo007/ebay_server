@@ -43,12 +43,13 @@ public class AuctionResource {
   private TransactionDao transactionDao;
   private static Logger logger = LoggerFactory.getLogger(AuctionResource.class);
 
-  public AuctionResource(BidHistoryDao bidHistoryDao, TransactionDao transactionDao,
-      ItemDao itemDao, FeedbackDao feedbackDao) {
+  public AuctionResource(NotificationDao notificationDao, BidHistoryDao bidHistoryDao,
+      TransactionDao transactionDao, ItemDao itemDao, FeedbackDao feedbackDao) {
     this.bidHistoryDao = bidHistoryDao;
     this.feedbackDao = feedbackDao;
     this.itemDao = itemDao;
     this.transactionDao = transactionDao;
+    this.notificationDao = notificationDao;
   }
 
   @POST
@@ -81,7 +82,7 @@ public class AuctionResource {
   }
 
   @GET
-  @Path("/Notification/FindALL")
+  @Path("/notification/findALL")
   @Timed
   @UnitOfWork
   public List<Notification> findALL() {
@@ -89,7 +90,7 @@ public class AuctionResource {
   }
 
   @GET
-  @Path("/Notification/FindByUserId/{userId}")
+  @Path("/notification/findByUserId/{userId}")
   @Timed
   @UnitOfWork
   public List<Notification> findNotificationByUserID(@PathParam("userId") long userId) {
@@ -97,7 +98,7 @@ public class AuctionResource {
   }
 
   @GET
-  @Path("/Notification/findNotificationByTransactionID/{transaction_id}")
+  @Path("/notification/findNotificationByTransactionID/{transaction_id}")
   @Timed
   @UnitOfWork
   public List<Notification> findNotificationByTransactionID(
@@ -117,7 +118,8 @@ public class AuctionResource {
       boolean itemAbleToBid = itemToBid.get().getStatus();
       if (itemAbleToBid) {
         BidHistory bidHistoryWithHighestPrice =
-            this.bidHistoryDao.findByHighestPriceByItemId(itemId).get();
+            this.bidHistoryDao.findByHighestPriceByItemId(itemId).isPresent()
+                ? this.bidHistoryDao.findByHighestPriceByItemId(itemId).get() : null;
         double currentPrice = (bidHistoryWithHighestPrice == null) ? itemToBid.get().getBase_price()
             : bidHistoryWithHighestPrice.getBidPrice();
         if (bidHistory.getBidPrice() > currentPrice) {

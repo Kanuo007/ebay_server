@@ -1,7 +1,6 @@
 package resource;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,16 +28,14 @@ public class UserResource {
     this.userDao = userDao;
   }
 
-  @GET
+  @POST
   @Timed
+  @UnitOfWork
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
-  public User login(@Auth User user) {
-    if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
-      return user;
-    } else {
-      return new User("invalid user name", "invalid password", "invalid email");
-    }
+  @Produces(MediaType.TEXT_PLAIN)
+  public String login(@Auth User user) {
+    return "Login Successfully! Welcome " + user.getUser_name();
   }
 
   @POST

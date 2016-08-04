@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,14 +28,14 @@ import io.dropwizard.jackson.JsonSnakeCase;
 @Entity
 @Table(name = "bid_history")
 @NamedQueries({@NamedQuery(name = "core.bidhistory.findAll", query = "SELECT b FROM BidHistory b"),
-        @NamedQuery(name = "core.bidhistory.findByBidderId",
-                query = "SELECT b FROM BidHistory b WHERE b.bidderId = :bidderId"),
-        @NamedQuery(name = "core.bidhistory.findByItemId",
-                query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId"),
-        @NamedQuery(name = "core.bidhistory.findByBidTime",
-                query = "SELECT b FROM BidHistory b WHERE b.bidTime = :bidTime"),
-        @NamedQuery(name = "core.bidhistory.findByHighestPriceByItemId",
-                query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId ORDER BY b.bidPrice DESC")})
+    @NamedQuery(name = "core.bidhistory.findByBidderId",
+        query = "SELECT b FROM BidHistory b WHERE b.bidderId = :bidderId"),
+    @NamedQuery(name = "core.bidhistory.findByItemId",
+        query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId"),
+    @NamedQuery(name = "core.bidhistory.findByBidTime",
+        query = "SELECT b FROM BidHistory b WHERE b.bidTime = :bidTime"),
+    @NamedQuery(name = "core.bidhistory.findByHighestPriceByItemId",
+        query = "SELECT b FROM BidHistory b WHERE b.itemId = :itemId ORDER BY b.bidPrice DESC")})
 @JsonSnakeCase
 public class BidHistory {
   @Id
@@ -52,6 +54,7 @@ public class BidHistory {
   @Column(name = "bid_time", nullable = false)
   @JsonProperty
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date bidTime;
 
   @Column(name = "bid_price", nullable = false)
@@ -62,7 +65,7 @@ public class BidHistory {
   @JsonProperty
   private String status;
 
-  public BidHistory(){}
+  public BidHistory() {}
 
   /**
    * Creates an instance of BidHistory class given its itemId, bidderId, bidTime and bidPrice
@@ -73,9 +76,9 @@ public class BidHistory {
    * @param bidPrice The bidPrice of BidHistory object
    */
   public BidHistory(@JsonProperty("item_id") Long itemId, @JsonProperty("bidder_id") Long bidderId,
-                    @JsonProperty("bid_time")
-                    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss") Date bidTime,
-                    @JsonProperty("bid_price") Double bidPrice) {
+      @JsonProperty("bid_time") @JsonFormat(shape = JsonFormat.Shape.STRING,
+          pattern = "yyyy-MM-dd HH:mm:ss") Date bidTime,
+      @JsonProperty("bid_price") Double bidPrice) {
     this.itemId = itemId;
     this.bidderId = bidderId;
     this.bidTime = bidTime;

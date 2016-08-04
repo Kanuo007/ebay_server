@@ -3,6 +3,7 @@ package core;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,21 +63,29 @@ public class Update {
             Update.this.itemDao.updateStatus(true, curItem.getId());
           } else {
             Update.this.itemDao.updateStatus(false, curItem.getId());
+          }
 
-            // Optional<BidHistory> WinBid =
-            // Update.this.bidHistoryDao.findByHighestPriceByItemId(curItem.getId());
-            // // check constructor
-            // Transaction newTransaction = new Transaction(curItem.getId(),
-            // WinBid.get().getBidderId(), curItem.getBid_end_time());
-            // Update.this.transactionDao.createTransaction(newTransaction);
-            //
-            // String content = "Auction has end.";
-            // Notification notification_1 =
-            // new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
-            // Notification notification_2 =
-            // new Notification(curItem.getUserID(), newTransaction.getId(), content);
-            // Update.this.notificationDao.createNotification(notification_1);
-            // Update.this.notificationDao.createNotification(notification_2);
+
+          if (!Update.this.transactionDao.findTransactionByItemId(curItem.getId()).isPresent()) {
+            if ((currentTime.getTime() >= curItem.getBid_end_time().getTime())) {
+
+              Optional<BidHistory> WinBid =
+                  Update.this.bidHistoryDao.findByHighestPriceByItemId(curItem.getId());
+
+              if (WinBid.isPresent()) {
+                Transaction newTransaction = new Transaction(WinBid.get().getId(), curItem.getId(),
+                    WinBid.get().getBidderId(), curItem.getBid_end_time());
+                Update.this.transactionDao.createTransaction(newTransaction);
+
+                String content = "Auction has end.";
+                Notification notification_1 =
+                    new Notification(WinBid.get().getBidderId(), newTransaction.getId(), content);
+                Notification notification_2 =
+                    new Notification(curItem.getUserID(), newTransaction.getId(), content);
+                Update.this.notificationDao.createNotification(notification_1);
+                Update.this.notificationDao.createNotification(notification_2);
+              }
+            }
           }
         }
         session.close();

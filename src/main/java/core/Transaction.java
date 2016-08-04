@@ -27,7 +27,9 @@ import io.dropwizard.jackson.JsonSnakeCase;
     @NamedQuery(name = "core.transaction.findTransactionByUserId",
         query = "SELECT t FROM Transaction t WHERE t.user_id = :user_id"),
     @NamedQuery(name = "core.transaction.findTransactionByItemId",
-        query = "SELECT t FROM Transaction t WHERE t.item_id = :item_id"),})
+        query = "SELECT t FROM Transaction t WHERE t.item_id = :item_id"),
+    @NamedQuery(name = "core.transaction.findTransactionByBidHistory_id",
+        query = "SELECT t FROM Transaction t WHERE t.bidHistory_id = :bidHistory_id")})
 @JsonSnakeCase
 public class Transaction {
 
@@ -44,6 +46,10 @@ public class Transaction {
   @JsonProperty
   private Long user_id;
 
+  @Column(name = "bidhistory_id", nullable = false)
+  @JsonProperty
+  private Long bidHistory_id;
+
   @Column(name = "transaction_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
   @JsonProperty
@@ -52,9 +58,11 @@ public class Transaction {
 
   public Transaction() {}
 
-  public Transaction(@JsonProperty("item_id") Long item_id, @JsonProperty("user_id") Long user_id,
+  public Transaction(@JsonProperty("bidHistory_id") Long bidHistory_id,
+      @JsonProperty("item_id") Long item_id, @JsonProperty("user_id") Long user_id,
       @JsonProperty("transaction_date") @JsonFormat(shape = JsonFormat.Shape.STRING,
           pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
+    this.bidHistory_id = bidHistory_id;
     this.item_id = item_id;
     this.user_id = user_id;
     this.date = date;
@@ -70,6 +78,10 @@ public class Transaction {
 
   public Long getUser_id() {
     return this.user_id;
+  }
+
+  public Long getBidHistory_id() {
+    return this.bidHistory_id;
   }
 
   public Date getDate() {
@@ -88,6 +100,10 @@ public class Transaction {
     this.user_id = user_id;
   }
 
+  public void setBidHistory_id(Long bidHistory_id) {
+    this.bidHistory_id = bidHistory_id;
+  }
+
   public void setDate(Date date) {
     this.date = date;
   }
@@ -96,6 +112,7 @@ public class Transaction {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = (prime * result) + ((this.bidHistory_id == null) ? 0 : this.bidHistory_id.hashCode());
     result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
     result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
     result = (prime * result) + ((this.item_id == null) ? 0 : this.item_id.hashCode());
@@ -115,6 +132,13 @@ public class Transaction {
       return false;
     }
     Transaction other = (Transaction) obj;
+    if (this.bidHistory_id == null) {
+      if (other.bidHistory_id != null) {
+        return false;
+      }
+    } else if (!this.bidHistory_id.equals(other.bidHistory_id)) {
+      return false;
+    }
     if (this.date == null) {
       if (other.date != null) {
         return false;
@@ -145,5 +169,7 @@ public class Transaction {
     }
     return true;
   }
+
+
 
 }

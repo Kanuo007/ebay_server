@@ -17,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import com.codahale.metrics.annotation.Timed;
 
 import core.Item;
+import core.User;
 import db.ItemDao;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/item")
@@ -72,7 +74,7 @@ public class ItemResource {
   @UnitOfWork
   @Consumes(MediaType.APPLICATION_JSON)
   // create a new item and put it into database
-  public Item createItem(Item item) {
+  public Item createItem(@Auth User user, Item item) {
     Date d = new Date();
     if (d.getTime() < item.getBid_end_time().getTime()) {
       return this.itemDao.createItem(item);
