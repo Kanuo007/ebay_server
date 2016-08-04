@@ -61,8 +61,14 @@ public class UserResource {
   @UnitOfWork
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
-
-  public String login(@Auth User user) {
+  @ApiOperation(value = "user login",
+      notes = "This return a string to indicate if a user login successfully or not")
+  @ApiResponses(value = {
+      @ApiResponse(code = 400, message = "password and username doesn't match",
+          response = String.class),
+      @ApiResponse(code = 404, message = "user doesn't exist", response = String.class)})
+  public String login(
+      @ApiParam(value = "input user to check his validality", required = true) @Auth User user) {
     if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
       return new String("Login Successfully");
     } else {
