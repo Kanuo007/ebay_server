@@ -1,6 +1,7 @@
 package resource;
 
-import com.google.common.base.Optional;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -9,8 +10,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
+import com.google.common.base.Optional;
 
 import api.Register;
 import core.User;
@@ -78,19 +78,15 @@ public class UserResourceTest {
   public void testRegister() {
     Assert.assertEquals(this.userResource.register(this.user1), this.register1);
     Assert.assertEquals(this.userResource.register(this.user2), this.register2);
-    System.out.println(UserResourceTest.resources.client().target("/user/register")
-        .request(MediaType.APPLICATION_JSON)
-        .post(Entity.entity(this.user2, MediaType.APPLICATION_JSON), User.class).toString());
+    Assert.assertEquals(
+        UserResourceTest.resources.getJerseyTest().target("/user/register")
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), Register.class),
+        this.register1);
 
-    System.out.println(this.user2.toString());
+    Mockito.verify(UserResourceTest.mockedUserDao, Mockito.times(2)).createUser(this.user1);
 
 
-
-    // Assert.assertEquals(UserResourceTest.resources.client().target("/user/register")
-    // .request(MediaType.APPLICATION_JSON)
-    // .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class), this.user1);
-
-    Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
   }
 
 
