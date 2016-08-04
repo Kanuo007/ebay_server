@@ -22,10 +22,16 @@ import db.UserDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
+@Api
 public class UserResource {
   private UserDao userDao;
   private static Logger logger = LoggerFactory.getLogger(UserResource.class);
@@ -37,7 +43,10 @@ public class UserResource {
 
   @GET
   @UnitOfWork
-  public User getUser(@PathParam("userId") LongParam userId) {
+  @ApiOperation(value = "get user", notes = "This return the user by given user_id")
+  @ApiResponses(value = {@ApiResponse(code = 400, message = "invalid ID", response = User.class)})
+  public User getUser(@ApiParam(value = "user_id to look for an user",
+      required = true) @PathParam("userId") LongParam userId) {
     return findUser(userId.get());
   }
 
@@ -52,6 +61,7 @@ public class UserResource {
   @UnitOfWork
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
+
   public String login(@Auth User user) {
     if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
       return new String("Login Successfully");

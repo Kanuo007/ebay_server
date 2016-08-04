@@ -1,5 +1,8 @@
 template: Welcome to BetterEbay, %s!
 
+swagger:
+  resourcePackage: com.BetterEbay
+
 defaultName: ${DW_DEFAULT_NAME:-Guest}
 
 # Database settings.
@@ -97,3 +100,6 @@ viewRendererConfiguration:
 metrics:
     type: graphite
     frequency: 10s
+
+
+
