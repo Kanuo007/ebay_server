@@ -25,6 +25,8 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import resource.AuctionResource;
 import resource.HomepageResource;
 import resource.ItemResource;
@@ -60,6 +62,14 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
   public void initialize(Bootstrap<EbayApplicationConfiguration> bootstrap) {
     bootstrap.addBundle(this.migrations);
     bootstrap.addBundle(this.hibernateBundle);
+    bootstrap.addBundle(new SwaggerBundle<EbayApplicationConfiguration>() {
+      @Override
+      protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(
+          EbayApplicationConfiguration configuration) {
+        return configuration.swaggerBundleConfiguration;
+      }
+    });
+
   }
 
   @Override
