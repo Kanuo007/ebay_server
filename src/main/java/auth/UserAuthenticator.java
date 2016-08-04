@@ -26,7 +26,8 @@ public class UserAuthenticator implements Authenticator<BasicCredentials, User> 
   public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
     Session session = this.sessionFactory.openSession();
     ManagedSessionContext.bind(session);
-    Optional<User> user = this.userDao.findUserByName(credentials.getUsername());
+    Optional<User> user =
+        Optional.fromNullable(this.userDao.findUserByName(credentials.getUsername()).get());
     if (user.isPresent() && user.get().getUser_password().equals(credentials.getPassword())) {
       return user;
     }

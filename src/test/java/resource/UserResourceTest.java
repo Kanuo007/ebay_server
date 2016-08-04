@@ -85,8 +85,6 @@ public class UserResourceTest {
     Mockito.verify(UserResourceTest.userDao).findUserByID(new Long(1));
   }
 
-
-
   // @Test
   // public void testRegister() {
   // Assert.assertEquals(this.userResource.register(this.user1), this.register1);
@@ -97,28 +95,26 @@ public class UserResourceTest {
   //
   // System.out.println(this.user2.toString());
 
+  @Test
+  public void testRegister() {
+    // Assert.assertEquals(this.userResource.register(this.user1), this.register1);
+    // Assert.assertEquals(this.userResource.register(this.user2), this.register2);
+    // Assert.assertEquals(
+    // UserResourceTest.resources.getJerseyTest().target("/user/register")
+    // .request(MediaType.APPLICATION_JSON)
+    // .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), Register.class),
+    // this.register1);
+    //
+    //
+    // Mockito.verify(UserResourceTest.mockedUserDao, Mockito.times(2)).createUser(this.user1);
 
+    // Assert.assertEquals(UserResourceTest.resources.client().target("/user/register")
+    // .request(MediaType.APPLICATION_JSON)
+    // .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class), this.user1);
+    //
+    // Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
 
-  // Assert.assertEquals(UserResourceTest.resources.client().target("/user/register")
-  // .request(MediaType.APPLICATION_JSON)
-  // .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class), this.user1);
-  //
-  // Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
-
+  }
 }
-
-
-
-// @Test
-// public void testRegister() {
-// // Assert.assertEquals(this.mockedUserResource.register(this.user1), this.register1);
-// // Assert.assertEquals(this.mockedUserResource.register(this.user2), this.register2);
-// Assertions
-// .assertThat(UserResourceTest.resources.client().target("/user/register")
-// .request(MediaType.APPLICATION_JSON)
-// .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), User.class))
-// .isEqualTo(this.register1);
-// Mockito.verify(UserResourceTest.mockedUserDao).createUser(this.user1);
-// }
 
 
