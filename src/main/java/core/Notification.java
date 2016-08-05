@@ -9,18 +9,23 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.dropwizard.jackson.JsonSnakeCase;
 
 
 @Entity
-@Table(name = "Notification")
+@Table(name = "notification")
 @NamedQueries({
-    @NamedQuery(name = "core.Notification.findAll", query = "SELECT i FROM Notification i"),
-    @NamedQuery(name = "core.user.findNotificationByUserID",
+    @NamedQuery(name = "core.notification.findAll", query = "SELECT i FROM Notification i"),
+    @NamedQuery(name = "core.notification.findNotificationByUserID",
         query = "SELECT u FROM Notification u WHERE u.user_id = :user_id"),
-    @NamedQuery(name = "core.Notification.findNotificationByTransactionID",
+    @NamedQuery(name = "core.notification.findNotificationByTransactionID",
         query = "SELECT u FROM Notification u WHERE u.transaction_id = :transaction_id"),})
 
+
+@JsonSnakeCase
 public class Notification {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +43,9 @@ public class Notification {
   @JsonProperty
   private String content;
 
-  public Notification(){}
+  public Notification() {}
 
+  @JsonCreator
   public Notification(@JsonProperty("user_id") Long l, @JsonProperty("transaction_id") Long m,
       @JsonProperty("content") String content) {
     this.user_id = l;

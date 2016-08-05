@@ -23,8 +23,10 @@ public class TransactionDaoTest {
   public void setUp() throws Exception {
     this.transactionDao1 = Mockito.mock(TransactionDao.class);
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    this.tran1 = new Transaction(new Long(1), new Long(1234), ft.parse("2016-10-18 13:30:00"));
-    this.tran2 = new Transaction(new Long(2), new Long(2234), ft.parse("2016-10-18 03:30:00"));
+    this.tran1 =
+        new Transaction(new Long(1), new Long(1), new Long(1234), ft.parse("2016-10-18 13:30:00"));
+    this.tran2 =
+        new Transaction(new Long(2), new Long(2), new Long(2234), ft.parse("2016-10-18 03:30:00"));
     Mockito.when(this.transactionDao1.findAll()).thenReturn(Arrays.asList(this.tran1, this.tran2));
     Mockito.when(this.transactionDao1.findTransactionByBuyerId(new Long(1234)))
         .thenReturn(Optional.ofNullable(this.tran1));

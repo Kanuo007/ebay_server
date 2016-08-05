@@ -34,6 +34,12 @@ public class TransactionDao extends AbstractDAO<Transaction> {
         .setParameter("user_id", id).uniqueResult());
   }
 
+  public Optional<Transaction> findTransactionByBidHistory_id(Long id) {
+    return Optional
+        .ofNullable((Transaction) namedQuery("core.transaction.findTransactionByBidHistory_id")
+            .setParameter("bidHistory_id", id).uniqueResult());
+  }
+
   public Transaction createTransaction(Transaction aTransaction) {
     return persist(aTransaction);
   }

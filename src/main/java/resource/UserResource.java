@@ -3,11 +3,8 @@ package resource;
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -21,10 +18,8 @@ import core.User;
 import db.UserDao;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.params.LongParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -40,23 +35,22 @@ public class UserResource {
     this.userDao = userDao;
   }
 
+  // @GET
+  // @UnitOfWork
+  // @ApiOperation(value = "get user", notes = "This return the user by given user_id")
+  // @ApiResponses(value = {@ApiResponse(code = 400, message = "invalid ID", response =
+  // User.class)})
+  // public User getUser(@ApiParam(value = "user_id to look for an user",
+  // required = true) @PathParam("userId") LongParam userId) {
+  // return findUser(userId.get());
+  // }
+  //
+  // private User findUser(Long userId) {
+  // return this.userDao.findUserByID(userId)
+  // .orElseThrow(() -> new NotFoundException("User does not exist"));
+  // }
 
-  @GET
-  @UnitOfWork
-  @ApiOperation(value = "get user", notes = "This return the user by given user_id")
-  @ApiResponses(value = {@ApiResponse(code = 400, message = "invalid ID", response = User.class)})
-  public User getUser(@ApiParam(value = "user_id to look for an user",
-      required = true) @PathParam("userId") LongParam userId) {
-    return findUser(userId.get());
-  }
-
-  private User findUser(Long userId) {
-    return this.userDao.findUserByID(userId)
-        .orElseThrow(() -> new NotFoundException("User does not exist"));
-  }
-
-
-  @GET
+  @POST
   @Timed
   @UnitOfWork
   @Path("/log_in")
@@ -67,13 +61,9 @@ public class UserResource {
       @ApiResponse(code = 400, message = "password and username doesn't match",
           response = String.class),
       @ApiResponse(code = 404, message = "user doesn't exist", response = String.class)})
-  public String login(
-      @ApiParam(value = "input user to check his validality", required = true) @Auth User user) {
-    if (this.userDao.UserNamePasswordMatch(user.getUser_name(), user.getUser_password())) {
-      return new String("Login Successfully");
-    } else {
-      throw new NotFoundException("User does't exist or password and username doesn't match");
-    }
+  @Produces(MediaType.TEXT_PLAIN)
+  public String login(@Auth User user) {
+    return "Login Successfully! Welcome " + user.getUser_name();
   }
 
   @POST

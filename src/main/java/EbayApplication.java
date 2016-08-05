@@ -7,6 +7,7 @@ import core.BidHistory;
 import core.CreditCard;
 import core.Feedback;
 import core.Item;
+import core.Notification;
 import core.Transaction;
 import core.Update;
 import core.User;
@@ -51,7 +52,8 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
       };
   private final HibernateBundle<EbayApplicationConfiguration> hibernateBundle =
       new HibernateBundle<EbayApplicationConfiguration>(User.class, Item.class, Feedback.class,
-          CreditCard.class, Address.class, BidHistory.class, Transaction.class) {
+          CreditCard.class, Address.class, BidHistory.class, Transaction.class,
+          Notification.class) {
         @Override
         public DataSourceFactory getDataSourceFactory(EbayApplicationConfiguration configuration) {
           return configuration.getDataSourceFactory();
@@ -97,8 +99,8 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     environment.jersey().register(new HomepageResource());
     environment.jersey().register(new UserResource(userDao));
     environment.jersey().register(new ItemResource(itemDao));
-    environment.jersey()
-        .register(new AuctionResource(bidHistoryDao, transactionDao, itemDao, feedbackDao));
+    environment.jersey().register(
+        new AuctionResource(notificationDao, bidHistoryDao, transactionDao, itemDao, feedbackDao));
   }
 
 }
