@@ -29,7 +29,6 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import resource.AuctionResource;
-import resource.HomepageResource;
 import resource.ItemResource;
 import resource.UserResource;
 
@@ -96,7 +95,6 @@ public class EbayApplication extends Application<EbayApplicationConfiguration> {
     // use @Auth to inject a custom Principal type into your resource
     environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
-    environment.jersey().register(new HomepageResource());
     environment.jersey().register(new UserResource(userDao));
     environment.jersey().register(new ItemResource(itemDao));
     environment.jersey().register(

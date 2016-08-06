@@ -1,5 +1,10 @@
 package resource;
 
+import com.codahale.metrics.annotation.Timed;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
@@ -7,11 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.codahale.metrics.annotation.Timed;
+import javax.ws.rs.core.Response;
 
 import api.Register;
 import core.User;
@@ -22,11 +23,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
-@Api
+@Api(value="/user", description = "This is the user api that either register or log in.")
 public class UserResource {
   private UserDao userDao;
   private static Logger logger = LoggerFactory.getLogger(UserResource.class);
@@ -35,35 +37,28 @@ public class UserResource {
     this.userDao = userDao;
   }
 
-  // @GET
-  // @UnitOfWork
-  // @ApiOperation(value = "get user", notes = "This return the user by given user_id")
-  // @ApiResponses(value = {@ApiResponse(code = 400, message = "invalid ID", response =
-  // User.class)})
-  // public User getUser(@ApiParam(value = "user_id to look for an user",
-  // required = true) @PathParam("userId") LongParam userId) {
-  // return findUser(userId.get());
-  // }
-  //
-  // private User findUser(Long userId) {
-  // return this.userDao.findUserByID(userId)
-  // .orElseThrow(() -> new NotFoundException("User does not exist"));
-  // }
-
   @POST
   @Timed
   @UnitOfWork
   @Path("/log_in")
   @Consumes(MediaType.APPLICATION_JSON)
   @ApiOperation(value = "user login",
-      notes = "This return a string to indicate if a user login successfully or not")
+          authorizations = {@Authorization(value="UserBasicAuth")},
+          notes = "This return a string to indicate if a user login successfully or not")
   @ApiResponses(value = {
-      @ApiResponse(code = 400, message = "password and username doesn't match",
-          response = String.class),
-      @ApiResponse(code = 404, message = "user doesn't exist", response = String.class)})
+          @ApiResponse(code = 401, message = "Password doesn't match with User: <user>.",
+                  response = String.class),
+          @ApiResponse(code = 404, message = "User: <user> doesn't exist.", response = String.class),
+          @ApiResponse(code = 200, message = "Login Successfully! Welcome <user>", response = String.class)
+  })
   @Produces(MediaType.TEXT_PLAIN)
-  public String login(@Auth User user) {
-    return "Login Successfully! Welcome " + user.getUser_name();
+  public Response login(@Auth User user) {
+    if(user.getUser_password().equals("Incorrect User")){
+      return Response.status(Response.Status.NOT_FOUND).entity("User: " + user.getUser_name() + " doesn't exist.").build();
+    }else if(user.getUser_password().equals("Incorrect Password")){
+      return Response.status(Response.Status.UNAUTHORIZED).entity("Password doesn't match with User: " + user.getUser_name()).build();
+    }
+    return Response.ok("Login Successfully! Welcome " + user.getUser_name(), MediaType.TEXT_PLAIN).build();
   }
 
   @POST
@@ -71,17 +66,22 @@ public class UserResource {
   @Timed
   @UnitOfWork
   @Consumes(MediaType.APPLICATION_JSON)
+  @ApiOperation(value = "user register",
+          notes = "This return an Register Object in JSON format")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message="Successfully created User.", response = Register.class),
+          @ApiResponse(code = 200, message="Failure : user name already exists.", response = Register.class)
+  })
   public Register register(User user) {
     Register r;
     Optional<User> op = this.userDao.findUserByName(user.getUser_name());
     if (!op.isPresent()) {
       // If user doesn't exist
       this.userDao.createUser(user);
-      r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(),
-          "Success");
+      r = new Register(user.getUser_name(), user.getUser_email(), user.getUser_password(), "Success");
 
     } else {
-      r = new Register("", "", "", "Failure : user name alrady exists");
+      r = new Register("", "", "", "Failure : user name already exists");
     }
     return r;
   }

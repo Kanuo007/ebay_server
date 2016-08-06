@@ -1,10 +1,10 @@
 package auth;
 
+import com.google.common.base.Optional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ManagedSessionContext;
-
-import com.google.common.base.Optional;
 
 import core.User;
 import db.UserDao;
@@ -26,11 +26,14 @@ public class UserAuthenticator implements Authenticator<BasicCredentials, User> 
   public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
     Session session = this.sessionFactory.openSession();
     ManagedSessionContext.bind(session);
-    Optional<User> user =
-        Optional.fromNullable(this.userDao.findUserByName(credentials.getUsername()).get());
-    if (user.isPresent() && user.get().getUser_password().equals(credentials.getPassword())) {
-      return user;
+    java.util.Optional<User> user = this.userDao.findUserByName(credentials.getUsername());
+    if (user.isPresent()) {
+      if(user.get().getUser_password().equals(credentials.getPassword())) {
+        return Optional.fromNullable(user.get());
+      }else{
+        return Optional.fromNullable(new User(credentials.getUsername(), "Incorrect Password", "Incorrect Password"));
+      }
     }
-    return Optional.absent();
+    return Optional.fromNullable(new User(credentials.getUsername(), "Incorrect User", "Incorrect User"));
   }
 }
