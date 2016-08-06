@@ -38,7 +38,7 @@
 			<dependency>
 				<groupId>xml-apis</groupId>
 				<artifactId>xml-apis</artifactId>
-				<version>2.0.2</version>
+				<version>1.4.01</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -252,7 +252,7 @@
 								implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 						<transformer
 								implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-							<mainClass>EbayApplication</mainClass>
+							<mainClass>com.betterebay.EbayApplication</mainClass>
 						</transformer>
 					</transformers>
 				</configuration>
