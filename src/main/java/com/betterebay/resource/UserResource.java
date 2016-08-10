@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -58,7 +60,8 @@ public class UserResource {
     }else if(user.getUser_password().equals("Incorrect Password")){
       return Response.status(Response.Status.UNAUTHORIZED).entity("Password doesn't match with User: " + user.getUser_name()).build();
     }
-    return Response.ok("Login Successfully! Welcome " + user.getUser_name(), MediaType.TEXT_PLAIN).build();
+    return Response.ok("Login Successfully! Welcome " + user.getUser_name() + "with id " + user.getId(),
+            MediaType.TEXT_PLAIN).build();
   }
 
   @POST
