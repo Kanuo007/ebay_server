@@ -1,16 +1,29 @@
 package com.betterebay.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.dropwizard.jackson.JsonSnakeCase;
+
 /**
  * Represents a Register class with its name, email, password and status
  *
  * @author LiYang
  *
  */
+@JsonSnakeCase
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Register {
+  @JsonProperty
   private String name;
+  @JsonProperty
   private String email;
+  @JsonProperty
   private String password;
+  @JsonProperty
   private String status;
+
+  public Register(){}
 
   /**
    * Creates an instance of Register class given name, email, password and status
