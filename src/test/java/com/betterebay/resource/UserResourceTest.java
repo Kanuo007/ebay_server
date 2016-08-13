@@ -5,7 +5,6 @@ import com.betterebay.auth.UserAuthenticator;
 import com.betterebay.core.User;
 import com.betterebay.db.UserDao;
 
-import org.assertj.core.api.Assertions;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.junit.After;
@@ -19,14 +18,18 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.testing.junit.ResourceTestRule;
+
+import static org.mockito.Mockito.reset;
 
 public class UserResourceTest {
 
@@ -47,14 +50,23 @@ public class UserResourceTest {
     private User user2;
     private Register register1;
     private Register register2;
+    private User noUser;
+    private User noPassword;
 
     @Before
     public void setUp() throws Exception {
         this.user1 = new User("John Snow", "winterfall", "johnsnow@gmail.com");
         this.user2 = new User("Lady Bella", "mountain", "ladybella@gmail.com");
+        this.noUser = new User("AA", "Incorrect User", "Incorrect User");
+        this.noPassword = new User("AAA", "Incorrect Password", "Incorrect Password");
 
         Mockito.when(UserResourceTest.userAuthenticator.authenticate(new BasicCredentials("AAA", "111")))
                 .thenReturn(com.google.common.base.Optional.fromNullable(this.user2));
+        Mockito.when(UserResourceTest.userAuthenticator.authenticate(new BasicCredentials("AA", "111")))
+                .thenReturn(com.google.common.base.Optional.fromNullable(this.noUser));
+        Mockito.when(UserResourceTest.userAuthenticator.authenticate(new BasicCredentials("AAA", "11")))
+                .thenReturn(com.google.common.base.Optional.fromNullable(this.noPassword));
+
         Mockito.when(UserResourceTest.userDao.findAllUser())
                 .thenReturn(Arrays.asList(this.user1, this.user2));
         Mockito.when(UserResourceTest.userDao.findUserByEmail("johnsnow@gmail.com"))
@@ -65,6 +77,8 @@ public class UserResourceTest {
                 .thenReturn(Optional.empty());
         Mockito.when(UserResourceTest.userDao.findUserByName("Lady Bella"))
                 .thenReturn(Optional.ofNullable(this.user2));
+        Mockito.when(UserResourceTest.userDao.findUserByName("AA"))
+                .thenReturn(Optional.empty());
         Mockito.when(UserResourceTest.userDao.findUserByPassword("mountain"))
                 .thenReturn(Optional.ofNullable(this.user2));
         Mockito.when(UserResourceTest.userDao.createUser(this.user1)).thenReturn(this.user1);
@@ -72,38 +86,48 @@ public class UserResourceTest {
 
         Mockito.when(UserResourceTest.userDao.UserNamePasswordMatch("Lady Bella", "mountain"))
                 .thenReturn(true);
-        Mockito.when(UserResourceTest.userDao.findUserByName(this.user2.getUser_name()))
-                .thenReturn(Optional.ofNullable(this.user2));
         this.register1 = new Register("John Snow", "johnsnow@gmail.com", "winterfall", "Success");
         this.register2 = new Register("", "", "", "Failure : user name already exists");
 
     }
 
     @After
-    public void tearDown() throws Exception {}
+    public void tearDown() throws Exception {
+        reset(userDao);
+    }
 
     @Test
-
     public void testLogin() {
+        WebTarget webTarget = UserResourceTest.resources.getJerseyTest().target("/user/log_in");
         Assert.assertEquals(
-                UserResourceTest.resources.getJerseyTest().target("/user/log_in")
-                        .request(MediaType.TEXT_PLAIN)
+                webTarget.request(MediaType.TEXT_PLAIN)
+                        .header(HttpHeaders.AUTHORIZATION, "Basic QUE6MTEx")
+                        .post(Entity.entity(this.noUser, MediaType.APPLICATION_JSON), Response.class).readEntity(String.class),
+                "User: AA doesn't exist.");
+        Assert.assertEquals(
+                webTarget.request(MediaType.TEXT_PLAIN)
+                        .header(HttpHeaders.AUTHORIZATION, "Basic QUFBOjEx")
+                        .post(Entity.entity(this.noPassword, MediaType.APPLICATION_JSON), Response.class).readEntity(String.class),
+                "Password doesn't match with User: AAA");
+        Assert.assertEquals(
+                webTarget.request(MediaType.TEXT_PLAIN)
                         .header(HttpHeaders.AUTHORIZATION, "Basic QUFBOjExMQ==")
-                        .post(Entity.entity(this.user2, MediaType.APPLICATION_JSON), String.class),
+                        .post(Entity.entity(this.user2, MediaType.APPLICATION_JSON), Response.class).readEntity(String.class),
                 "Login Successfully! Welcome Lady Bella with id null");
 
     }
 
     @Test
     public void testRegister() {
+        WebTarget webTarget = UserResourceTest.resources.getJerseyTest().target("/user/register");
         Assert.assertEquals(
-                UserResourceTest.resources.getJerseyTest().target("/user/register")
-                        .request(MediaType.APPLICATION_JSON)
+                webTarget.request(MediaType.APPLICATION_JSON)
                         .post(Entity.entity(this.user1, MediaType.APPLICATION_JSON), Register.class),
                 this.register1);
-
-        Mockito.verify(UserResourceTest.userDao).createUser(this.user1);
-
+        Assert.assertEquals(
+                webTarget.request(MediaType.APPLICATION_JSON)
+                        .post(Entity.entity(this.user2, MediaType.APPLICATION_JSON), Register.class),
+                this.register2);
     }
 }
 
