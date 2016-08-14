@@ -26,10 +26,8 @@ public class ItemDaoTest {
     this.a1 = new Item(new Long(2), "shoes", 100.0, false, ft.parse("2016-07-21 1:1:1"),
         ft.parse("2016-07-21 1:1:1"), "A-catagory", 7, "green", 10, "AAA");
     this.a2 = new Item(new Long(1), "book", 10.05, true, ft.parse("2016-07-21 10:10:10"),
-        ft.parse("2016-07-22 10:10:10"));
+        ft.parse("2016-07-22 10:10:10"), "A-catagory", 7, "blue", 12, "AAA");
 
-    // Mockito.when(this.itemDao.createItem(this.a1)).thenReturn(this.a1);
-    // Mockito.when(this.itemDao.createItem(this.a2)).thenReturn(this.a2);
     Mockito.when(this.itemDao.findAllItem()).thenReturn(Arrays.asList(this.a1, this.a2));
     Mockito.when(this.itemDao.findAllItem()).thenReturn(Arrays.asList(this.a1, this.a2));
     Mockito.when(this.itemDao.findItemByID(new Long(1))).thenReturn(Optional.ofNullable(this.a1));
@@ -39,8 +37,9 @@ public class ItemDaoTest {
     Mockito.when(this.itemDao.findItemByNameColorSize("shoes", "green", 7))
         .thenReturn(Arrays.asList(this.a1));
     Mockito.when(this.itemDao.findItemByAvailability()).thenReturn(Arrays.asList(this.a2));
-
-
+    Mockito.when(this.itemDao.createItem(this.a1)).thenReturn(this.a1);
+    Mockito.when(this.itemDao.createItem(this.a2)).thenReturn(this.a2);
+    Mockito.doNothing().when(this.itemDao).updateStatus(true, new Long(2));
   }
 
   @After
@@ -52,11 +51,11 @@ public class ItemDaoTest {
     Assert.assertEquals(this.itemDao.findItemByID(new Long(2)), Optional.ofNullable(this.a2));
   }
 
-  // @Test
-  // public void testCreateItem() {
-  // Assert.assertEquals(this.itemDao.createItem(this.a1), this.a1);
-  // Assert.assertEquals(this.itemDao.createItem(this.a2), this.a2);
-  // }
+  @Test
+  public void testCreateItem() {
+    Assert.assertEquals(this.itemDao.createItem(this.a1), this.a1);
+    Assert.assertEquals(this.itemDao.createItem(this.a2), this.a2);
+  }
 
   @Test
   public void testFindItemByName() {
@@ -80,5 +79,9 @@ public class ItemDaoTest {
     Assert.assertEquals(this.itemDao.findItemByAvailability(), Arrays.asList(this.a2));
   }
 
-
+  @Test
+  public void testUpdateStatus() {
+    this.itemDao.updateStatus(true, new Long(2));
+    Mockito.verify(this.itemDao).updateStatus(true, new Long(2));
+  }
 }

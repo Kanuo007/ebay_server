@@ -82,7 +82,7 @@ public class BidHistoryDAOTest {
   }
 
   @Test
-  public void testFindByTopPriceById() {
+  public void testFindByHighestPriceByItemId() {
     Assert.assertEquals(this.mockedBidHistoryDao.findByHighestPriceByItemId(32l),
         Optional.ofNullable(this.bidHistory));
     Mockito.verify(this.mockedBidHistoryDao).findByHighestPriceByItemId(Matchers.anyLong());

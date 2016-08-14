@@ -32,6 +32,8 @@ public class TransactionDaoTest {
         .thenReturn(Optional.ofNullable(this.tran1));
     Mockito.when(this.transactionDao1.findTransactionByItemId(new Long(1)))
         .thenReturn(Optional.ofNullable(this.tran1));
+    Mockito.when(this.transactionDao1.findTransactionByBidHistory_id(new Long(1)))
+        .thenReturn(Optional.ofNullable(this.tran1));
     Mockito.when(this.transactionDao1.createTransaction(this.tran1)).thenReturn(this.tran1);
     Mockito.when(this.transactionDao1.createTransaction(this.tran2)).thenReturn(this.tran2);
   }
@@ -50,7 +52,7 @@ public class TransactionDaoTest {
   @Test
   public void testFindTransactionByItemId() {
     Optional<Transaction> transaction = this.transactionDao1.findTransactionByItemId(new Long(1));
-    Assert.assertEquals(transaction.get().getItem_id(), new Long(1));
+    Assert.assertEquals(transaction.get(), this.tran1);
   }
 
   @Test
@@ -58,6 +60,13 @@ public class TransactionDaoTest {
     Optional<Transaction> transaction =
         this.transactionDao1.findTransactionByBuyerId(new Long(1234));
     Assert.assertEquals(transaction.get().getUser_id(), new Long(1234));
+  }
+
+  @Test
+  public void testFindTransactionByBidHistory_id() {
+    Optional<Transaction> transaction =
+        this.transactionDao1.findTransactionByBidHistory_id(new Long(1));
+    Assert.assertEquals(transaction.get(), this.tran1);
   }
 
   @Test
