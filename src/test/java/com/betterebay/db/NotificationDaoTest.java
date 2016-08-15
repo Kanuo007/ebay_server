@@ -1,13 +1,13 @@
 package com.betterebay.db;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 import com.betterebay.core.Notification;
 
@@ -52,7 +52,7 @@ public class NotificationDaoTest {
   }
 
   @Test
-  public void testFindAllNotification() {
+  public void testFindAll() {
     Assert.assertEquals(this.notificationDao.findALL(), Arrays.asList(this.a1, this.a2));
   }
 

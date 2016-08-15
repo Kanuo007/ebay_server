@@ -53,7 +53,6 @@ public class AddressDaoTest {
     List<Address> addresses = this.addressDao1.findAddressByUserId(0);
     Assert.assertEquals(addresses.get(0), this.add1);
     Assert.assertEquals(addresses.get(1), this.add2);
-    // Assert.assertEquals(addresses.get(0).getUser_id(), 0);
   }
 
   @Test

@@ -68,7 +68,7 @@ public class UserDaoTest {
 
   @Test
   public void testCreateUser() {
-    // Assert.assertEquals(this.userDao1.createUser(this.user1), this.user1);
+    Assert.assertEquals(this.userDao1.createUser(this.user1), this.user1);
     Assert.assertEquals(this.userDao1.createUser(this.user2), this.user2);
   }
 
