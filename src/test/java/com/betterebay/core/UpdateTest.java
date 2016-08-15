@@ -1,24 +1,31 @@
 package com.betterebay.core;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-/**
- * Created by baoheng ling on 7/26/2016.
- */
+import com.betterebay.db.BidHistoryDao;
+import com.betterebay.db.ItemDao;
+import com.betterebay.db.NotificationDao;
+import com.betterebay.db.TransactionDao;
+
 public class UpdateTest {
-    @Before
-    public void setUp() throws Exception {
+  private static final ItemDao mockedItemDao = Mockito.mock(ItemDao.class);
+  private static final BidHistoryDao mockedBidHistoryDao = Mockito.mock(BidHistoryDao.class);
+  private static final TransactionDao mockedTransactionDao = Mockito.mock(TransactionDao.class);
+  private static final NotificationDao mockedNotificationDao = Mockito.mock(NotificationDao.class);
 
-    }
+  @Before
+  public void setUp() throws Exception {}
 
-    @After
-    public void tearDown() throws Exception {
-    }
-    @Test
-    public void updateEverything() throws Exception {
+  @After
+  public void tearDown() throws Exception {}
 
-    }
+  @Test
+  public void testUpdateEverything() {
+    Assert.fail("Not yet implemented");
+  }
 
 }
