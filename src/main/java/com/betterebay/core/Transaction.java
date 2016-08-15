@@ -1,8 +1,5 @@
 package com.betterebay.core;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,12 +13,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.dropwizard.jackson.JsonSnakeCase;
 
 @Entity
 @Table(name = "transaction")
 @NamedQueries({
-    @NamedQuery(name = "com.betterebay.core.transaction.findAll", query = "SELECT t FROM Transaction t"),
+    @NamedQuery(name = "com.betterebay.core.transaction.findAll",
+        query = "SELECT t FROM Transaction t"),
     @NamedQuery(name = "com.betterebay.core.transaction.findTransactionById",
         query = "SELECT t FROM Transaction t WHERE t.id = :id"),
     @NamedQuery(name = "com.betterebay.core.transaction.findTransactionByUserId",
